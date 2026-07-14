@@ -46,7 +46,7 @@ export function SubmitForm() {
       }
 
       setStatus("success");
-      setMessage(payload.message ?? "Your letter has been sent.");
+      setMessage(payload.message ?? "Your submission has been sent.");
       setValues(initialState);
       setConsent(false);
       setAppearance("full");
@@ -61,7 +61,7 @@ export function SubmitForm() {
   return (
     <form className="submit-form" onSubmit={handleSubmit} aria-describedby="submit-form-note">
       <p id="submit-form-note" className="dense-meta">
-        Required fields are marked with *. We review every letter with care before publication.
+        Required fields are marked with *. We review every submission with care before publication.
       </p>
       <div className="grid gap-5 md:grid-cols-2">
         <label className="space-y-2">
@@ -103,7 +103,7 @@ export function SubmitForm() {
         />
       </label>
       <label className="space-y-2 block">
-        <span>Title of your letter <b>*</b></span>
+        <span>Title of your piece <b>*</b></span>
         <input
           required
           value={values.title}
@@ -114,7 +114,7 @@ export function SubmitForm() {
         />
       </label>
       <label className="space-y-2 block">
-        <span>Your letter <b>*</b></span>
+        <span>Your piece <b>*</b></span>
         <textarea
           required
           aria-describedby="letter-counter"
@@ -123,12 +123,12 @@ export function SubmitForm() {
             setValues((current) => ({ ...current, letter: event.target.value }))
           }
           maxLength={5000}
-          placeholder="Write your letter here..."
+          placeholder="Write your piece here..."
         />
       </label>
       <div id="letter-counter" className="-mt-4 flex justify-between dense-meta">
         <span>{values.letter.length} / 5000 characters</span>
-        <span>Short letters are welcome</span>
+        <span>Short pieces are welcome</span>
       </div>
 
       <div className="submit-form-lower">
@@ -139,7 +139,7 @@ export function SubmitForm() {
         </label>
 
         <fieldset>
-          <legend>How would you like your letter to appear? <b>*</b></legend>
+          <legend>How would you like your piece to appear? <b>*</b></legend>
           {[
             ["full", "Publish with full name"],
             ["first", "First name only"],

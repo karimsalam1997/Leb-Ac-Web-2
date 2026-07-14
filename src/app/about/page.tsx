@@ -113,7 +113,7 @@ export default function AboutPage() {
           <div>
             <div className="editorial-kicker">What We Publish</div>
             <h2 className="editorial-title about-section-title">
-              Three forms, one register.
+              One form, a widening register.
             </h2>
           </div>
           <div className="about-prose">
@@ -124,17 +124,6 @@ export default function AboutPage() {
               memory; some live in geography, language, and ritual. We
               publish across these because they are the same subject
               looked at from different angles.
-            </p>
-            <p>
-              <strong>Letters</strong> — short, dated, located writing
-              from Beirut, the South, the mountain, and the diaspora.
-              Eight hundred words or less. Signed or pseudonymous. A
-              letter is the unit of writing that survives the news cycle.
-            </p>
-            <p>
-              <strong>The Notebook</strong> — fragments, observations,
-              an image, a single line from a reading. The pieces that
-              haven&rsquo;t yet become an essay. Some won&rsquo;t.
             </p>
           </div>
         </div>

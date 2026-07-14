@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { essays, letters, notebookEntries } from "@/lib/content";
+import { essays } from "@/lib/content";
 import { absoluteUrl, toIsoDate } from "@/lib/seo";
 import { getArticleImages } from "@/lib/visual-assets";
 
@@ -31,18 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: staticLastModified,
       changeFrequency: "weekly",
       priority: 0.9,
-    },
-    {
-      url: absoluteUrl("/letters"),
-      lastModified: staticLastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: absoluteUrl("/notebook"),
-      lastModified: staticLastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
     },
     {
       url: absoluteUrl("/topics"),
@@ -84,19 +72,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     images: getArticleImages(essay.slug).map((image) => absoluteUrl(image.src)),
   }));
 
-  const letterRoutes: MetadataRoute.Sitemap = letters.map((letter) => ({
-    url: absoluteUrl(`/letters/${letter.slug}`),
-    lastModified: dateFromContent(letter.date),
-    changeFrequency: "monthly",
-    priority: 0.55,
-  }));
-
-  const notebookRoutes: MetadataRoute.Sitemap = notebookEntries.map((entry) => ({
-    url: absoluteUrl(`/notebook/${entry.slug}`),
-    lastModified: dateFromContent(entry.date),
-    changeFrequency: "monthly",
-    priority: 0.55,
-  }));
-
-  return [...staticRoutes, ...essayRoutes, ...letterRoutes, ...notebookRoutes];
+  return [...staticRoutes, ...essayRoutes];
 }

@@ -8,6 +8,7 @@ export function EditorialImage({
   imagePosition,
   imageFit,
   aspectRatio,
+  preload,
   priority,
   quality,
   sizes,
@@ -20,6 +21,8 @@ export function EditorialImage({
   imagePosition?: string;
   imageFit?: "cover" | "contain";
   aspectRatio?: string;
+  preload?: boolean;
+  /** Compatibility for older callers. Prefer preload in new code. */
   priority?: boolean;
   quality?: number;
   sizes?: string;
@@ -29,6 +32,7 @@ export function EditorialImage({
     imagePosition || imageFit
       ? { objectPosition: imagePosition, objectFit: imageFit }
       : undefined;
+  const shouldPreload = preload ?? priority ?? false;
 
   if (src) {
     return (
@@ -41,8 +45,7 @@ export function EditorialImage({
           src={src}
           alt={alt}
           fill
-          priority={priority}
-          loading={priority ? "eager" : undefined}
+          preload={shouldPreload}
           quality={quality}
           unoptimized={unoptimized}
           sizes={sizes ?? "(min-width: 1024px) 50vw, 100vw"}

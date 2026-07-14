@@ -237,10 +237,10 @@ export default async function EssayPage({
           <div>
             <p className="text-[1rem] leading-6 text-[var(--ink-soft)]">
               If this essay clarified something — or got something wrong —
-              write to us. The best letters become the next essay.
+              write to us. The strongest exchanges can become the next essay.
             </p>
             <Link href="/submit" className="mt-4 inline-flex border border-[color:var(--accent)] px-5 py-3 text-[var(--accent)]">
-              Write a letter <span className="link-arrow ml-3">-&gt;</span>
+              Write to us <span className="link-arrow ml-3">-&gt;</span>
             </Link>
           </div>
         </div>
@@ -352,15 +352,16 @@ function ArticleFigureColumn({
   leadImageSrc: string;
   supportingImages: ArticleImageAsset[];
 }) {
-  // Lead figure + the first 2 supporting images live in the figure column.
-  // The last supporting image (if any) was claimed by the marginalia column.
+  // Lead figure + up to 3 supporting images live in the figure column.
+  // Marginal citations now sit after the essay, so no image is reserved for
+  // the former left rail.
   const figures: { src: string; alt: string; caption?: string }[] = [
     {
       src: leadImageSrc,
       alt: leadAsset?.alt ?? `${essay.title} lead image`,
       caption: leadAsset?.caption,
     },
-    ...supportingImages.slice(0, -1).slice(0, 2).map((asset) => ({
+    ...supportingImages.slice(0, 3).map((asset) => ({
       src: asset.src,
       alt: asset.alt,
       caption: asset.caption,

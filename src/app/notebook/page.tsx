@@ -94,16 +94,13 @@ export default function NotebookPage() {
             );
           })}
           <aside className="notebook-crosslink">
-            <div className="editorial-title text-[1.3rem]">Explore more in Essays and Letters.</div>
+            <div className="editorial-title text-[1.3rem]">Continue into the essay register.</div>
             <p className="mt-2 text-[0.98rem] leading-5 text-[var(--ink-soft)]">
-              Ideas take many forms: some argue, some confess, some correspond.
+              The longer arguments gather in one place.
             </p>
             <div className="mt-4 flex gap-8">
               <Link href="/essays" className="read-link !text-[1rem]">
                 Browse Essays <span className="link-arrow">-&gt;</span>
-              </Link>
-              <Link href="/letters" className="read-link !text-[1rem]">
-                Read Letters <span className="link-arrow">-&gt;</span>
               </Link>
             </div>
           </aside>

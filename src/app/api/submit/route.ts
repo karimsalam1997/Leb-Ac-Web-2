@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      message: "Your letter has been sent. Thank you for writing carefully.",
+      message: "Your submission has been sent. Thank you for writing carefully.",
     });
   } catch (error) {
     return NextResponse.json(

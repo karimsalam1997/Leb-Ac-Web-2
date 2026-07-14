@@ -1,458 +1,358 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { Archive } from "lucide-react";
 import { EditorialImage } from "@/components/editorial-image";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SiteShell } from "@/components/site-shell";
-import { essays, letters, notebookEntries, type Essay } from "@/lib/content";
+import { essays, type Essay } from "@/lib/content";
 import { buildPageMetadata, siteDescription, siteName } from "@/lib/seo";
-import { getArticleImage, getArticleImages, homeAssets } from "@/lib/visual-assets";
+import { getSignalDeskData } from "@/lib/signal-desk";
+import homepage from "./home.module.css";
 
 export const metadata: Metadata = buildPageMetadata({
   title: `${siteName} — The country, not the crisis.`,
   description: siteDescription,
   path: "/",
-  image: homeAssets.hero.src,
+  image: "/homepage/roman-baths-beirut.jpg",
   absoluteTitle: true,
 });
 
 const heroEssay = essays[0];
-const beirutParkEssay =
+const parkEssay =
   essays.find((essay) => essay.slug === "the-park-that-remembers") ??
   essays.at(-1) ??
   heroEssay;
-const latestEssays = essays.slice(1, 6);
-const moreEssays = essays.slice(6, 8);
-const recentLetters = letters.slice(0, 2);
-const leadNotebook = notebookEntries[0];
+const cartelEssay =
+  essays.find((essay) => essay.slug === "the-cartel-in-the-costume-of-a-country") ??
+  heroEssay;
+const mourningEssay =
+  essays.find((essay) => essay.slug === "the-land-that-mourns-in-one-language") ??
+  heroEssay;
 
-const essayDeck =
-  "An independent publication on Lebanon — written from underneath the headlines, where the load-bearing walls actually are. Power. Memory. Sect. The architecture of a state kept deliberately weak.";
-
-const displayTitleLinesBySlug: Record<string, string[]> = {
-  "the-cartel-in-the-costume-of-a-country": [
-    "The Cartel",
-    "in the",
-    "Costume",
-    "of a",
-    "Country",
-  ],
-  "cartel-in-the-costume-of-a-country": [
-    "The Cartel",
-    "in the",
-    "Costume",
-    "of a",
-    "Country",
-  ],
-};
-
-// Typographic tiles — Roman numerals carry the section ordering in Fraunces
-// small caps. No icons; the topic name and Arabic translation do the work.
-const browseTopics = [
+const recentStories = [
   {
-    tag: "Power",
-    label: "Power",
-    arabic: "السُّلطة",
-    numeral: "I",
-    accent: "red",
+    essay: cartelEssay,
+    src: "/homepage/martyrs-square-2019.webp",
+    alt: "Crowds filling Martyrs' Square in Beirut on Lebanese Independence Day in 2019",
+    position: "center 44%",
+    mediaNote: "Martyrs’ Square · 22 November 2019 · Nadim Kobeissi",
+    sourceHref: "https://commons.wikimedia.org/wiki/File:Lebanon_IdependenceDay_2019.jpg",
   },
   {
-    tag: "Political Economy",
-    label: "Political Economy",
-    arabic: "الاقتصاد السياسي",
-    numeral: "II",
-    accent: "blue",
+    essay: parkEssay,
+    src: "/homepage/park-gazebo-lake.webp",
+    alt: "The restored Ottoman gazebo beside a lake in the Beirut Park proposal",
+    position: "62% center",
+    mediaNote: "Design visualization · Beirut Park · Video Edits archive",
+    sourceHref: undefined,
   },
   {
-    tag: "Society",
-    label: "Society",
-    arabic: "المجتمع",
-    numeral: "III",
-    accent: "teal",
-  },
-  {
-    tag: "Sovereignty",
-    label: "Sovereignty",
-    arabic: "السيادة",
-    numeral: "IV",
-    accent: "red",
-  },
-  {
-    tag: "Diaspora",
-    label: "Diaspora",
-    arabic: "المهجر",
-    numeral: "V",
-    accent: "blue",
-  },
-  {
-    tag: "Memory",
-    label: "Memory",
-    arabic: "الذاكرة",
-    numeral: "VI",
-    accent: "teal",
+    essay: mourningEssay,
+    src: "/homepage/ahiram-sarcophagus-1936.webp",
+    alt: "The sarcophagus of King Ahiram of Byblos photographed in 1936",
+    position: "center 54%",
+    mediaNote: "Ahiram sarcophagus · Matson Collection, 1936",
+    sourceHref: "https://commons.wikimedia.org/wiki/File:Byblos-_Jebeil._Byblos._Sarcophagus_of_Ahiram,_King_of_Byblos_LOC_matpc.03491.jpg",
   },
 ];
 
-function editorialTitleLines(title: string) {
-  const words = title.split(" ");
-  const lineLength = Math.ceil(words.length / 3);
+const pathways = [
+  {
+    label: "Power",
+    arabic: "السُّلطة",
+    topic: "Power",
+    description: "Who governs Lebanon, who profits from its weakness, and how private power becomes public fact.",
+  },
+  {
+    label: "Memory",
+    arabic: "الذاكرة",
+    topic: "Memory",
+    description: "The places, rituals, languages, and inherited arguments through which the country remembers itself.",
+  },
+  {
+    label: "War",
+    arabic: "الحرب",
+    topic: "War",
+    description: "The military systems that reach into Lebanese land, politics, grief, and ordinary life.",
+  },
+];
 
-  return [
-    words.slice(0, lineLength).join(" "),
-    words.slice(lineLength, lineLength * 2).join(" "),
-    words.slice(lineLength * 2).join(" "),
-  ].filter(Boolean);
+function formatSignalDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Desk record pending";
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
 }
 
-function getTopicCount(tag: string) {
-  return essays.filter((essay) => essay.tags.includes(tag)).length;
-}
-
-function EssayCard({
+function StoryCard({
   essay,
-  index,
-  variant = "latest",
+  src,
+  alt,
+  position,
+  mediaNote,
+  sourceHref,
+  emphasis = "secondary",
 }: {
   essay: Essay;
-  index: number;
-  variant?: "latest" | "more";
+  src: string;
+  alt: string;
+  position: string;
+  mediaNote: string;
+  sourceHref?: string;
+  emphasis?: "primary" | "secondary";
 }) {
-  const imageAsset = homeAssets.edition[index % homeAssets.edition.length];
-  const articleLeadImage = getArticleImages(essay.slug)[0];
-
   return (
-    <Link
-      href={`/essays/${essay.slug}`}
-      className="home-essay-card"
-      data-variant={variant}
-      aria-label={`Read ${essay.title}`}
+    <article
+      className={homepage.storyCard}
+      data-emphasis={emphasis}
+      data-story={essay.slug}
     >
-      <EditorialImage
-        src={getArticleImage(essay.slug, 0)}
-        alt={essay.title}
-        className="home-essay-card-image"
-        imagePosition={articleLeadImage?.position ?? imageAsset.position}
-        quality={90}
-        sizes={
-          variant === "more"
-            ? "(min-width: 1024px) 28vw, 100vw"
-            : "(min-width: 1180px) 18vw, (min-width: 768px) 30vw, 100vw"
-        }
-      />
-      <span className="home-essay-card-body">
-        <span className="home-essay-card-topic">{essay.tags[0] ?? essay.category}</span>
-        <strong>{essay.title}</strong>
-        <span>{essay.dek}</span>
-        <small>
-          {essay.byline} / {essay.date} / {essay.readTime}
-        </small>
-      </span>
-    </Link>
+      <div className={homepage.storyMedia}>
+        <Link
+          href={`/essays/${essay.slug}`}
+          className={homepage.storyImageLink}
+          aria-label={`Read ${essay.title}`}
+        >
+          <EditorialImage
+            src={src}
+            alt={alt}
+            className={homepage.storyImage}
+            imagePosition={position}
+            quality={82}
+            sizes={
+              emphasis === "primary"
+                ? "(min-width: 1100px) 54vw, (min-width: 768px) 52vw, calc(100vw - 32px)"
+                : "(min-width: 1100px) 18vw, (min-width: 768px) 42vw, (min-width: 360px) 34vw, calc(100vw - 24px)"
+            }
+          />
+        </Link>
+        {sourceHref ? (
+          <a
+            className={homepage.mediaNote}
+            href={sourceHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${mediaNote}, open image source`}
+          >
+            {mediaNote}
+          </a>
+        ) : (
+          <span className={homepage.mediaNote}>{mediaNote}</span>
+        )}
+      </div>
+      <div className={homepage.storyCopy}>
+        <div className={homepage.mediaNoteMobile}>{mediaNote}</div>
+        <div className={homepage.kicker}>{essay.tags[0] ?? essay.category}</div>
+        <h3>
+          <Link href={`/essays/${essay.slug}`}>{essay.title}</Link>
+        </h3>
+        <p>{essay.dek}</p>
+        <div className={homepage.storyMeta}>
+          <span>{essay.byline}</span>
+          <span>{essay.date}</span>
+          <span>{essay.readTime}</span>
+        </div>
+      </div>
+    </article>
   );
 }
 
 function SectionHeading({
-  title,
+  eyebrow,
   arabic,
+  title,
   href,
-  cta = "View all essays",
+  action,
+  id,
 }: {
-  title: string;
+  eyebrow: string;
   arabic: string;
-  href: string;
-  cta?: string;
+  title: string;
+  href?: string;
+  action?: string;
+  id: string;
 }) {
   return (
-    <div className="home-section-heading">
-      <div>
-        <h2>{title}</h2>
-        <span className="arabic">{arabic}</span>
+    <div className={homepage.sectionHeading}>
+      <div className={homepage.sectionTitleBlock}>
+        <div className={homepage.sectionEyebrow}>{eyebrow}</div>
+        <h2 id={id}>{title}</h2>
       </div>
-      <Link href={href}>
-        {cta} <span className="link-arrow">-&gt;</span>
-      </Link>
+      <div className={homepage.sectionSide}>
+        <span className={`arabic ${homepage.sectionArabic}`} lang="ar" dir="rtl">
+          {arabic}
+        </span>
+        {href && action ? (
+          <Link href={href} className={homepage.sectionAction}>
+            {action} <span aria-hidden="true">→</span>
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 }
 
 export default function Home() {
-  const heroTitleLines =
-    displayTitleLinesBySlug[heroEssay.slug] ?? editorialTitleLines(heroEssay.title);
-  const heroImage = getArticleImage(heroEssay.slug, 0);
-  const beirutParkImages = getArticleImages(beirutParkEssay.slug);
-  const beirutParkFeatureImage =
-    beirutParkImages.find((image) => image.src.includes("pigeon-tower-release")) ??
-    beirutParkImages[0];
+  const { api } = getSignalDeskData();
+  const signalUpdated = formatSignalDate(api.meta.generated_at);
+  const signalCondition = api.meta.source_condition;
 
   return (
     <SiteShell activePath="/">
-      <section className="paper-frame home-lead-section">
-        <div className="home-lead-grid">
-          <article className="home-lead-story">
-            <div className="editorial-kicker">Featured Essay</div>
-            <h1 className="display-title home-lead-title">
-              <Link href={`/essays/${heroEssay.slug}`}>
-                {heroTitleLines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </Link>
-            </h1>
-            <p className="home-lead-dek">{heroEssay.dek}</p>
-            <div className="home-lead-meta">
-              <Image
-                src="/brand/la-editors-mark.png"
-                alt=""
-                width={42}
-                height={42}
-              />
-              <span>
-                <strong>{heroEssay.byline}</strong>
-                <small>
-                  {heroEssay.date} / {heroEssay.readTime}
-                </small>
-              </span>
-            </div>
-            <Link href={`/essays/${heroEssay.slug}`} className="read-link">
-              Read essay <span className="link-arrow">-&gt;</span>
-            </Link>
-          </article>
-
-          <Link href={`/essays/${heroEssay.slug}`} className="home-lead-image-link">
+      <section className={`${homepage.frame} ${homepage.hero}`}>
+        <div className={homepage.heroVisual}>
+          <Link
+            href={`/essays/${heroEssay.slug}`}
+            className={homepage.heroImageLink}
+            aria-label={`Read ${heroEssay.title}`}
+          >
             <EditorialImage
-              src={heroImage}
-              alt={heroEssay.title}
-              className="home-lead-image"
-              imagePosition="center 48%"
-              priority
-              quality={92}
-              sizes="(min-width: 1280px) 43vw, (min-width: 1024px) 48vw, 100vw"
+              src="/homepage/roman-baths-beirut.webp"
+              alt="The Roman Baths below the rebuilt centre of Downtown Beirut"
+              className={homepage.heroImage}
+              imagePosition="center 54%"
+              preload
+              quality={84}
+              sizes="(min-width: 1100px) 60vw, (min-width: 768px) calc(100vw - 40px), calc(100vw - 32px)"
             />
           </Link>
-        </div>
-
-        <Link
-          href={`/essays/${beirutParkEssay.slug}`}
-          className="home-park-feature"
-          aria-label={`Read ${beirutParkEssay.title}`}
-        >
-          <span className="home-park-feature-media">
-            <EditorialImage
-              src={beirutParkFeatureImage?.src}
-              alt={beirutParkFeatureImage?.alt ?? beirutParkEssay.title}
-              className="home-park-feature-image"
-              imagePosition={beirutParkFeatureImage?.position ?? "center 45%"}
-              quality={92}
-              sizes="(min-width: 1024px) 34vw, 100vw"
-            />
-          </span>
-          <span className="home-park-feature-copy">
-            <span className="editorial-kicker">Beirut Park</span>
-            <strong>{beirutParkEssay.title}</strong>
-            <span>{beirutParkEssay.dek}</span>
-            <em>
-              Read essay <span className="link-arrow">-&gt;</span>
-            </em>
-          </span>
-        </Link>
-
-        <div className="pattern-rule home-pattern-rule" aria-hidden="true" />
-      </section>
-
-      <section
-        id="about"
-        className="paper-frame home-mission-strip"
-        aria-label="About Lebanese Academic"
-      >
-        <div className="home-mission-grid">
-          <div className="home-mission-kicker">
-            <div className="editorial-kicker">About</div>
-            <div className="editorial-kicker arabic">عن المنشور</div>
-          </div>
-          <div className="home-mission-body">
-            <p className="home-mission-lead">{essayDeck}</p>
-            <p className="home-mission-coda">
-              <em>Academic</em>, here, doesn&rsquo;t mean the dry, footnoted
-              neutrality of the journal article. It means structural —
-              looking at Lebanon from underneath the headlines, where the
-              load-bearing walls actually are.
-            </p>
-            <p className="arabic home-mission-arabic">
-              «أكاديمي» هنا لا تعني الحياد الجاف للمقال الأكاديمي. تعني البنيوي — النظر إلى لبنان من تحت العناوين، حيث الجدران الحاملة فعلًا.
-            </p>
+          <div className={homepage.heroCaption}>
+            <span>Roman Baths · Downtown Beirut</span>
+            <a
+              href="https://commons.wikimedia.org/wiki/File:BeirutRomanBaths.jpg"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Niels Elgaard Larsen · CC BY-SA 3.0
+            </a>
           </div>
         </div>
+
+        <article className={homepage.heroCopy}>
+          <div className={homepage.kicker}>Featured Essay</div>
+          <h1>
+            <Link href={`/essays/${heroEssay.slug}`}>{heroEssay.title}</Link>
+          </h1>
+          <p className={homepage.heroDeck}>{heroEssay.dek}</p>
+          <div className={homepage.heroMeta}>
+            <span>{heroEssay.byline}</span>
+            <span>{heroEssay.date}</span>
+            <span>{heroEssay.readTime}</span>
+          </div>
+        </article>
       </section>
 
-      <section id="topics" className="paper-frame home-topic-section">
+      <section className={`${homepage.frame} ${homepage.section}`} aria-labelledby="recent-essays-title">
         <SectionHeading
-          title="By Topic"
-          arabic="حسب المحور"
-          href="/topics"
-          cta="Open the full register"
-        />
-        <div className="home-topic-grid" aria-label="Browse essays by topic">
-          {browseTopics.map((topic) => {
-            const count = getTopicCount(topic.tag);
-
-            return (
-              <Link
-                key={topic.tag}
-                href={{ pathname: "/essays", query: { topic: topic.tag } }}
-                className="home-topic-tile"
-                data-accent={topic.accent}
-              >
-                <span className="home-topic-numeral" aria-hidden="true">
-                  {topic.numeral}
-                </span>
-                <span>
-                  <strong>{topic.label}</strong>
-                  <small className="arabic">{topic.arabic}</small>
-                </span>
-                <em>{count}</em>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="paper-frame home-latest-section">
-        <SectionHeading
-          title="The Latest"
-          arabic="الأحدث"
+          id="recent-essays-title"
+          eyebrow="Recent Essays"
+          arabic="أحدث المقالات"
+          title="Three ways into the country."
           href="/essays"
+          action="All essays"
         />
-        <div className="home-latest-grid">
-          {latestEssays.map((essay, index) => (
-            <EssayCard key={essay.slug} essay={essay} index={index + 1} />
-          ))}
-        </div>
-      </section>
-
-      <section id="archive" className="paper-frame home-archive-section">
-        <div className="home-archive-grid">
-          <div className="home-archive-copy">
-            <div className="editorial-kicker">The Archive / الأرشيف</div>
-            <h2 className="editorial-title">A register built for return, not for scrolling.</h2>
-            <p>
-              {essays.length} essays, ordered, named, and connected — so an idea you
-              read once can be found again, and the next essay you read knows what
-              the last one said.
-            </p>
-            <Link href="/essays" className="read-link">
-              Open the register <span className="link-arrow">-&gt;</span>
-            </Link>
-          </div>
-
-          <Link href="/essays" className="home-archive-image-link">
-            <EditorialImage
-              src={homeAssets.departments.archive.src}
-              alt="Lebanese Academic archive"
-              className="home-archive-image"
-              imagePosition={homeAssets.departments.archive.position}
-              quality={92}
-              sizes="(min-width: 1024px) 34vw, 100vw"
-            />
-          </Link>
-
-          <div className="home-archive-ledger">
-            <Archive size={28} strokeWidth={1.6} aria-hidden="true" />
-            <strong>Issue 01</strong>
-            <span>{essays.length} essays</span>
-            <span>{letters.length} letters</span>
-            <span>{notebookEntries.length} notebook notes</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="paper-frame home-more-section">
-        <SectionHeading
-          title="Also Read"
-          arabic="إقرأ أيضًا"
-          href="/essays"
-        />
-        <div className="home-more-grid">
-          {moreEssays.map((essay, index) => (
-            <EssayCard
-              key={essay.slug}
-              essay={essay}
-              index={index + latestEssays.length + 1}
-              variant="more"
+        <div className={homepage.recentGrid}>
+          {recentStories.map((story, index) => (
+            <StoryCard
+              key={story.essay.slug}
+              essay={story.essay}
+              src={story.src}
+              alt={story.alt}
+              position={story.position}
+              mediaNote={story.mediaNote}
+              sourceHref={story.sourceHref}
+              emphasis={index === 0 ? "primary" : "secondary"}
             />
           ))}
         </div>
       </section>
 
-      <section className="paper-frame home-newsletter-strip">
-        <div className="home-newsletter-copy">
-          <div className="home-newsletter-icon">
-            <Image
-              src="/brand/la-editors-mark.png"
-              alt=""
-              width={42}
-              height={42}
-            />
-          </div>
+      <section className={`${homepage.frame} ${homepage.signalSection}`} aria-labelledby="signal-desk-title">
+        <div className={homepage.signalIdentity}>
+          <span className={homepage.signalPulse} aria-hidden="true" />
           <div>
-            <h2>Dispatches from a city that refuses to be a footnote.</h2>
-            <p>
-              One email. Once a week. The new essay, the new letter, and the one
-              paragraph that explains why we wrote them. No promotions.
-            </p>
-            <p className="arabic newsletter-arabic">
-              رسالة أسبوعية واحدة: المقال الجديد، الرسالة الجديدة، وفقرة واحدة تشرح لماذا.
-            </p>
+            <div className={homepage.signalLabel}>Signal Desk / Live record</div>
+            <div className={`arabic ${homepage.signalArabic}`} lang="ar" dir="rtl">غرفة الإشارات</div>
           </div>
+        </div>
+        <div className={homepage.signalCopy}>
+          <h2 id="signal-desk-title">A working record of what moved, who said it, and what remains unclear.</h2>
+          <p>
+            {signalCondition?.summary ?? `${api.meta.source_count} sources in the latest desk record.`}
+          </p>
+        </div>
+        <div className={homepage.signalMeta}>
+          <span>Last desk run</span>
+          <strong>{signalUpdated}</strong>
+          <span>
+            {api.meta.cluster_count} clusters, {api.meta.located_cluster_count} mapped
+          </span>
+          <Link href="/signal-desk">
+            Enter Signal Desk <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      <section className={`${homepage.frame} ${homepage.section}`} aria-labelledby="editorial-pathways-title">
+        <SectionHeading
+          id="editorial-pathways-title"
+          eyebrow="Editorial Pathways"
+          arabic="مسارات القراءة"
+          title="Power. Memory. War."
+        />
+        <div className={homepage.pathwayGrid}>
+          {pathways.map((pathway) => (
+            <Link
+              key={pathway.topic}
+              href={{ pathname: "/essays", query: { topic: pathway.topic } }}
+              className={homepage.pathway}
+              data-pathway={pathway.topic.toLowerCase()}
+            >
+              <span className={homepage.pathwayNumber} aria-hidden="true">
+                0{pathways.indexOf(pathway) + 1}
+              </span>
+              <span className={homepage.pathwayTitle}>
+                <strong>{pathway.label}</strong>
+              </span>
+              <span className={`arabic ${homepage.pathwayArabic}`} lang="ar" dir="rtl">
+                {pathway.arabic}
+              </span>
+              <span className={homepage.pathwayDescription}>{pathway.description}</span>
+              <span className={homepage.pathwayArrow} aria-hidden="true">→</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className={`${homepage.frame} ${homepage.statement}`} aria-label="About Lebanese Academic">
+        <div className={homepage.statementLabel}>Lebanese Academic</div>
+        <div className={homepage.statementCopy}>
+          <p>
+            An independent publication written from underneath Lebanon’s headlines, where power becomes ordinary life and memory becomes political evidence.
+          </p>
+          <p className="arabic" lang="ar" dir="rtl">
+            منشور مستقل يقرأ لبنان من تحت العناوين، حيث تتحوّل السلطة إلى حياة يومية، وتصبح الذاكرة دليلاً سياسياً.
+          </p>
+          <Link href="/about">
+            About the publication <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      <section id="newsletter" className={`${homepage.frame} ${homepage.newsletter}`} aria-labelledby="newsletter-title">
+        <div className={homepage.newsletterCopy}>
+          <div className={homepage.kicker}>Weekly Dispatch</div>
+          <h2 id="newsletter-title">One essay. One argument worth carrying.</h2>
+          <p>Sent from Beirut when there is something worth sending.</p>
+          <p className="arabic" lang="ar" dir="rtl">رسالة من بيروت، حين يكون هناك ما يستحق أن يُرسل.</p>
         </div>
         <NewsletterSignup />
-      </section>
-
-      <section className="paper-frame home-correspondence-section">
-        <Link href="/letters" className="home-correspondence-card">
-          <span>
-            <strong>Letters</strong>
-            <small className="arabic">الرسائل</small>
-          </span>
-          <p>Short, dated, located. From Beirut and the places it followed.</p>
-          <div className="home-correspondence-list">
-            {recentLetters.map((letter) => (
-              <span key={letter.slug}>
-                {letter.title}
-                <small>{letter.date}</small>
-              </span>
-            ))}
-          </div>
-          <Image
-            src={homeAssets.departments.letters.src}
-            alt=""
-            width={360}
-            height={170}
-            className="home-correspondence-art"
-          />
-          <em>
-            Read letters <span className="link-arrow">-&gt;</span>
-          </em>
-        </Link>
-
-        <Link href="/notebook" className="home-correspondence-card">
-          <span>
-            <strong>Notebook</strong>
-            <small className="arabic">الدفتر</small>
-          </span>
-          <p>{leadNotebook?.excerpt ?? "Notes, fragments, and unfinished thoughts."}</p>
-          <div className="home-correspondence-list">
-            <span>
-              {leadNotebook?.title ?? "Notebook"}
-              <small>{leadNotebook?.date ?? "Ongoing"}</small>
-            </span>
-          </div>
-          <span className="home-correspondence-glyph" aria-hidden="true">
-            ⁂
-          </span>
-          <em>
-            Open notebook <span className="link-arrow">-&gt;</span>
-          </em>
-        </Link>
       </section>
     </SiteShell>
   );

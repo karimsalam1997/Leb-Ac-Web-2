@@ -7399,28 +7399,31 @@ body {
    the 1356px paper-frame interior. */
 @media (min-width: 1180px) {
   .article-page .article-reference-grid {
-    grid-template-columns: 11rem minmax(0, 44rem) 17rem;
-    column-gap: 3.4rem;
+    grid-template-columns: minmax(0, 46rem) minmax(14rem, 18rem);
+    column-gap: clamp(3rem, 5vw, 5rem);
     row-gap: 0;
-    justify-content: space-between;
+    justify-content: center;
     align-items: start;
+    min-width: 0;
   }
 
   /* The existing JSX wraps the reading column in a .min-w-0 div.
      Anchor it to the center column. */
   .article-page .article-reference-grid > .min-w-0 {
-    grid-column: 2;
+    grid-column: 1;
+    width: 100%;
     min-width: 0;
   }
 
   /* Direct children of the grid with class .article-marginalia go left,
      .article-figure-column go right. */
   .article-page .article-reference-grid > .article-marginalia {
-    grid-column: 1;
+    display: none;
   }
 
   .article-page .article-reference-grid > .article-figure-column {
-    grid-column: 3;
+    grid-column: 2;
+    min-width: 0;
   }
 }
 
@@ -7429,8 +7432,8 @@ body {
    two-line for longer ones. */
 @media (min-width: 1320px) {
   .article-page .article-reference-grid {
-    grid-template-columns: 11rem minmax(0, 48rem) 18rem;
-    column-gap: 3.8rem;
+    grid-template-columns: minmax(0, 48rem) 18rem;
+    column-gap: clamp(3.5rem, 5vw, 5.5rem);
   }
 }
 
@@ -8217,6 +8220,9 @@ body {
   border-right: 0;
   background: #fff0d0;
   color: var(--foreground);
+  transition:
+    border-color 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out);
 }
 
 .newsletter-form svg {
@@ -8234,6 +8240,15 @@ body {
   font-size: 0.98rem;
 }
 
+.newsletter-form input:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.newsletter-form input::placeholder {
+  color: rgba(21, 16, 13, 0.62);
+}
+
 .newsletter-form button {
   min-height: 48px;
   border: 1px solid var(--accent);
@@ -8245,9 +8260,23 @@ body {
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition:
+    background-color 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.newsletter-form button:hover:not(:disabled) {
+  border-color: #fff0d0;
+  background: #a83918;
+}
+
+.newsletter-form button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .newsletter-form button:disabled {
+  cursor: wait;
   opacity: 0.72;
 }
 
@@ -8257,10 +8286,23 @@ body {
   color: #fff0d0;
   font-size: 0.95rem;
   line-height: 1.3;
+  animation: newsletterStatusEnter 180ms var(--ease-out);
 }
 
 .newsletter-form-status[data-status="error"] {
   color: #ffd9ca;
+}
+
+@keyframes newsletterStatusEnter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .home-correspondence-section {
@@ -8672,14 +8714,7 @@ body {
 
 @media (min-width: 1180px) {
   .article-marginalia {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding-top: 8.5rem;
-    /* Pad-top so the marginalia starts roughly at the lede paragraph,
-       not at the page title. Tuned to the byline + dateline + standfirst
-       stack. */
-    color: var(--ink-soft);
+    display: none;
   }
 }
 
@@ -8830,15 +8865,14 @@ body {
 .article-display-title {
   font-family: var(--font-fraunces), Georgia, serif;
   font-variation-settings: "opsz" 144, "SOFT" 25, "wght" 700;
-  font-size: clamp(2.8rem, 6.2vw, 5.6rem);
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
   line-height: 1.0;
   letter-spacing: -0.022em;
   margin: 0;
   text-wrap: balance;
   color: var(--foreground);
-  /* Title can extend slightly past the reading column on wide desktops —
-     editorial display titles often break the grid by a touch. */
-  max-width: none;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 /* Standfirst — italic Cormorant subtitle directly under the title. */

@@ -7,7 +7,7 @@ import { buildPageMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildPageMetadata({
   title: "Submit",
   description:
-    "Submit a letter or an essay to Lebanese Academic. We read everything. We publish the writing that decodes power and preserves memory.",
+    "Submit a piece to Lebanese Academic. We read everything. We publish the writing that decodes power and preserves memory.",
   path: "/submit",
   image: "/brand/la-primary-lockup.png",
 });
@@ -36,7 +36,7 @@ const guidelines = [
   {
     numeral: "V",
     title: "Send what an editor can read.",
-    text: "Letters: up to 800 words. Essays: 1,500–4,000 words. One file, one piece, your own words, not previously published.",
+    text: "Short pieces: up to 800 words. Essays: 1,500–4,000 words. One file, one piece, your own words, not previously published.",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function SubmitPage() {
                 Send Us Writing
               </h1>
               <p className="mt-4 text-[1.35rem] leading-7">
-                A letter, an essay, a fragment that won&apos;t leave you alone. We
+                An essay, a dispatch, a fragment that won&apos;t leave you alone. We
                 read everything. We publish what decodes power or preserves
                 memory — and what we couldn&apos;t write ourselves.
               </p>
@@ -83,7 +83,7 @@ export default function SubmitPage() {
                 One editor reads every submission. We reply within two weeks,
                 even when we pass. If we want the piece, we&apos;ll send line edits
                 and ask one or two structural questions before publication.
-                Writers we publish are paid for essays. Letters are unpaid.
+                Writers we publish are paid for commissioned essays.
               </p>
               <p className="arabic mt-3 text-right text-[1rem] leading-7 text-[var(--ink-soft)]">
                 نُجيب على كلّ ما يصلنا خلال أسبوعين. الكاتبات والكتّاب يُدفع لهم على المقالات. الرسائلُ بلا أجر.

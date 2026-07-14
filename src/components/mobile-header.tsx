@@ -4,56 +4,37 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-const mobileNavItems = [
-  { href: "/essays", label: "Essays" },
-  { href: "/signal-desk", label: "Signals" },
-  { href: "/topics", label: "Topics" },
-  { href: "/notebook", label: "Notebook" },
-  { href: "/submit", label: "Submit" },
-];
+import shell from "./site-shell.module.css";
 
 const drawerItems = [
+  { href: "/essays", label: "Essays", arabic: "المقالات" },
+  { href: "/signal-desk", label: "Signal Desk", arabic: "غرفة الإشارات" },
+  { href: "/topics", label: "Topics", arabic: "المحاور" },
   { href: "/about", label: "About", arabic: "عنّا" },
-  { href: "/#archive", label: "Archive", arabic: "الأرشيف" },
+  { href: "/submit", label: "Submit", arabic: "أرسل نصّاً" },
 ];
 
 function isActivePath(activePath: string, href: string) {
-  if (href === "/essays") {
-    return activePath.startsWith("/essays");
-  }
-
-  if (href === "/submit") {
-    return activePath.startsWith("/submit");
-  }
-
-  if (href === "/letters") {
-    return activePath.startsWith("/letters");
-  }
-
-  if (href === "/notebook") {
-    return activePath.startsWith("/notebook");
-  }
-
-  if (href === "/signal-desk") {
-    return activePath.startsWith("/signal-desk");
-  }
-
-  if (href === "/topics") {
-    return activePath.startsWith("/topics");
-  }
-
-  if (href === "/about") {
-    return activePath.startsWith("/about");
-  }
-
-  return false;
+  return activePath === href || activePath.startsWith(`${href}/`);
 }
 
 export function MobileHeader({ activePath }: { activePath: string }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const shouldRestoreFocusRef = useRef(false);
+
+  function closeDrawer() {
+    shouldRestoreFocusRef.current = true;
+    setIsDrawerOpen(false);
+  }
+
+  useEffect(() => {
+    if (!isDrawerOpen && shouldRestoreFocusRef.current) {
+      shouldRestoreFocusRef.current = false;
+      menuButtonRef.current?.focus();
+    }
+  }, [isDrawerOpen]);
 
   useEffect(() => {
     if (!isDrawerOpen) {
@@ -62,14 +43,12 @@ export function MobileHeader({ activePath }: { activePath: string }) {
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
-    const drawer = drawerRef.current;
-    drawer?.focus();
+    drawerRef.current?.focus();
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
+        shouldRestoreFocusRef.current = true;
         setIsDrawerOpen(false);
-        menuButtonRef.current?.focus();
         return;
       }
 
@@ -116,132 +95,109 @@ export function MobileHeader({ activePath }: { activePath: string }) {
     };
   }, [isDrawerOpen]);
 
-  function closeDrawer() {
-    setIsDrawerOpen(false);
-    menuButtonRef.current?.focus();
-  }
-
   return (
-    <header className="mobile-site-header" aria-label="Mobile site header">
-      <div className="mobile-brand-bar">
-        <Link href="/" className="mobile-brand-link" aria-label="Lebanese Academic home">
+    <header className={shell.mobileHeader} aria-label="Mobile site header">
+      <div className={shell.mobileHeaderInner} inert={isDrawerOpen}>
+        <Link href="/" className={shell.mobileBrand} aria-label="Lebanese Academic home">
           <Image
             src="/brand/la-editors-mark.png"
             alt=""
-            width={82}
-            height={82}
-            priority
-            className="mobile-brand-mark"
+            width={48}
+            height={48}
+            className={shell.mobileBrandMark}
           />
-          <span className="mobile-wordmark">
-            <span className="mobile-wordmark-english">
+          <span className={shell.mobileBrandNames}>
+            <strong>
               <span>Lebanese</span>
               <span>Academic</span>
-            </span>
-            <span className="mobile-wordmark-arabic arabic">
-              <span>الأكاديمي</span>
-              <span>اللبناني</span>
-            </span>
+            </strong>
+            <small className="arabic" lang="ar" dir="rtl">الأكاديمي اللبناني</small>
           </span>
         </Link>
 
-        <div className="mobile-header-actions">
+        <div className={shell.mobileActions}>
+          <Link href="/#newsletter" className={shell.mobileSubscribe}>
+            Subscribe
+          </Link>
           <button
             ref={menuButtonRef}
-            className="mobile-icon-button mobile-menu-button"
+            className={shell.mobileMenuButton}
             type="button"
             aria-label="Open menu"
             aria-controls="mobile-menu-drawer"
             aria-expanded={isDrawerOpen}
             onClick={() => setIsDrawerOpen(true)}
           >
-            <Menu size={21} strokeWidth={1.65} />
+            <Menu size={22} strokeWidth={1.7} aria-hidden="true" />
           </button>
         </div>
       </div>
 
-      <nav className="mobile-primary-nav" aria-label="Mobile primary navigation">
-        {mobileNavItems.map((item) => {
-          const isActive = isActivePath(activePath, item.href);
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              data-active={isActive}
-              aria-current={isActive ? "page" : undefined}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-        <button
-          type="button"
-          data-active={isDrawerOpen}
-          aria-controls="mobile-menu-drawer"
-          aria-expanded={isDrawerOpen}
-          onClick={() => setIsDrawerOpen(true)}
-        >
-          More
-        </button>
-      </nav>
-
       {isDrawerOpen ? (
-        <div className="mobile-drawer-layer">
+        <div className={shell.drawerLayer}>
           <button
-            className="mobile-drawer-scrim"
+            className={shell.drawerScrim}
             type="button"
-            aria-label="Close menu"
+            aria-hidden="true"
+            tabIndex={-1}
             onClick={closeDrawer}
           />
           <div
             ref={drawerRef}
             id="mobile-menu-drawer"
-            className="mobile-menu-drawer"
+            className={shell.drawer}
             role="dialog"
             aria-modal="true"
             aria-labelledby="mobile-menu-title"
             tabIndex={-1}
           >
-            <div className="mobile-drawer-top">
+            <div className={shell.drawerTop}>
               <div>
-                <div id="mobile-menu-title" className="mobile-drawer-title">
+                <div id="mobile-menu-title" className={shell.drawerTitle}>
                   Lebanese Academic
                 </div>
-                <div className="arabic mobile-drawer-subtitle">الأكاديمي اللبناني</div>
+                <div className={`arabic ${shell.drawerArabicTitle}`} lang="ar" dir="rtl">
+                  الأكاديمي اللبناني
+                </div>
               </div>
-              <button className="mobile-icon-button" type="button" aria-label="Close menu" onClick={closeDrawer}>
-                <X size={20} strokeWidth={1.65} />
+              <button
+                className={shell.drawerClose}
+                type="button"
+                aria-label="Close menu"
+                onClick={closeDrawer}
+              >
+                <X size={22} strokeWidth={1.7} aria-hidden="true" />
               </button>
             </div>
 
-            <div className="mobile-drawer-statement">
-              <p>Publishing writing that decodes power and preserves memory.</p>
-              <p className="arabic">نُصدِر كتابةً تُفكّك السلطة وتصون الذاكرة.</p>
-            </div>
+            <p className={shell.drawerStatement}>
+              Writing from underneath Lebanon’s headlines, where power becomes ordinary life.
+            </p>
 
-            <nav className="mobile-drawer-nav" aria-label="Mobile menu navigation">
+            <nav className={shell.drawerNav} aria-label="Mobile menu navigation">
               {drawerItems.map((item) => {
                 const isActive = isActivePath(activePath, item.href);
 
                 return (
                   <Link
-                    key={`${item.href}-${item.label}`}
+                    key={item.href}
                     href={item.href}
                     data-active={isActive}
                     aria-current={isActive ? "page" : undefined}
                     onClick={() => setIsDrawerOpen(false)}
                   >
                     <span>{item.label}</span>
-                    {item.arabic ? <span className="arabic">{item.arabic}</span> : null}
+                    <span className="arabic" lang="ar" dir="rtl">{item.arabic}</span>
                   </Link>
                 );
               })}
             </nav>
 
-            <div className="mobile-drawer-footer">
+            <div className={shell.drawerFooter}>
               <span>Beirut · Levant · Diaspora</span>
-              <span className="arabic">بيروت · المشرق · المهجر</span>
+              <a href="mailto:editors@lebaneseacademic.com">
+                editors@lebaneseacademic.com
+              </a>
             </div>
           </div>
         </div>

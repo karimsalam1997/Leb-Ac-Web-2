@@ -47,16 +47,29 @@ export function NewsletterSignup() {
       className="newsletter-form"
       onSubmit={handleSubmit}
       aria-label="Subscribe to Lebanese Academic dispatches"
+      aria-busy={status === "loading"}
+      data-status={status}
     >
-      <label>
+      <label htmlFor="newsletter-email">
         <span className="sr-only">Email address</span>
         <Mail size={18} strokeWidth={1.7} aria-hidden="true" />
         <input
+          id="newsletter-email"
+          name="email"
           required
           type="email"
           autoComplete="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          disabled={status === "loading"}
+          aria-invalid={status === "error"}
+          aria-describedby={message ? "newsletter-status" : undefined}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            if (status === "error") {
+              setStatus("idle");
+              setMessage("");
+            }
+          }}
           placeholder="your@email.com"
         />
       </label>
@@ -65,6 +78,7 @@ export function NewsletterSignup() {
       </button>
       {message ? (
         <p
+          id="newsletter-status"
           className="newsletter-form-status"
           data-status={status}
           role={status === "error" ? "alert" : "status"}

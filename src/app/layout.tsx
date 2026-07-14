@@ -155,6 +155,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${cormorant.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
