@@ -7,7 +7,6 @@ import shell from "./site-shell.module.css";
 const navItems = [
   { href: "/essays", label: "Essays", arabic: "المقالات" },
   { href: "/signal-desk", label: "Signal Desk", arabic: "غرفة الإشارات" },
-  { href: "/topics", label: "Topics", arabic: "المحاور" },
   { href: "/about", label: "About", arabic: "عنّا" },
 ];
 
@@ -30,9 +29,9 @@ export function SiteShell({
 
       <div className={shell.pressTopline}>
         <div className={shell.pressToplineInner}>
-          <span>The country, not the crisis.</span>
-          <span className="arabic" lang="ar" dir="rtl">البلد، لا الأزمة.</span>
-          <span className={shell.pressLocation}>Beirut · Levant · Diaspora</span>
+          <span>Essays · Research · Public memory</span>
+          <span className="arabic" lang="ar" dir="rtl">مقالات · بحث · ذاكرة عامة</span>
+          <span className={shell.pressLocation}>Published from Beirut</span>
         </div>
       </div>
 
@@ -92,8 +91,8 @@ export function SiteShell({
         <div className={shell.footerInner}>
           <div className={shell.footerIdentity}>
             <strong>Lebanese Academic</strong>
-            <span>The country, not the crisis.</span>
-            <span className="arabic" lang="ar" dir="rtl">البلد، لا الأزمة.</span>
+            <span>Long essays, research, and public memory.</span>
+            <span className="arabic" lang="ar" dir="rtl">مقالات طويلة وبحث وذاكرة عامة.</span>
           </div>
 
           <nav className={shell.footerLinks} aria-label="Footer navigation">

@@ -24,6 +24,11 @@ import {
   getArticleImages,
 } from "@/lib/visual-assets";
 
+type ReadingItem = {
+  paragraph: string;
+  heading?: string;
+};
+
 export function generateStaticParams() {
   return essays.map((essay) => ({ slug: essay.slug }));
 }
@@ -71,10 +76,13 @@ export default async function EssayPage({
   const paragraphs = essay.sections.flatMap((section) => section.paragraphs);
   const leadParagraphs = paragraphs.slice(0, 3);
   const bodySections = getBodySections(essay.sections, leadParagraphs.length);
-  const articleImages = getArticleImages(essay.slug);
-  const leadImageAsset = articleImages[0];
-  const articleImage = leadImageAsset?.src ?? getArticleImage(essay.slug, 0);
+  const articleImages = getOrderedArticleImages(essay.slug);
+  const leadImage = articleImages[0] ?? {
+    src: getArticleImage(essay.slug, 0),
+    alt: `${essay.title} lead image`,
+  };
   const supportingImages = articleImages.slice(1);
+  const readingBeats = getReadingBeats(bodySections, supportingImages.length);
   const articleJsonLd = buildEssayJsonLd({
     essay,
     path: `/essays/${essay.slug}`,
@@ -85,188 +93,199 @@ export default async function EssayPage({
     <SiteShell activePath="/essays">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: serializeJsonLd(articleJsonLd),
-        }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleJsonLd) }}
       />
-      <div className="reading-progress" aria-hidden="true">
-        <span />
-      </div>
+      <div className="reading-progress" aria-hidden="true"><span /></div>
       <ArticleRunningHeader
         issue="Issue 01"
         category={getArticleKicker(essay.category)}
         surname={essay.byline.split(" ").pop() ?? essay.byline}
       />
-      <article className="paper-frame article-page pt-5">
-        <div className="article-reference-grid editorial-rule">
-          {/* LEFT COLUMN — marginalia: pulled-quote note, citation list,
-              and (when available) a small archival document figure. */}
-          <ArticleMarginalia
-            essay={essay}
-            citations={essay.notes}
-            marginaliaFigure={supportingImages[supportingImages.length - 1]}
-          />
 
-          {/* CENTER COLUMN — reading: kicker, title, standfirst, byline,
-              display Arabic line, body. */}
-          <div className="min-w-0">
-            {/* The on-page kicker is always the generic form ("ESSAY").
-                Editorial taxonomy ("Featured Essay") lives in the index
-                plate and the running header — printing it above the title
-                too made the header feel repetitive. */}
-            <div className="article-kicker">{getArticleKicker(essay.category)}</div>
-            <h1 className="article-display-title">{essay.title}</h1>
+      <article className="paper-frame article-page article-immersive-page pt-5">
+        <header className="article-immersive-header">
+          <div className="article-kicker">{getArticleKicker(essay.category)}</div>
+          <h1 className="article-display-title">{essay.title}</h1>
+          {essay.dek ? <p className="article-standfirst">{essay.dek}</p> : null}
+          <div className="article-byline-block">
+            <span className="article-byline-name">{essay.byline}</span>
+            <span className="article-byline-dateline">
+              {essay.dateline ? `${essay.dateline} · ` : ""}{essay.date} · {essay.readTime}
+            </span>
+          </div>
+        </header>
 
-            {essay.dek ? (
-              <p className="article-standfirst">{essay.dek}</p>
-            ) : null}
+        <ArticleFigure asset={leadImage} variant="hero" index={0} />
 
-            <div className="article-byline-block">
-              <span className="article-byline-name">{essay.byline}</span>
-              <span className="article-byline-dateline">
-                {essay.dateline ? `${essay.dateline} · ` : ""}
-                {essay.date}
-              </span>
+        <div className="article-reading-column">
+          {essay.arabicDisplayLine ? (
+            <div className="article-display-arabic arabic" dir="rtl">
+              {essay.arabicDisplayLine}
             </div>
+          ) : null}
 
-            {essay.arabicDisplayLine ? (
-              <div className="article-display-arabic arabic" dir="rtl">
-                {essay.arabicDisplayLine}
-              </div>
-            ) : null}
+          <div className="body-copy article-lede-copy">
+            {leadParagraphs.map((paragraph, index) => (
+              <p key={`${essay.slug}-lead-${index}`}>{paragraph}</p>
+            ))}
+          </div>
 
-            <div className="body-copy article-lede-copy">
-              {leadParagraphs.map((paragraph, index) => (
-                <p key={`${essay.slug}-lead-${index}`}>{paragraph}</p>
-              ))}
-            </div>
+          <div className="article-section-mark-center" aria-hidden="true">
+            <Image
+              src="/brand/la-witness-glyph.png"
+              alt=""
+              width={36}
+              height={40}
+              style={{ width: "36px", height: "40px" }}
+            />
+          </div>
 
-            <div className="article-section-mark-center" aria-hidden="true">
-              <Image
-                src="/brand/la-witness-glyph.png"
-                alt=""
-                width={36}
-                height={40}
-                className="object-contain"
-                style={{ width: "36px", height: "40px" }}
-              />
-            </div>
+          {(essay.bodyPullQuote ?? essay.pullQuote) ? (
+            <aside className="article-body-pullquote" role="note">
+              <p>{essay.bodyPullQuote ?? essay.pullQuote}</p>
+            </aside>
+          ) : null}
 
-            <section className="article-continuation-section">
-              <div className="article-continuation">
-                {(essay.bodyPullQuote ?? essay.pullQuote) ? (
-                  <aside className="article-body-pullquote" role="note">
-                    <p>{essay.bodyPullQuote ?? essay.pullQuote}</p>
-                  </aside>
-                ) : null}
-                {bodySections.map((section, sectionIndex) => (
-                  <section
-                    key={`${essay.slug}-section-${sectionIndex}`}
-                    className="article-body-section"
-                  >
-                    {section.heading ? (
-                      <h2 className="article-section-heading">
-                        <span className="article-section-heading-numeral">
-                          {toRoman(sectionIndex + 1)}.
-                        </span>
-                        {section.heading}
-                      </h2>
-                    ) : null}
+          <div className="article-immersive-flow">
+            {readingBeats.map((beat, beatIndex) => {
+              const figure = supportingImages[beatIndex];
+              const mentionsHobsbawm = beat.some((item) =>
+                item.paragraph.toLowerCase().includes("hobsbawm"),
+              );
+
+              return (
+                <div key={`${essay.slug}-beat-${beatIndex}`} className="article-reading-beat">
+                  <section className="article-body-section">
                     <div className="body-copy body-copy-continuation">
-                      {section.paragraphs.map((paragraph, paragraphIndex) => (
-                        <p key={`${essay.slug}-body-${sectionIndex}-${paragraphIndex}`}>
-                          {paragraph}
-                        </p>
+                      {beat.map((item, itemIndex) => (
+                        <div key={`${essay.slug}-beat-${beatIndex}-${itemIndex}`}>
+                          {item.heading ? (
+                            <h2 className="article-section-heading">
+                              <span className="article-section-heading-numeral">
+                                {toRoman(beatIndex + 1)}.
+                              </span>
+                              {item.heading}
+                            </h2>
+                          ) : null}
+                          <p>{item.paragraph}</p>
+                        </div>
                       ))}
                     </div>
                   </section>
-                ))}
-                <div className="article-section-mark article-section-mark-end">
-                  <Image
-                    src="/brand/la-witness-glyph.png"
-                    alt=""
-                    width={48}
-                    height={52}
-                    aria-hidden="true"
-                    className="object-contain"
-                    style={{ width: "48px", height: "52px" }}
-                  />
-                </div>
-              </div>
-            </section>
 
-            <QuietNotes notes={essay.notes} />
+                  {mentionsHobsbawm ? <HobsbawmInterlude /> : null}
+                  {figure ? (
+                    <ArticleFigure
+                      asset={figure}
+                      variant={getFigureVariant(figure, beatIndex)}
+                      index={beatIndex + 1}
+                    />
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
 
-          {/* RIGHT COLUMN — figures: photographs and documents that live
-              alongside the body, in the figure column on wide desktops. */}
-          <ArticleFigureColumn
-            essay={essay}
-            leadAsset={leadImageAsset}
-            leadImageSrc={articleImage}
-            supportingImages={supportingImages}
-          />
+          <div className="article-section-mark article-section-mark-end" aria-hidden="true">
+            <Image
+              src="/brand/la-witness-glyph.png"
+              alt=""
+              width={48}
+              height={52}
+              style={{ width: "48px", height: "52px" }}
+            />
+          </div>
+
+          <QuietNotes notes={essay.notes} />
         </div>
       </article>
 
-      <section className="paper-frame pt-7">
-        <div className="related-reference-row">
-          <div className="editorial-kicker text-[var(--foreground)]">Related Essays</div>
-          {related.slice(0, 3).map((relatedEssay) => (
-              <article key={relatedEssay.slug} className="grid grid-cols-[92px_1fr] gap-4">
-                <Link href={`/essays/${relatedEssay.slug}`}>
-                <EditorialImage
-                  src={getArticleImage(relatedEssay.slug, 0)}
-                  alt={relatedEssay.title}
-                  className="aspect-square border border-[color:var(--paper-border)]"
-                  sizes="92px"
-                />
-                </Link>
-                <div>
-                  <h3 className="editorial-title text-[1.25rem] leading-tight">
-                    <Link href={`/essays/${relatedEssay.slug}`}>{relatedEssay.title}</Link>
-                  </h3>
-                  <div className="dense-meta mt-2">
-                    {relatedEssay.date}
-                    <br />
-                    {relatedEssay.readTime}
-                  </div>
-                </div>
-              </article>
-            ))}
-          <div>
-            <p className="text-[1rem] leading-6 text-[var(--ink-soft)]">
-              If this essay clarified something — or got something wrong —
-              write to us. The strongest exchanges can become the next essay.
-            </p>
-            <Link href="/submit" className="mt-4 inline-flex border border-[color:var(--accent)] px-5 py-3 text-[var(--accent)]">
-              Write to us <span className="link-arrow ml-3">-&gt;</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <RelatedEssays essays={related.slice(0, 3)} />
     </SiteShell>
   );
 }
 
-/**
- * Normalise the editorial category for the on-page kicker.
- * The data layer uses "Featured Essay" for the lead piece so the index can
- * surface it; on the article page itself the kicker reads simply "ESSAY"
- * (matching the reference). Other categories pass through untouched.
- */
-function getArticleKicker(category: string): string {
-  if (category === "Featured Essay") {
-    return "Essay";
-  }
-  return category;
+function ArticleFigure({
+  asset,
+  variant,
+  index,
+}: {
+  asset: ArticleImageAsset;
+  variant: "hero" | "breakout" | "standard" | "portrait" | "document";
+  index: number;
+}) {
+  return (
+    <figure className="article-immersive-figure" data-variant={variant}>
+      <EditorialImage
+        src={asset.src}
+        alt={asset.alt}
+        imagePosition={asset.position}
+        imageFit={asset.fit}
+        imageClassName={asset.imageClassName}
+        aspectRatio={asset.aspectRatio ?? (variant === "portrait" ? "3 / 4" : "3 / 2")}
+        className="article-immersive-image"
+        preload={variant === "hero"}
+        quality={variant === "hero" ? 88 : 84}
+        sizes={variant === "hero" || variant === "breakout" ? "(min-width: 1180px) 1120px, 100vw" : "(min-width: 1180px) 760px, 100vw"}
+      />
+      {asset.caption ? (
+        <figcaption>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{asset.caption}</p>
+        </figcaption>
+      ) : null}
+    </figure>
+  );
 }
 
-function toRoman(n: number): string {
+function HobsbawmInterlude() {
+  return (
+    <aside className="article-reading-interlude" aria-label="Reading reference">
+      <span>Reading reference / 1983</span>
+      <strong>Eric Hobsbawm and Terence Ranger</strong>
+      <em>The Invention of Tradition</em>
+      <p>A tradition can be newly made and still become socially real. The question is what people are being taught to remember together.</p>
+    </aside>
+  );
+}
+
+function RelatedEssays({ essays: relatedEssays }: { essays: typeof essays }) {
+  return (
+    <section className="paper-frame article-related-section" aria-labelledby="related-essays-title">
+      <header>
+        <div className="editorial-kicker">Continue reading</div>
+        <h2 id="related-essays-title">Related essays</h2>
+      </header>
+      <div className="article-related-grid">
+        {relatedEssays.map((essay) => (
+          <article key={essay.slug}>
+            <Link href={`/essays/${essay.slug}`}>
+              <EditorialImage
+                src={getArticleImage(essay.slug, 0)}
+                alt={essay.title}
+                className="article-related-image"
+                aspectRatio="4 / 3"
+                sizes="(min-width: 900px) 30vw, 100vw"
+              />
+            </Link>
+            <div className="dense-meta">{essay.date} · {essay.readTime}</div>
+            <h3><Link href={`/essays/${essay.slug}`}>{essay.title}</Link></h3>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function getArticleKicker(category: string) {
+  return category === "Featured Essay" ? "Essay" : category;
+}
+
+function toRoman(n: number) {
   const map: [number, string][] = [
-    [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"],
-    [100, "C"], [90, "XC"], [50, "L"], [40, "XL"],
-    [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+    [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"], [100, "C"],
+    [90, "XC"], [50, "L"], [40, "XL"], [10, "X"], [9, "IX"],
+    [5, "V"], [4, "IV"], [1, "I"],
   ];
   let result = "";
   let remaining = n;
@@ -279,129 +298,72 @@ function toRoman(n: number): string {
   return result;
 }
 
-function ArticleMarginalia({
-  essay,
-  citations,
-  marginaliaFigure,
-}: {
-  essay: { slug: string; marginaliaNote?: string; marginaliaNoteAttribution?: string };
-  citations: Citation[];
-  marginaliaFigure?: ArticleImageAsset;
-}) {
-  if (!citations.length && !essay.marginaliaNote && !marginaliaFigure) {
-    return null;
+function getOrderedArticleImages(slug: string) {
+  const images = getArticleImages(slug);
+
+  if (slug !== "the-park-that-remembers") {
+    return images;
   }
 
-  return (
-    <aside
-      className="article-marginalia"
-      aria-label="Marginalia and citations"
-    >
-      <div className="article-marginalia-kicker">Marginalia</div>
-
-      {essay.marginaliaNote ? (
-        <div className="article-marginalia-note">
-          {essay.marginaliaNote}
-          {essay.marginaliaNoteAttribution ? (
-            <span className="article-marginalia-note-attribution">
-              — {essay.marginaliaNoteAttribution}
-            </span>
-          ) : null}
-        </div>
-      ) : null}
-
-      {citations.length ? (
-        <ol className="article-marginalia-citations">
-          {citations.slice(0, 6).map((note, index) => (
-            <li key={note.id} className="article-marginalia-citation">
-              <span className="article-marginalia-citation-number">
-                {index + 1}
-              </span>
-              <span>{note.text}</span>
-            </li>
-          ))}
-        </ol>
-      ) : null}
-
-      {marginaliaFigure ? (
-        <figure className="article-marginalia-figure">
-          <Image
-            src={marginaliaFigure.src}
-            alt={marginaliaFigure.alt}
-            width={400}
-            height={520}
-            style={{ width: "100%", height: "auto" }}
-          />
-          {marginaliaFigure.caption ? (
-            <figcaption>{marginaliaFigure.caption}</figcaption>
-          ) : null}
-        </figure>
-      ) : null}
-    </aside>
-  );
-}
-
-function ArticleFigureColumn({
-  essay,
-  leadAsset,
-  leadImageSrc,
-  supportingImages,
-}: {
-  essay: { slug: string; title: string };
-  leadAsset?: ArticleImageAsset;
-  leadImageSrc: string;
-  supportingImages: ArticleImageAsset[];
-}) {
-  // Lead figure + up to 3 supporting images live in the figure column.
-  // Marginal citations now sit after the essay, so no image is reserved for
-  // the former left rail.
-  const figures: { src: string; alt: string; caption?: string }[] = [
-    {
-      src: leadImageSrc,
-      alt: leadAsset?.alt ?? `${essay.title} lead image`,
-      caption: leadAsset?.caption,
-    },
-    ...supportingImages.slice(0, 3).map((asset) => ({
-      src: asset.src,
-      alt: asset.alt,
-      caption: asset.caption,
-    })),
+  const parkOrder = [
+    "main-sightline", "pavilion-entrance", "pathways", "adonis-study",
+    "sundial-pavilion", "gazebo-lake", "pigeon-tower", "pigeon-tower-release",
+    "adonis-grove", "colonnaded-vines", "sundial-plaza", "ottoman-kiosk",
+    "backgammon-pigeons",
   ];
 
-  if (!figures.length) return null;
+  return [...images].sort((a, b) => {
+    const aIndex = parkOrder.findIndex((name) => a.src.includes(name));
+    const bIndex = parkOrder.findIndex((name) => b.src.includes(name));
+    return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) -
+      (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
+  });
+}
 
-  return (
-    <aside
-      className="article-figure-column"
-      aria-label="Article figures"
-    >
-      {figures.map((figure, index) => (
-        <figure key={`${essay.slug}-figure-${index}`} className="article-figure">
-          <Image
-            src={figure.src}
-            alt={figure.alt}
-            width={520}
-            height={680}
-            sizes="(min-width: 1180px) 16rem, 100vw"
-            style={{ width: "100%", height: "auto" }}
-          />
-          {figure.caption ? (
-            <figcaption>{figure.caption}</figcaption>
-          ) : null}
-        </figure>
-      ))}
-    </aside>
+function getFigureVariant(asset: ArticleImageAsset, index: number) {
+  if (asset.fit === "contain") return "document" as const;
+  if (isPortraitRatio(asset.aspectRatio)) return "portrait" as const;
+  if (index % 3 === 0) return "breakout" as const;
+  return "standard" as const;
+}
+
+function isPortraitRatio(aspectRatio?: string) {
+  if (!aspectRatio) return false;
+  const parts = aspectRatio.split("/").map((part) => Number.parseFloat(part.trim()));
+  return parts.length === 2 && parts.every(Number.isFinite) && parts[0] < parts[1];
+}
+
+function getReadingBeats(sections: EssaySection[], imageCount: number) {
+  const items = sections.flatMap<ReadingItem>((section) =>
+    section.paragraphs.map((paragraph, index) => ({
+      paragraph,
+      heading: index === 0 ? section.heading : undefined,
+    })),
   );
+
+  if (!items.length) return [];
+
+  const beatCount = Math.min(items.length, Math.max(1, imageCount + 1));
+  const baseSize = Math.floor(items.length / beatCount);
+  const remainder = items.length % beatCount;
+  const beats: ReadingItem[][] = [];
+  let cursor = 0;
+
+  for (let index = 0; index < beatCount; index += 1) {
+    const size = baseSize + (index < remainder ? 1 : 0);
+    beats.push(items.slice(cursor, cursor + size));
+    cursor += size;
+  }
+
+  return beats;
 }
 
 function QuietNotes({ notes }: { notes: Citation[] }) {
-  if (!notes.length) {
-    return null;
-  }
+  if (!notes.length) return null;
 
   return (
     <details className="article-source-notes">
-      <summary>Notes and Sources</summary>
+      <summary>Notes and sources</summary>
       <ol className="notes-list">
         {notes.map((note) => (
           <li key={note.id}>
@@ -427,22 +389,16 @@ function getBodySections(sections: EssaySection[], paragraphsToSkip: number) {
     remainingToSkip = 0;
 
     if (paragraphs.length) {
-      visibleSections.push({
-        heading: section.heading,
-        paragraphs,
-      });
+      visibleSections.push({ heading: section.heading, paragraphs });
     }
 
     return visibleSections;
   }, []);
 }
 
-
 function renderNoteText(text: string) {
   return text.split(/(https?:\/\/\S+)/g).map((part, index) => {
-    if (!part.startsWith("http")) {
-      return part;
-    }
+    if (!part.startsWith("http")) return part;
 
     return (
       <a key={`${part}-${index}`} href={part} className="underline underline-offset-4">

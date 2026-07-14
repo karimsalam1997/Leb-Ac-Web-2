@@ -74,7 +74,9 @@ export function EssaysIndexClient({
   // Featured essay = first by editor's order (whichever the editor placed first),
   // not newest by date. This is the move that turns a feed into a register.
   const featuredEssay = useMemo(
-    () => [...filteredEssays].sort(compareEditorOrder)[0],
+    () =>
+      filteredEssays.find((essay) => essay.slug === "the-park-that-remembers") ??
+      [...filteredEssays].sort(compareEditorOrder)[0],
     [filteredEssays],
   );
 
@@ -287,7 +289,9 @@ function getTopicsByFrequency(essays: EssayIndexItem[]) {
 
   return [...topicCounts.entries()]
     .map(([topic, count]) => ({ topic, count }))
-    .sort((a, b) => b.count - a.count || a.topic.localeCompare(b.topic));
+    .filter(({ count }) => count >= 2)
+    .sort((a, b) => b.count - a.count || a.topic.localeCompare(b.topic))
+    .slice(0, 8);
 }
 
 function sortEssays(essays: EssayIndexItem[], sortMode: SortMode) {

@@ -130,7 +130,7 @@ export default async function EssayOgImage({
               textAlign: "right",
             }}
           >
-            The country, not the crisis.
+            Essays from Beirut.
           </div>
         </div>
       </div>

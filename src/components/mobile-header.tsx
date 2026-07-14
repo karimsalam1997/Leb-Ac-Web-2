@@ -9,7 +9,6 @@ import shell from "./site-shell.module.css";
 const drawerItems = [
   { href: "/essays", label: "Essays", arabic: "المقالات" },
   { href: "/signal-desk", label: "Signal Desk", arabic: "غرفة الإشارات" },
-  { href: "/topics", label: "Topics", arabic: "المحاور" },
   { href: "/about", label: "About", arabic: "عنّا" },
   { href: "/submit", label: "Submit", arabic: "أرسل نصّاً" },
 ];
@@ -171,7 +170,7 @@ export function MobileHeader({ activePath }: { activePath: string }) {
             </div>
 
             <p className={shell.drawerStatement}>
-              Writing from underneath Lebanon’s headlines, where power becomes ordinary life.
+              Long essays, research, and public memory, published from Beirut.
             </p>
 
             <nav className={shell.drawerNav} aria-label="Mobile menu navigation">
@@ -194,7 +193,7 @@ export function MobileHeader({ activePath }: { activePath: string }) {
             </nav>
 
             <div className={shell.drawerFooter}>
-              <span>Beirut · Levant · Diaspora</span>
+              <span>Published from Beirut</span>
               <a href="mailto:editors@lebaneseacademic.com">
                 editors@lebaneseacademic.com
               </a>

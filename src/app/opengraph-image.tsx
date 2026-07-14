@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "Lebanese Academic — The country, not the crisis.";
+export const alt = "Lebanese Academic — Essays from Beirut.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,7 +47,7 @@ export default function HomeOgImage() {
             maxWidth: 1000,
           }}
         >
-          The country, not the crisis.
+          Essays from Beirut.
         </div>
 
         <div

@@ -6,9 +6,9 @@ import type { Essay } from "@/lib/content";
 export const siteName = "Lebanese Academic";
 export const siteArabicName = "الأكاديمي اللبناني";
 export const siteDescription =
-  "The country, not the crisis. Long essays on Lebanon from underneath the headlines — power, memory, sect, and the architecture of a state that has been kept deliberately weak.";
-export const siteTagline = "The country, not the crisis.";
-export const siteArabicTagline = "البلد، لا الأزمة.";
+  "Long essays, research, and public memory on Lebanon, published from Beirut.";
+export const siteTagline = "Essays from Beirut.";
+export const siteArabicTagline = "مقالات من بيروت.";
 export const siteCredo = "Publishing writing that decodes power and preserves memory.";
 export const siteArabicCredo = "نُصدِر كتابةً تُفكّك السلطة وتصون الذاكرة.";
 export const siteAuthor = "Karim Salam";
