@@ -1,36 +1,342 @@
 analyst:
   name: "KINGO / Lebanese Academic"
   voice: >
-    Lead with structure: systems, incentives, power, who benefits, what is
-    concealed. Named people, named institutions, dates, stakes. No corporate
-    tone, no em dashes, no generic neutral summary.
+    Begin with a named place, person, date, or object. Identify the structure
+    beneath the day's claim. Keep verification in a short evidence footer.
+    Never force a framework onto a thin day.
+
+protocol:
+  - "Read every current wire item, including single-source and unconfirmed records."
+  - "Test every item against every framework. Most tests should fail."
+  - "Use only frameworks that clear their own test."
+  - "When two frameworks fit, explain their interaction."
+  - "Run refresh queries for frameworks that remain live across the week."
+  - "Keep attribution, timestamps, corroboration, and missing evidence in a short footer."
+  - "If no framework fits, say so and keep the report small."
 
 frameworks:
-  - id: franchise_confessionalism
-    name: "The Franchise Model of Confessionalism"
-    lens: >
-      Sect is not identity, it is a franchise operation. Sectarian leaders are
-      franchisees who extract rent from a captive constituency in exchange for
-      access to the state.
+  - id: sovereignty_theatre
+    name: "Sovereignty theatre"
+    definition: >
+      A formal Lebanese sovereign act can be staged to cover a decision made
+      outside the frame before the Lebanese institution acted.
+    mechanism: >
+      A foreign actor draws the map, sets the deadline, and defines success.
+      A Lebanese cabinet, ministry, or army is then asked to sign, deploy, or
+      administer the result.
+    precedent: >
+      The June 2026 Washington framework asked Lebanon to demonstrate
+      sovereignty inside a military map Israel drew and a coordination process
+      supervised by US General Brad Cooper.
+    test: >
+      Is the Lebanese action downstream of a decision made elsewhere? Who drew
+      the map, set the deadline, and defined success?
+    refresh_queries:
+      - "Lebanon cabinet decision army south Litani"
+      - "IMIM mechanism Lebanon Israel monitoring"
+      - "Brad Cooper Lebanon coordination group"
+    match_terms:
+      - "cabinet decision"
+      - "army deployment"
+      - "coordination group"
+      - "monitoring mechanism"
+      - "brad cooper"
+      - "washington framework"
+      - "rome talks"
+      - "disarmament deadline"
+      - "انتشار الجيش اللبناني"
+      - "الحكومة اللبنانية"
+      - "مفاوضات روما"
 
-  - id: profitable_dysfunction
-    name: "The Profitable Dysfunction Thesis"
-    lens: >
-      State failure is not a bug, it is the business model. Dysfunction is
-      profitable for the people who run it because collapse privatizes what
-      functioning would socialize.
+  - id: franchise_sectarianism
+    name: "The franchise model of sectarianism"
+    definition: >
+      Each za'im operates as a franchisee of an outside patron who supplies
+      money and legitimacy in exchange for strategic access.
+    mechanism: >
+      Patron money moves through parties, jobs, contracts, and NGOs. Citizens
+      receive loyalty networks where functioning public institutions should be.
+    precedent: >
+      Hezbollah's domestic position in 2026 tracks Iran's regional strength
+      more closely than any new act of Lebanese institutional power.
+    test: >
+      Does the actor's move track a patron's interest more closely than the
+      interest of a Lebanese constituency?
+    refresh_queries:
+      - "Iran funding Hezbollah 2026"
+      - "Gulf investment Lebanon reconstruction conditions"
+      - "Hezbollah finances Iran sanctions"
+    match_terms:
+      - "iran funding"
+      - "saudi funding"
+      - "external patron"
+      - "foreign patron"
+      - "hezbollah finances"
+      - "gulf investment"
+      - "party patronage"
 
-  - id: memorycide
-    name: "The Memorycide Thesis"
-    lens: >
-      The deliberate erasure of collective memory through reconstruction,
-      curriculum, demolition, amnesty, and official forgetting.
+  - id: security_pretext_ratchet
+    name: "The security pretext ratchet"
+    definition: >
+      Israel converts an unenforceable demand into a lasting territorial or
+      military gain, one ceasefire cycle at a time.
+    mechanism: >
+      Israel demands a condition designed to fail, cites security when it
+      fails, escalates under self-defense language, locks in the new fact on
+      the ground, and begins the next round from that new position.
+    precedent: >
+      Resolution 1701, the November 2024 ceasefire, repeated strikes, and
+      retained Israeli positions north of the Blue Line show the ratchet in
+      motion.
+    test: >
+      Is this strike, incursion, retained position, or buffer announcement a
+      new stage of the ratchet rather than an isolated incident?
+    refresh_queries:
+      - "Israel Lebanon ceasefire violations 2026"
+      - "Blue Line Israeli positions withdrawal"
+      - "IMIM Lebanon mechanism report"
+    match_terms:
+      - "security buffer"
+      - "buffer zone"
+      - "retained position"
+      - "hilltop position"
+      - "ceasefire violation"
+      - "self-defense clause"
+      - "total disarmament"
+      - "failed to disarm"
+      - "Israeli incursion"
+      - "yellow line"
+      - "خرق وقف إطلاق النار"
+      - "منطقة أمنية"
+      - "مواقع إسرائيلية"
+      - "الانسحاب الإسرائيلي"
 
-  - id: rentier_clientelist
-    name: "The Rentier-Clientelist Machine"
-    lens: >
-      The political economy runs on rents distributed through patronage networks
-      rather than institutions. Citizens are clients, not stakeholders.
+  - id: demographic_engineering
+    name: "Demographic engineering"
+    definition: >
+      Mass displacement can be strategy, breaking the demographic coherence of
+      the population base that sustains an adversary.
+    mechanism: >
+      Bombing and evacuation orders empty a geography, scatter its residents,
+      condition return on political surrender, and let time turn temporary
+      movement into permanence.
+    precedent: >
+      Plan Dalet displaced roughly 750,000 Palestinians in 1948. The 2026 war
+      displaced hundreds of thousands of Lebanese, heavily concentrated in the
+      Shia south and Bekaa.
+    test: >
+      Does the displacement pattern concentrate on a sect or geography, outlast
+      the stated military reason, or produce an independently useful strategic
+      outcome?
+    refresh_queries:
+      - "Lebanon displacement south Litani 2026"
+      - "evacuation orders Lebanon Israel"
+      - "UNHCR Lebanon displacement figures"
+    match_terms:
+      - "mass displacement"
+      - "evacuation order"
+      - "ordered residents to leave"
+      - "shelter centre"
+      - "shelter center"
+      - "unable to return"
+      - "return to village"
+      - "displaced families"
+      - "empty the south"
+      - "مركز الإيواء"
+      - "مراكز الإيواء"
+      - "عودة الأهالي"
+      - "إخلاء السكان"
+      - "النازحين"
+
+  - id: compliance_arbitrage
+    name: "Compliance arbitrage"
+    definition: >
+      Lebanon must prove restraint through visible state action while Israel is
+      permitted to grade and enforce its own compliance claims.
+    mechanism: >
+      One party is monitored by an international mechanism. The militarily
+      stronger party self-reports violations and keeps a unilateral right to
+      strike.
+    precedent: >
+      A reported US side letter permitted Israeli strikes against alleged
+      Lebanese violations while Lebanese conduct was monitored by a mechanism
+      involving Lebanon, the United States, France, and UNIFIL.
+    test: >
+      Who judges compliance, and does that source also possess military or
+      enforcement power over the other party?
+    refresh_queries:
+      - "IMIM Lebanon compliance report"
+      - "Lebanon disarmament deadline benchmark"
+      - "Israel self-defense clause Lebanon ceasefire"
+    match_terms:
+      - "compliance report"
+      - "disarmament benchmark"
+      - "monitoring mechanism"
+      - "side letter"
+      - "right to strike"
+      - "Lebanese violation"
+      - "self-reported compliance"
+
+  - id: census_feudalism
+    name: "The census that would end Lebanese feudalism"
+    definition: >
+      Lebanon's electoral geography remains tied to ancestral registration
+      rather than the population that actually lives in each city and district.
+    mechanism: >
+      Small controllable voter pools choose seats for cities whose real
+      residents are absent from the register, keeping parliamentary territory
+      available to sectarian management.
+    precedent: >
+      Jounieh has roughly 17,000 registered voters against a resident population
+      often estimated near 250,000.
+    test: >
+      Does a census, decentralization proposal, or electoral reform alter
+      ancestral registration, and if it is shelved, who benefits?
+    refresh_queries:
+      - "Lebanon census law parliament 2026"
+      - "Lebanon electoral law reform"
+      - "Taif agreement decentralization"
+    match_terms:
+      - "census law"
+      - "electoral law"
+      - "voter registration"
+      - "ancestral district"
+      - "decentralization law"
+      - "registered voters"
+
+  - id: banking_mapped_heist
+    name: "The banking collapse as a mapped heist"
+    definition: >
+      The 2019 banking collapse moved depositor money through identifiable
+      channels. Calling it mismanagement hides destinations and beneficiaries.
+    mechanism: >
+      BDL, commercial banks, political protection, subsidy channels, capital
+      flight, and Ponzi-style interest transfers made loss private to depositors
+      and impunity public.
+    precedent: >
+      Circular 331 and the feedback loop among BDL, commercial banks, and
+      Parliament made accountability structurally difficult.
+    test: >
+      Does the reform, prosecution, or IMF benchmark touch a named channel of
+      loss, or leave the underlying loop intact?
+    refresh_queries:
+      - "Lebanon banking reform IMF 2026"
+      - "Riad Salame trial extradition"
+      - "Lebanon deposit law parliament vote"
+    match_terms:
+      - "banking reform"
+      - "imf benchmark"
+      - "riad salame"
+      - "deposit law"
+      - "frozen deposits"
+      - "circular 331"
+      - "capital flight"
+
+  - id: reconstruction_land_assembly
+    name: "Reconstruction as land assembly"
+    definition: >
+      Postwar reconstruction can be an expropriation and resale operation whose
+      product is land price rather than housing or public use.
+    mechanism: >
+      A politically protected company assembles land cheaply, clears ownership
+      and memory, then sells the new scarcity back at a higher price.
+    precedent: >
+      Solidere assembled downtown Beirut through compulsory share arrangements
+      and transformed reconstruction into a land and finance operation.
+    test: >
+      Is the proposal built to house and serve people, or to assemble, price,
+      and resell land?
+    refresh_queries:
+      - "Solidere Beirut waterfront project 2026"
+      - "Beirut downtown real estate development"
+    match_terms:
+      - "solidere"
+      - "beirut waterfront"
+      - "downtown redevelopment"
+      - "heritage demolition"
+      - "land assembly"
+      - "expropriation"
+      - "reconstruction project"
+
+  - id: designed_dysfunction
+    name: "Designed dysfunction"
+    definition: >
+      The sectarian state's weakness is a working form of government because
+      crisis deepens citizen dependence on patronage.
+    mechanism: >
+      Public failure moves necessities into party offices, NGOs, private
+      generators, private schools, and sect-coded funds.
+    precedent: >
+      The Lebanese model of weak central institutions and parallel distribution
+      networks was reproduced in postwar Iraq.
+    test: >
+      Does the reform build an alternative to patronage, or does the same
+      distribution machine absorb it?
+    refresh_queries:
+      - "Lebanon NGO reconstruction funding sect 2026"
+      - "Lebanon public sector patronage jobs"
+    match_terms:
+      - "ngo reconstruction"
+      - "party aid"
+      - "patronage jobs"
+      - "private generator"
+      - "public service collapse"
+      - "sectarian fund"
+      - "municipal aid appeal"
+
+  - id: managed_decline_economy
+    name: "The managed decline economy"
+    definition: >
+      Lebanon profits from exodus through remittances, reduced pressure on
+      failing services, and removal of people most able to demand reform.
+    mechanism: >
+      The country exports workers and educated residents, imports their money,
+      and calls the transfer resilience while the domestic base continues to
+      thin.
+    precedent: >
+      Post-1990 emigration and remittance dependence have become structural
+      parts of the Lebanese economy rather than temporary emergency measures.
+    test: >
+      Does the new emigration or remittance figure describe recovery, or the
+      monetization of continued departure?
+    refresh_queries:
+      - "Lebanon emigration diaspora remittances 2026"
+      - "Lebanon brain drain statistics"
+    match_terms:
+      - "remittance"
+      - "brain drain"
+      - "emigration figures"
+      - "diaspora investment"
+      - "leaving lebanon"
+      - "worker migration"
+
+  - id: interregnum_patron_grip
+    name: "The interregnum: whose hands are on the clay"
+    definition: >
+      Levantine political ideas rise or disappear according to which local
+      apparatus an outside power chooses to fund.
+    mechanism: >
+      Patronage supplies money, arms, diplomatic cover, and institutional
+      durability. When the patron weakens, a local force can weaken with it.
+    precedent: >
+      Antoun Saadeh had a civilizational idea and no durable patron before his
+      execution in 1949. Hezbollah had sustained Iranian sponsorship and built
+      the strongest armed apparatus in Lebanon.
+    test: >
+      Is a local actor gaining power through its own institutional strength, or
+      because a named patron's grip is tightening or loosening?
+    refresh_queries:
+      - "Iran regional influence 2026 Lebanon"
+      - "US policy Lebanon 2026"
+      - "Saudi investment Lebanon 2026"
+    match_terms:
+      - "iran weakened"
+      - "iranian influence"
+      - "us policy lebanon"
+      - "saudi investment lebanon"
+      - "patron's grip"
+      - "regional sponsor"
+      - "external backing"
 
 scope:
   primary: ["Lebanon", "Syria", "Hezbollah", "Levant"]

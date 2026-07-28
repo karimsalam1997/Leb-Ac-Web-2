@@ -12,6 +12,7 @@ import {
 } from "@/lib/seo";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
+import "./editorial-refresh.css";
 
 const fraunces = localFont({
   variable: "--font-fraunces",
@@ -69,6 +70,40 @@ const notoNaskhArabic = localFont({
   src: "./fonts/NotoNaskhArabic-VariableFont_wght.ttf",
   weight: "400 700",
   style: "normal",
+  display: "swap",
+});
+
+const newsreader = localFont({
+  variable: "--font-newsreader",
+  src: [
+    {
+      path: "./fonts/Newsreader-Variable.ttf",
+      weight: "200 800",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Newsreader-Italic-Variable.ttf",
+      weight: "200 800",
+      style: "italic",
+    },
+  ],
+  display: "swap",
+});
+
+const sourceSans = localFont({
+  variable: "--font-source-sans",
+  src: [
+    {
+      path: "./fonts/SourceSans3-Variable.ttf",
+      weight: "200 900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/SourceSans3-Italic-Variable.ttf",
+      weight: "200 900",
+      style: "italic",
+    },
+  ],
   display: "swap",
 });
 
@@ -155,7 +190,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${cormorant.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable} h-full`}
+      data-scroll-behavior="smooth"
+      className={`${fraunces.variable} ${cormorant.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable} ${newsreader.variable} ${sourceSans.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         <script

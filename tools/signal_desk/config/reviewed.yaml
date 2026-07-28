@@ -1,0 +1,12 @@
+# Human review ledger.
+#
+# Codex can add an entry here after the source record, place, time, and strongest
+# contradiction have been checked. The automatic collector never writes this
+# file and never awards itself the "reviewed finding" label.
+#
+# reviews:
+#   - primary_url: "https://publisher.example/report"
+#     reviewed_at: "2026-07-27"
+#     note: "Place and time checked against the named local and institutional records."
+
+reviews: []

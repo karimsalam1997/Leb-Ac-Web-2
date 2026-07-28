@@ -19,3 +19,10 @@ searches:
     query: "Jad Ghosn Lebanon Hezbollah interview"
     bias: "YouTube search lead; use for discovery, then verify the host channel and full context"
     enabled: false
+
+transcripts:
+  enabled: true
+  languages:
+    - ar
+    - en
+  max_videos_per_channel: 2
