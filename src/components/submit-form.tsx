@@ -18,6 +18,8 @@ export function SubmitForm() {
     "idle",
   );
   const [message, setMessage] = useState("");
+  const charactersRemaining = 5000 - values.letter.length;
+  const isNearLimit = charactersRemaining <= 500;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -126,8 +128,13 @@ export function SubmitForm() {
           placeholder="Write your letter here..."
         />
       </label>
-      <div id="letter-counter" className="-mt-4 flex justify-between dense-meta">
+      <div
+        id="letter-counter"
+        className="submit-letter-counter dense-meta"
+        data-near-limit={isNearLimit}
+      >
         <span>{values.letter.length} / 5000 characters</span>
+        <span>{charactersRemaining} remaining</span>
         <span>Short letters are welcome</span>
       </div>
 
@@ -167,7 +174,7 @@ export function SubmitForm() {
           onChange={(event) => setConsent(event.target.checked)}
         />
         <span>
-          I have read and agree to the <a href="/submit">editorial guidelines</a>.
+          I have read and agree to the <a href="#editorial-guidelines">editorial guidelines</a>.
         </span>
       </label>
       <button
@@ -176,6 +183,10 @@ export function SubmitForm() {
       >
         {status === "loading" ? "Sending..." : "Submit Letter"}
       </button>
+      <p className="submit-delivery-note">
+        This sends the piece to the editors. It does not publish anything
+        automatically.
+      </p>
       {message ? (
         <p
           className="submit-form-status"

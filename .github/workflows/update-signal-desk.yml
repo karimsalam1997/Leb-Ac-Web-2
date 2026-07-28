@@ -1,0 +1,52 @@
+name: Update Signal Desk
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 7 * * *"
+      timezone: "Asia/Beirut"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: signal-desk-daily
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Read the website files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-signal-desk.txt
+
+      - name: Install the collector
+        run: pip install -r requirements-signal-desk.txt
+
+      - name: Test the evidence rules
+        run: python -m unittest discover -s tools/signal_desk/tests -v
+
+      - name: Collect the morning edition
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: python -m tools.signal_desk.run --since 36h
+
+      - name: Publish changed data to the repository
+        run: |
+          if git diff --quiet -- public/data/signal-desk; then
+            echo "No public Signal Desk changes to publish."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/signal-desk
+          git commit -m "chore: update daily signal desk"
+          git push

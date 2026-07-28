@@ -90,8 +90,13 @@ def build_verification_dossier(cluster: GeoTaggedCluster) -> VerificationDossier
 
 
 def attach_verification_dossiers(clusters: list[GeoTaggedCluster]) -> list[GeoTaggedCluster]:
-    for cluster in clusters:
-        dossier = build_verification_dossier(cluster)
-        cluster.verification_status = dossier.status
-        cluster.verification = dossier
-    return clusters
+    return [
+        cluster.model_copy(
+            update={
+                "verification_status": dossier.status,
+                "verification": dossier,
+            }
+        )
+        for cluster in clusters
+        for dossier in [build_verification_dossier(cluster)]
+    ]

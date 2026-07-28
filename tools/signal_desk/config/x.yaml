@@ -1,0 +1,82 @@
+enabled: true
+max_results: 100
+max_pages: 5
+snapshot_path: "tools/signal_desk/config/x_snapshot.json"
+
+keywords:
+  - Lebanon
+  - Lebanese
+  - Beirut
+  - Tyre
+  - Nabatieh
+  - Marjayoun
+  - Bint Jbeil
+  - Hezbollah
+  - Israel
+  - لبنان
+  - الجنوب
+  - بيروت
+  - حزب الله
+  - إسرائيل
+  - بنت جبيل
+  - النبطية
+  - صور
+
+accounts:
+  - handle: MarioLeb79
+    bias: "Personal Lebanon war feed carrying rapid video, military claims, and local observations"
+    tier: 2
+  - handle: MarioNawfal
+    bias: "Large breaking-news account with a global contributor network"
+    tier: 2
+  - handle: LBCI_NEWS
+    bias: "Lebanese commercial broadcaster"
+    tier: 1
+  - handle: ALJADEEDNEWS
+    bias: "Lebanese commercial broadcaster"
+    tier: 1
+  - handle: MTVLebanonNews
+    bias: "Lebanese commercial broadcaster with an anti-Hezbollah editorial tendency"
+    tier: 1
+  - handle: lebanondebate
+    bias: "Lebanese political news and aggregation account"
+    tier: 2
+  - handle: kataeb_Ar
+    bias: "Kataeb party-linked political and news account"
+    tier: 2
+  - handle: OTVLebanon
+    bias: "Lebanese broadcaster historically linked to the Free Patriotic Movement"
+    tier: 2
+  - handle: HibaNasr
+    bias: "Lebanon-based journalist and field reporter"
+    tier: 1
+  - handle: AJABreaking
+    bias: "Al Jazeera Arabic breaking-news account"
+    tier: 1
+  - handle: AlarabyTV
+    bias: "Al Araby TV, pan-Arab broadcaster with regional and Lebanese news coverage"
+    tier: 1
+  - handle: Lebanon24
+    bias: "Lebanese digital newsroom and rapid local news aggregator"
+    tier: 1
+  - handle: FaytuksNetwork
+    bias: "Rapid conflict-news aggregator"
+    tier: 2
+  - handle: kon_mowaten
+    bias: "Personal Lebanese current-affairs account"
+    tier: 3
+  - handle: AuroraIntel
+    bias: "Independent open-source intelligence and geolocation account"
+    tier: 2
+  - handle: GeoConfirmed
+    bias: "Volunteer open-source geolocation network"
+    tier: 1
+  - handle: sentdefender
+    bias: "Conflict-news and open-source military monitoring account"
+    tier: 2
+  - handle: UNIFIL_
+    bias: "Official UN Interim Force in Lebanon account"
+    tier: 1
+  - handle: AvichayAdraee
+    bias: "Arabic-language Israeli military spokesperson account; primary Israeli military claim stream"
+    tier: 1

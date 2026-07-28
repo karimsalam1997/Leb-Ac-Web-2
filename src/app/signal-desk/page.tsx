@@ -7,7 +7,7 @@ import { getSignalDeskData } from "@/lib/signal-desk";
 export const metadata: Metadata = buildPageMetadata({
   title: "Signal Desk",
   description:
-    "A review-first Lebanon and Levant signal desk from Lebanese Academic, mapping source claims, confidence, and political-economy analysis.",
+    "Lebanon’s morning evidence record, showing what was reported, who made each claim, what supports it, and what still needs checking.",
   path: "/signal-desk",
   image: "/brand/la-primary-lockup.png",
 });
@@ -17,7 +17,12 @@ export default function SignalDeskPage() {
 
   return (
     <SiteShell activePath="/signal-desk">
-      <SignalDeskDashboard {...data} />
+      <SignalDeskDashboard
+        api={data.api}
+        districts={data.districts}
+        boundary={data.boundary}
+        battlefield={data.battlefield}
+      />
     </SiteShell>
   );
 }

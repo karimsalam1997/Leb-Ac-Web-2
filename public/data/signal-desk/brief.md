@@ -1,70 +1,52 @@
-# Lebanon Signal Desk Brief, June 26, 2026
+# Lebanon Signal Desk Brief, July 28, 2026
 
-## The one thing that matters today
-Start with the limit: Location unclear leads the run, but the record is partly corroborated and the location is unclear. The live trail comes through Emirates News Agency via Google News and The Times of Israel; the source lanes are Gulf official line and Israeli establishment. The source trail is usable, but the place is still too broad for a settled map read. Still missing: a precise place, Lebanese local confirmation, wire or regional corroboration. Read this as a signal to check before treating it as a settled account.
+## Lead
+IDF: -In one operation at the Tayyiba ridge, troops uncovered a tunnel network, tracked Hezbollah fighters attempting to escape, and killed 10 mil…
+
+X · @MarioLeb79 reported casualties around Lebanon: IDF: -In one operation at the Tayyiba ridge, troops uncovered a tunnel network, tracked Hezbollah fighters attempting to escape, and killed 10 militants after predicting their escape route.
 
 ## Source condition
-Live source run. 32 live sources returned items with source failure at 0%. Normal verification caveats still apply to each cluster.
+Live source run. 12 live sources returned items with source failure at 0%. Normal verification caveats still apply to each cluster.
 
-## What moved
-### UN says Hormuz evacuation halted after ship struck in Iranian attack
-A claim or report is circulating, but the place is not clear enough to pin.
+## Developments
+### IDF: -In one operation at the Tayyiba ridge, troops uncovered a tunnel network, tracked Hezbollah fighters attempting to escape, and killed 10 mil…
+X · @MarioLeb79 reported casualties around Lebanon: IDF: -In one operation at the Tayyiba ridge, troops uncovered a tunnel network, tracked Hezbollah fighters attempting to escape, and killed 10 militants after predicting their escape route.
 
-Evidence: Emirates News Agency via Google News and The Times of Israel. Source lanes: Gulf official line and Israeli establishment. Map: no pin yet because the place is unclear. No precise place is available yet, so this cluster should not be read as a mapped event. Verification: Needs sharper place. The source trail is usable, but the place is still too broad for a settled map read. Missing: sharper place, Lebanese local record, and wire or regional corroboration. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Reporting: X · @MarioLeb79. This is a single report, not an automatically verified finding.
 
-Status: partly corroborated. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Next check: Check Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.
 
-### Three Killed in Israeli Drone Strike on Vehicle in South Lebanon, Local Reports Say - Haaretz
-Casualty language appears in the reporting around South Lebanon. Numbers and identities need separate confirmation.
+### The State Department reports "significant momentum" toward Israel-Lebanon peace, with Rome talks set to expand Hezbollah's disarmament zones. -The…
+X · @MarioNawfal reported a military development tied to Beirut: The State Department reports "significant momentum" toward Israel-Lebanon peace, with Rome talks set to expand Hezbollah's disarmament zones.
 
-Evidence: Haaretz via Google News, Naharnet, and i24NEWS via Google News. Source lanes: Israeli dissent, Israeli establishment, and Lebanese local record. Map: South Lebanon is shown as a representative area with about a 36 km radius. Treat the coordinate as a center marker. Verification: Needs sharper place. The source trail is usable, but the place is still too broad for a settled map read. Missing: sharper place and wire or regional corroboration. Next check: Check South Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.
+Reporting: The Times of Israel and X · @MarioNawfal. This is related reporting from several outlets, not an automatically verified finding.
 
-Status: corroborated. Next check: Check South Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.
+Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
 
-### Two said killed in IDF strike in Lebanon after Israel-Hezbollah truce began - Haaretz
-A claim or report is circulating, but the place is not clear enough to pin.
+### UN human rights chief Volker Türk blunt demand after wrapping up his latest visit in Lebanon: Israel must end its occupation of southern Lebanon a…
+X · @MarioNawfal reported casualties around Lebanon: UN human rights chief Volker Türk blunt demand after wrapping up his latest visit in Lebanon: Israel must end its occupation of southern Lebanon and stop demolishing homes.
 
-Evidence: Haaretz via Google News, Palestine Chronicle via Google News, and Qatar News Agency via Google News. Source lanes: Gulf official line, Israeli dissent, and Palestinian record. Map: no pin yet because the place is unclear. No precise place is available yet, so this cluster should not be read as a mapped event. Verification: Needs sharper place. The source trail is usable, but the place is still too broad for a settled map read. Missing: sharper place, Lebanese local record, and wire or regional corroboration. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Reporting: X · @MarioNawfal. This is a single report, not an automatically verified finding.
 
-Status: corroborated. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Next check: Check Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.
 
-### FOCUS Withdrawal from south Lebanon and Hezbollah disarmament: Israeli demands complicate negotiations The...
-A military claim or report is tied to South Lebanon. The desk treats it as partly corroborated until the same place and time appear across separate source lanes.
+### تمكن الصليب الأحمر والجيش اللبناني من سحب جثمان الشاب شادي حسيّان الدرويش على طريق المنصوري
+Telegram · Bint Jbeil News reported a change in movement, shelter, or return around Tyre: The Red Cross and the Lebanese army managed to retrieve the body of the young man Shadi Hussayan Al-Darwish on the Mansouri - Al-Bayadah road this morning.
 
-Evidence: L'Orient Today and National News Agency Lebanon via Google News. Source lanes: Lebanese local record. Map: South Lebanon is shown as a representative area with about a 36 km radius. Treat the coordinate as a center marker. Verification: Needs sharper place. The source trail is usable, but the place is still too broad for a settled map read. Missing: sharper place and wire or regional corroboration. Next check: Check South Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.
+Reporting: Telegram · Bint Jbeil News. This is a single report, not an automatically verified finding.
 
-Status: partly corroborated. Next check: Check South Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.
+Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
 
-### Quds Force chief warns Israel: Evacuate Lebanon or face humiliating defeat
-A claim or report is circulating, but the place is not clear enough to pin.
+### بعد الاتفاق، في لبنان السياديون والسياديون "عنجد" ينتظرون ما سيفرض عليهم
+YouTube Jad Ghosn reported this development around Lebanon: بعد الاتفاق، في لبنان السياديون والسياديون "عنجد" ينتظرون ما سيفرض عليهم
 
-Evidence: Israel National News. Source lanes: Israeli establishment. Map: no pin yet because the place is unclear. No precise place is available yet, so this cluster should not be read as a mapped event. Verification: Needs source and place. Location unclear is visible as a lead, but it still needs another source and a sharper place. Missing: second source, sharper place, Lebanese local record, and wire or regional corroboration. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Reporting: YouTube Jad Ghosn. This is a single report, not an automatically verified finding.
 
-Status: single source. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
 
-### Israeli Amb. Leitner Warns Lebanon Talks In Danger, Hezbollah Benefits From Iranian Funding - i24NEWS
-A claim or report is circulating, but the place is not clear enough to pin.
+### مفاوضات الصورة التذكارية: لا حرب شاملة ولا انسحاب كامل
+YouTube Jad Ghosn carried a statement or warning tied to Lebanon: مرحب يعطيكم العافيه بدنا نحكي شوي عن اخر التطورات شو وضع المفاوضات وشو المقاربات اللي عم تقدم باسرائيل تحديدا للتعامل مع الضغط الامريكي اللي جاي بناء على الاتفاق اللي صار اي بين ايران وامريكا وانعكاساته طبعا على لبنان واخر شيء الموقف من الوضع اللبناني بس حابب واحد يبلش شوي بجمله تتكرر كل ما واحد يحكي شغله مش جديد هذا تحديدا من وقت خلينا نقول لك كتاريخ مرجعي…
 
-Evidence: Al Jazeera (Middle East), Haaretz via Google News, and Ynetnews via Google News, plus 1 more. Source lanes: Israeli dissent, Israeli establishment, and wires and regionals. Map: no pin yet because the place is unclear. No precise place is available yet, so this cluster should not be read as a mapped event. Verification: Needs sharper place. The source trail is usable, but the place is still too broad for a settled map read. Missing: sharper place and Lebanese local record. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
+Reporting: YouTube Jad Ghosn. This is a single report, not an automatically verified finding.
 
-Status: corroborated. Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
-
-## On the map
-Location unclear: UN says Hormuz evacuation halted after ship struck in Iranian attack (unmapped); South Lebanon: Three Killed in Israeli Drone Strike on Vehicle in South Lebanon, Local Reports Say - Haaretz (representative area, 36 km radius); Location unclear: Two said killed in IDF strike in Lebanon after Israel-Hezbollah truce began - Haaretz (unmapped); South Lebanon: FOCUS Withdrawal from south Lebanon and Hezbollah disarmament: Israeli demands complicate negotiations The... (representative area, 36 km radius)
-
-## Quiet signals
-- Quds Force chief warns Israel: Evacuate Lebanon or face humiliating defeat
-- Ashura ceremonies intertwine faith and support for state in Iran
-- Israeli offensive leaves Beirut in limbo
-- Israel-Lebanon talks extended an extra day as deal on IDF withdrawal remains elusive
-
-## What I could not confirm
-- UN says Hormuz evacuation halted after ship struck in Iranian attack: Needs sharper place; Emirates News Agency via Google News, The Times of Israel.
-- FOCUS Withdrawal from south Lebanon and Hezbollah disarmament: Israeli demands complicate negotiations The...: Needs sharper place; L'Orient Today, National News Agency Lebanon via Google News.
-- Quds Force chief warns Israel: Evacuate Lebanon or face humiliating defeat: Needs source and place; Israel National News.
-- Ashura ceremonies intertwine faith and support for state in Iran: Needs source and place; Al Jazeera (Middle East).
-- Israeli offensive leaves Beirut in limbo: Needs another source; MEED Lebanon.
-- 20:55 ISRAELI INVASION Mapped out: Israeli army formalizes expansion of its 'operations zone' in south Leb...: Needs sharper place; L'Orient Today, Ynetnews via Google News.
-- Israel-Lebanon talks extended an extra day as deal on IDF withdrawal remains elusive: Needs source and place; The Times of Israel.
-- Analysis From the Alps to the Litani: Iran Secures a Foothold on Israel's Northern Border - Haaretz: Needs source and place; Haaretz via Google News.
-- Israel and the US are erasing Iran and Lebanon's ancient heritage - Middle East Eye: Needs source and place; Middle East Eye.
+Next check: Look for a named place and time in Lebanese local reporting, an opposing source, and a wire or regional source before treating this as actionable.
