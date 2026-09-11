@@ -11,6 +11,7 @@ SignalTag = Literal[
     "strike-claim",
     "rhetoric-shift",
     "displacement",
+    "humanitarian",
     "political-maneuver",
     "economic",
     "heritage",
@@ -31,6 +32,7 @@ VerificationStatus = Literal[
 ]
 SourceHealthErrorKind = Literal[
     "ok",
+    "auth-missing",
     "dns-error",
     "timeout",
     "http-error",
@@ -56,7 +58,7 @@ class MediaItem(BaseModel):
 class RawItem(BaseModel):
     id: str
     source_id: str
-    source_type: Literal["telegram", "youtube", "rss", "analysis"]
+    source_type: Literal["telegram", "youtube", "rss", "analysis", "x"]
     source_bias: str
     lang: str
     title: str
@@ -144,7 +146,13 @@ class GeoTaggedCluster(AnalyzedCluster):
 class Framework(BaseModel):
     id: str
     name: str
-    lens: str
+    lens: str = ""
+    definition: str = ""
+    mechanism: str = ""
+    precedent: str = ""
+    test: str = ""
+    refresh_queries: list[str] = Field(default_factory=list)
+    match_terms: list[str] = Field(default_factory=list)
 
 
 class DistrictAggregate(BaseModel):
@@ -233,6 +241,17 @@ class ApiMeta(BaseModel):
     notes: list[str] = Field(default_factory=list)
 
 
+class DailyReport(BaseModel):
+    title: str
+    dek: str
+    byline: str = "Lebanese Academic Signal Desk"
+    generated_at: datetime
+    word_count: int
+    body_markdown: str
+    source_count: int = 0
+    frameworks_applied: list[str] = Field(default_factory=list)
+
+
 class SignalDeskApi(BaseModel):
     meta: ApiMeta
     brief_markdown: str
@@ -243,3 +262,4 @@ class SignalDeskApi(BaseModel):
     source_health: list[SourceHealth]
     source_lanes: list[SourceLane] = Field(default_factory=list)
     ground_needs: list[GroundNeed] = Field(default_factory=list)
+    daily_report: DailyReport | None = None

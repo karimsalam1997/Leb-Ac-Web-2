@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from hashlib import sha1
@@ -66,14 +67,18 @@ def child_text(element: ET.Element, names: list[str]) -> str:
     return ""
 
 
-def parse_date(value: str) -> datetime:
+def parse_date(value: str) -> datetime | None:
     if not value:
-        return datetime.now(timezone.utc)
+        return None
     try:
         parsed = parsedate_to_datetime(value)
         return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
     except Exception:
-        return datetime.now(timezone.utc)
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+        except Exception:
+            return None
 
 
 def entry_id(source_name: str, url: str, title: str) -> str:
@@ -171,6 +176,10 @@ def parse_feed_xml(feed: dict, since: datetime, xml: bytes, raw_extra: dict | No
             or text_of(item, "updated")
             or child_text(item, ["pubDate", "published", "updated"])
         )
+        # A missing date is not silently replaced with the collection time. That
+        # made old or undated links look new on the public desk.
+        if published_at is None:
+            continue
         if published_at < since:
             continue
         if not title and not summary:
@@ -342,16 +351,24 @@ def fallback_items(since: datetime) -> list[RawItem]:
 def collect(since: datetime, snapshot_dir: Path | None = None, snapshot_only: bool = False) -> tuple[list[RawItem], list[SourceHealth]]:
     all_items: list[RawItem] = []
     health: list[SourceHealth] = []
-    for feed in load_feeds():
+
+    def collect_one(feed: dict) -> tuple[list[RawItem], SourceHealth]:
         snapshot_result = read_snapshot(feed, since, snapshot_dir) if snapshot_dir else None
         if snapshot_result is not None:
-            items, status = snapshot_result
-        elif snapshot_only and snapshot_dir:
-            items, status = [], snapshot_missing_health(feed, snapshot_dir)
-        elif feed.get("kind") == "html_index":
-            items, status = fetch_html_index(feed, since)
-        else:
-            items, status = fetch_feed(feed, since)
+            return snapshot_result
+        if snapshot_only and snapshot_dir:
+            return [], snapshot_missing_health(feed, snapshot_dir)
+        if feed.get("kind") == "html_index":
+            return fetch_html_index(feed, since)
+        return fetch_feed(feed, since)
+
+    feeds = load_feeds()
+    # Source requests are independent. Fetching them together keeps a failed or
+    # slow website from turning the morning run into a ten-minute queue.
+    with ThreadPoolExecutor(max_workers=min(8, max(1, len(feeds)))) as executor:
+        results = list(executor.map(collect_one, feeds))
+
+    for items, status in results:
         all_items.extend(items)
         health.append(status)
 

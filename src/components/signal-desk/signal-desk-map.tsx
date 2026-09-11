@@ -1,157 +1,259 @@
 "use client";
 
-import { Circle, GeoJSON, MapContainer, CircleMarker, Popup, TileLayer, Tooltip } from "react-leaflet";
-import type { PathOptions } from "leaflet";
-import type { GeoJsonObject } from "geojson";
-import type { DistrictGeoJson, SignalCluster } from "@/lib/signal-desk";
+import { useEffect } from "react";
+import {
+  Circle,
+  CircleMarker,
+  GeoJSON,
+  MapContainer,
+  Popup,
+  TileLayer,
+  Tooltip,
+  useMap,
+} from "react-leaflet";
+import type { Layer, PathOptions } from "leaflet";
+import type { Feature, GeoJsonObject, Geometry } from "geojson";
+import type {
+  BattlefieldFeatureProperties,
+  BattlefieldGeoJson,
+  BoundaryGeoJson,
+  DistrictGeoJson,
+  SignalCluster,
+} from "@/lib/signal-desk";
+import styles from "./signal-desk.module.css";
 
-function districtColor(count: number) {
-  if (count >= 5) return "#f06b31";
-  if (count >= 3) return "#c9562d";
-  if (count >= 1) return "#8b3b28";
-  return "#29221d";
+function eventColor(cluster: SignalCluster) {
+  if (cluster.signal_tags.includes("casualty")) return "#7f1515";
+  if (cluster.signal_tags.includes("strike-claim")) return "#b73727";
+  if (cluster.signal_tags.includes("displacement")) return "#bd6f27";
+  if (cluster.signal_tags.includes("humanitarian")) return "#315f7b";
+  if (cluster.signal_tags.includes("economic")) return "#386a56";
+  return "#4d4968";
 }
 
-function tagColor(tag: string) {
-  if (tag === "strike-claim") return "#f06b31";
-  if (tag === "displacement") return "#e9b86e";
-  if (tag === "economic") return "#7fa7a0";
-  if (tag === "heritage") return "#b98a58";
-  if (tag === "casualty") return "#d94b3d";
-  return "#f5e7d0";
+function layerStyle(feature?: Feature<Geometry, BattlefieldFeatureProperties>): PathOptions {
+  const kind = feature?.properties?.kind;
+  if (kind === "yellow-line") {
+    return {
+      color: "#f3cb34",
+      opacity: 1,
+      weight: 4,
+      dashArray: "1 0",
+    };
+  }
+  return {
+    color: "#a52e25",
+    fillColor: "#c33a2f",
+    fillOpacity: 0.23,
+    opacity: 0.88,
+    weight: 1.5,
+  };
 }
 
-function severityColor(severity: string, fallback: string) {
-  if (severity === "critical") return "#ff4d36";
-  if (severity === "high") return "#f06b31";
-  if (severity === "moderate") return "#e9b86e";
-  return fallback;
+function bindBattlefieldDescription(
+  feature: Feature<Geometry, BattlefieldFeatureProperties>,
+  layer: Layer,
+) {
+  const properties = feature.properties;
+  if (!properties) return;
+  layer.bindTooltip(properties.short_label, {
+    sticky: true,
+    direction: "top",
+    className: styles.mapTooltip,
+  });
+  const popup = document.createElement("div");
+  popup.className = styles.layerPopup;
+  const title = document.createElement("strong");
+  title.textContent = properties.label;
+  const description = document.createElement("p");
+  description.textContent = properties.description;
+  const record = document.createElement("span");
+  record.textContent = `As of ${properties.as_of} · ${properties.precision}`;
+  const source = document.createElement("a");
+  source.href = properties.source_url;
+  source.target = "_blank";
+  source.rel = "noreferrer";
+  source.textContent = properties.source_label;
+  popup.append(title, description, record, source);
+  layer.bindPopup(popup, { maxWidth: 320 });
+}
+
+function MapFocus({ cluster }: { cluster: SignalCluster | null }) {
+  const map = useMap();
+  const location = cluster?.primary_location;
+
+  useEffect(() => {
+    if (!location) return;
+    map.flyTo([location.lat, location.lng], Math.max(map.getZoom(), 9), {
+      duration: 0.55,
+    });
+  }, [location, map]);
+
+  return null;
 }
 
 export function SignalDeskMap({
   clusters,
   districts,
+  boundary,
+  battlefield,
   selectedId,
+  showTerritory,
   onSelect,
 }: {
   clusters: SignalCluster[];
   districts: DistrictGeoJson;
+  boundary: BoundaryGeoJson;
+  battlefield: BattlefieldGeoJson;
   selectedId: string | null;
+  showTerritory: boolean;
   onSelect: (id: string) => void;
 }) {
-  const counts = new Map<string, number>();
-  clusters.forEach((cluster) => {
-    const district = cluster.primary_location?.district;
-    if (district) {
-      counts.set(district, (counts.get(district) ?? 0) + 1);
-    }
-  });
+  const selectedCluster = clusters.find((cluster) => cluster.id === selectedId) ?? null;
 
   return (
     <MapContainer
-      center={[33.86, 35.72]}
+      center={[33.68, 35.58]}
       zoom={8}
       minZoom={7}
-      maxZoom={13}
-      maxBounds={[[32.8, 34.65], [34.85, 36.85]]}
+      maxZoom={14}
+      maxBounds={[
+        [32.82, 34.72],
+        [34.78, 36.76],
+      ]}
       maxBoundsViscosity={0.86}
       scrollWheelZoom={false}
-      className="signal-map"
+      className={styles.map}
       attributionControl
     >
       <TileLayer
-        url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-        opacity={0.64}
-        attribution='Map data: &copy; OpenStreetMap contributors, SRTM | Style: &copy; OpenTopoMap'
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        opacity={0.96}
+        attribution="&copy; OpenStreetMap contributors &copy; CARTO"
       />
+
       {districts.features.length ? (
         <GeoJSON
           data={districts as GeoJsonObject}
-          style={(feature) => {
-            const district = String(feature?.properties?.district ?? "");
-            const count = counts.get(district) ?? 0;
-            return {
-              color: "rgba(245, 231, 208, 0.28)",
-              fillColor: districtColor(count),
-              fillOpacity: count ? 0.34 : 0.16,
-              weight: 1,
-            } satisfies PathOptions;
+          style={{
+            color: "rgba(35, 48, 42, 0.26)",
+            fillColor: "#8f8a78",
+            fillOpacity: 0.025,
+            weight: 0.8,
           }}
         />
       ) : null}
-      {clusters.map((cluster, index) => {
+
+      {showTerritory && battlefield.features.length ? (
+        <GeoJSON
+          key="battlefield-layers"
+          data={battlefield as GeoJsonObject}
+          style={(feature) =>
+            layerStyle(feature as Feature<Geometry, BattlefieldFeatureProperties> | undefined)
+          }
+          onEachFeature={(feature, layer) =>
+            bindBattlefieldDescription(
+              feature as Feature<Geometry, BattlefieldFeatureProperties>,
+              layer,
+            )
+          }
+        />
+      ) : null}
+
+      {boundary.features.length ? (
+        <GeoJSON
+          data={boundary as GeoJsonObject}
+          style={{
+            color: "#18241f",
+            fillOpacity: 0,
+            opacity: 0.95,
+            weight: 2.4,
+          }}
+        />
+      ) : null}
+
+      {clusters.map((cluster) => {
         const location = cluster.primary_location;
-        if (!location) return null;
-        const isSelected = selectedId === cluster.id;
-        if (cluster.location_precision === "unknown") {
-          return null;
-        }
-        const isLowConfidence =
-          cluster.confirmation_status === "single-source" ||
-          cluster.confirmation_status === "unconfirmed" ||
-          cluster.location_precision !== "exact" ||
-          location.match_confidence < 0.5;
-        const tag = cluster.signal_tags[0] ?? "political-maneuver";
-        const color = severityColor(cluster.severity, tagColor(tag));
-        if (isLowConfidence) {
+        if (!location || cluster.location_precision === "unknown") return null;
+        const selected = cluster.id === selectedId;
+        const color = eventColor(cluster);
+        const broadArea =
+          cluster.map_marker_kind === "representative-area" ||
+          cluster.location_precision === "district" ||
+          cluster.location_precision === "national";
+
+        if (broadArea) {
           return (
             <Circle
               key={cluster.id}
               center={[location.lat, location.lng]}
-              radius={cluster.location_precision === "national" ? 28000 : 13500}
+              radius={
+                cluster.map_radius_meters ||
+                (cluster.location_precision === "national" ? 28000 : 12000)
+              }
               pathOptions={{
                 color,
                 fillColor: color,
-                fillOpacity: isSelected ? 0.16 : 0.08,
-                opacity: isSelected ? 0.95 : 0.72,
-                weight: isSelected ? 3 : 2,
-                dashArray: "5 6",
+                fillOpacity: selected ? 0.17 : 0.08,
+                opacity: selected ? 1 : 0.76,
+                weight: selected ? 3 : 2,
+                dashArray: "5 5",
               }}
               eventHandlers={{ click: () => onSelect(cluster.id) }}
-              className="signal-map-halo"
             >
-              <Tooltip direction="top" offset={[0, -8]} opacity={0.96}>
-                <span className="signal-map-tooltip">{location.name} / {cluster.confirmation_status}</span>
+              <Tooltip direction="top" opacity={0.98} className={styles.mapTooltip}>
+                {location.name} · area report
               </Tooltip>
-              <Popup>
-                <div className="signal-map-popup">
+              <Popup maxWidth={320}>
+                <div className={styles.eventPopup}>
+                  <span>{cluster.sources_span[0] ?? "Source-linked report"}</span>
                   <strong>{cluster.headline}</strong>
-                  <span>{location.name} / {cluster.location_precision}</span>
-                  <p>{cluster.what_is_missing || cluster.recommended_next_check}</p>
+                  <p>{cluster.what_happened || cluster.analysis}</p>
+                  {cluster.urls[0] ? (
+                    <a href={cluster.urls[0]} target="_blank" rel="noreferrer">
+                      Open original report
+                    </a>
+                  ) : null}
                 </div>
               </Popup>
             </Circle>
           );
         }
+
         return (
           <CircleMarker
             key={cluster.id}
             center={[location.lat, location.lng]}
-            radius={isSelected ? 11 : 7}
+            radius={selected ? 10 : 7}
             pathOptions={{
-              color,
+              color: "#fffaf0",
               fillColor: color,
-              fillOpacity: isSelected ? 0.95 : 0.72,
+              fillOpacity: 0.98,
               opacity: 1,
-              weight: isSelected ? 3 : 1.5,
+              weight: selected ? 3.5 : 2,
             }}
             eventHandlers={{ click: () => onSelect(cluster.id) }}
-            className="signal-map-pin"
-            data-delay={index}
           >
-            <Tooltip direction="top" offset={[0, -8]} opacity={0.96}>
-              <span className="signal-map-tooltip">{location.name} / {cluster.confidence}</span>
+            <Tooltip direction="top" opacity={0.98} className={styles.mapTooltip}>
+              {location.name} · {cluster.sources_span[0] ?? "source linked"}
             </Tooltip>
-            <Popup>
-              <div className="signal-map-popup">
+            <Popup maxWidth={320}>
+              <div className={styles.eventPopup}>
+                <span>{cluster.sources_span[0] ?? "Source-linked report"}</span>
                 <strong>{cluster.headline}</strong>
-                <span>{location.name} / {cluster.confirmation_status}</span>
                 <p>{cluster.what_happened || cluster.analysis}</p>
+                {cluster.urls[0] ? (
+                  <a href={cluster.urls[0]} target="_blank" rel="noreferrer">
+                    Open original report
+                  </a>
+                ) : null}
               </div>
             </Popup>
           </CircleMarker>
         );
       })}
+
+      <MapFocus cluster={selectedCluster} />
     </MapContainer>
   );
 }

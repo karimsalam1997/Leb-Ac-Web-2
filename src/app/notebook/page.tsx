@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { EditorialImage } from "@/components/editorial-image";
 import { SiteShell } from "@/components/site-shell";
 import { notebookEntries } from "@/lib/content";
 import { buildPageMetadata } from "@/lib/seo";
@@ -24,8 +23,8 @@ export default function NotebookPage() {
               The Notebook
             </h1>
             <p className="mt-3 max-w-md text-[1.25rem] leading-7">
-              Fragments, observations, an image, a line from a reading — the
-              pieces that haven&apos;t yet become an essay. Some won&apos;t.
+              Fragments, observations, and lines from readings — the pieces
+              that haven&apos;t yet become an essay. Some won&apos;t.
             </p>
             <div className="dense-meta mt-4">
               {notebookEntries.length} entries / growing
@@ -63,14 +62,6 @@ export default function NotebookPage() {
                 id={entry.slug}
                 className={noteClasses.join(" ")}
               >
-                <Link href={`/notebook/${entry.slug}`}>
-                  <EditorialImage
-                    src={getNotebookImage(entry.slug, index)}
-                    alt={entry.title}
-                    className="notebook-note-image"
-                    sizes="(min-width: 1024px) 26vw, 100vw"
-                  />
-                </Link>
                 <div className="p-5">
                   <div className="dense-meta">{entry.date}</div>
                   <h2 className="editorial-title mt-2 text-[1.72rem] leading-tight">

@@ -1,0 +1,61 @@
+{
+  "observed_at": "2026-07-28T03:33:40Z",
+  "method": "Public profile review in an authenticated browser session",
+  "posts": [
+    {
+      "id": "2081683452806443237",
+      "url": "https://x.com/MarioLeb79/status/2081683452806443237",
+      "username": "MarioLeb79",
+      "handle": "@MarioLeb79",
+      "created_at": "2026-07-27T10:09:00Z",
+      "observed_at": "2026-07-28T03:33:40Z",
+      "lang": "en",
+      "attribution": "@MarioLeb79 attributed these claims to the Israeli military, introducing the post with \"IDF:\".",
+      "text": "IDF: -In one operation at the Tayyiba ridge, troops uncovered a tunnel network, tracked Hezbollah fighters attempting to escape, and killed 10 militants after predicting their escape route. -During another mission, operators monitored a Hezbollah vehicle carrying missiles and explosive drones for 27 hours before destroying it with a precision strike, triggering a large secondary explosion. - In a recent operation, drones detected a concealed Hezbollah position containing launchers, cameras, UAVs, and drones, which was destroyed within minutes."
+    },
+    {
+      "id": "2081912578624692481",
+      "url": "https://x.com/MarioNawfal/status/2081912578624692481",
+      "username": "MarioNawfal",
+      "handle": "@MarioNawfal",
+      "created_at": "2026-07-28T01:20:13Z",
+      "observed_at": "2026-07-28T03:33:40Z",
+      "lang": "en",
+      "attribution": "@MarioNawfal, with an embedded Al Jazeera English report and a writer credit to Val.",
+      "text": "Direct flights between the U.S. and Lebanon could return after nearly 40 years. Trump green-lit the route: the first potential nonstops since the mid-1980s. The ban traces back to the 1985 hijacking of TWA Flight 847, the event that shut down direct service for a generation. If it happens, it would be the biggest shift in the U.S.-Lebanon air travel in decades. Writer: Val"
+    },
+    {
+      "id": "2081908704731869324",
+      "url": "https://x.com/MarioNawfal/status/2081908704731869324",
+      "username": "MarioNawfal",
+      "handle": "@MarioNawfal",
+      "created_at": "2026-07-28T01:04:49Z",
+      "observed_at": "2026-07-28T03:33:40Z",
+      "lang": "en",
+      "attribution": "@MarioNawfal attributed the report to Axios journalist Barak Ravid and credited writer Daniel.",
+      "text": "The State Department reports \"significant momentum\" toward Israel-Lebanon peace, with Rome talks set to expand Hezbollah's disarmament zones. -The U.S.-led talks run August 4-6 in Rome, with technical groups advancing \"the full implementation of the framework agreement\": expanding the pilot zone process, resolving ALL outstanding border disputes, and working toward a comprehensive peace and security agreement -The momentum is real, per the State Department official: the FIRST pilot zone in southern Lebanon has successfully launched, and Lebanese President Aoun met Trump at the White House last week -The official's framing of the zones: restoring Lebanese state authority \"through the verifiable disarmament of terrorist organizations,\" with the initial zones perfecting the model so it \"can expand in a phased manner\" -The commitment line: the trilateral framework \"is the only path to lasting peace between Israel and Lebanon,\" and the administration \"is committed to its success\" -Israel began partially redeploying from southern Lebanon under the framework, the carrot behind Beirut's cooperation It lands on Netanyahu's Tuesday White House agenda alongside Iran and the Abraham Accords Source: Axios(@BarakRavid) / Writer: Daniel"
+    },
+    {
+      "id": "2081873516282921188",
+      "url": "https://x.com/MarioNawfal/status/2081873516282921188",
+      "username": "MarioNawfal",
+      "handle": "@MarioNawfal",
+      "created_at": "2026-07-27T22:45:00Z",
+      "observed_at": "2026-07-28T03:33:40Z",
+      "lang": "en",
+      "attribution": "@MarioNawfal attributed the report to the Associated Press and credited writer Lynn.",
+      "text": "UN human rights chief Volker Türk blunt demand after wrapping up his latest visit in Lebanon: Israel must end its occupation of southern Lebanon and stop demolishing homes. This lands days before Lebanon and Israel meet in Rome on the June deal meant to put Lebanese forces in, Israeli troops out, and Hezbollah disarmed. Hezbollah already rejected the talks and says it won’t disarm. Türk called the destruction \"wholesale\" and raised war-crimes flags. Israel says it’s targeting Hezbollah fighters and tunnels hidden among civilians. Over 4,000 dead, 1.2 million displaced, and Israeli forces are still holding dozens of towns. Writer: Lynn / Source: AP"
+    },
+    {
+      "id": "2081839542366019880",
+      "url": "https://x.com/MarioNawfal/status/2081839542366019880",
+      "username": "MarioNawfal",
+      "handle": "@MarioNawfal",
+      "created_at": "2026-07-27T20:30:00Z",
+      "observed_at": "2026-07-28T03:33:40Z",
+      "lang": "en",
+      "attribution": "@MarioNawfal credited writer Lucas and embedded a video post by @TreyYingst.",
+      "text": "11-year-old Alma went to soccer practice and never came home. 2 years ago, a Hezbollah rocket struck a field in Majdal Shams, Israel, killing 12 children, including her. Her father, asked what he remembers most, gave a heartbreaking answer: “When she was alive… or when I had to pick up the pieces of her?” Her mother still can’t speak about it. The town rebuilt the field and put up a memorial wall with all 12 portraits. Writer: Lucas"
+    }
+  ]
+}

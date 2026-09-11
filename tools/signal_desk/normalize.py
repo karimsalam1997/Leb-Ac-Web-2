@@ -16,7 +16,10 @@ def normalize(items: list[RawItem]) -> list[CanonicalItem]:
     for item in items:
         key = dedupe_key(item)
         if key in by_key:
-            by_key[key].also_seen_in.append(item.source_id)
+            existing = by_key[key]
+            by_key[key] = existing.model_copy(
+                update={"also_seen_in": [*existing.also_seen_in, item.source_id]}
+            )
             continue
         by_key[key] = CanonicalItem(**item.model_dump(), dedupe_key=key, also_seen_in=[])
     return list(by_key.values())

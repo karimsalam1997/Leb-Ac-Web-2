@@ -6,14 +6,25 @@ local_jsonl_sources:
     tier: 1
 
 channels:
-  - id: hezbollah_warmedia
-    handle: "@PLACEHOLDER"
-    bias: "Hezbollah War Media, primary resistance apparatus"
+  - id: bintjbeilnews
+    handle: "bintjbeilnews"
+    name: "Bint Jbeil News"
+    lang: "ar"
+    bias: >
+      Fast Lebanese local reporting with deep southern Lebanon coverage.
+      Treat quoted army, party, and belligerent statements as attributed claims.
     tier: 1
-    download_media: true
+    pinned_posts:
+      - 189267
 
-  - id: idf_arabic
-    handle: "@PLACEHOLDER"
-    bias: "IDF Arabic, Israeli military messaging"
+  - id: alarabiya_breaking
+    handle: "alarabiyaBr"
+    name: "Al Arabiya Breaking"
+    lang: "ar"
+    bias: >
+      Saudi-owned pan-Arab breaking-news channel. Useful for rapid regional and
+      diplomatic reporting; distinguish its own reporting from official claims
+      it relays.
     tier: 1
-    download_media: false
+    pinned_posts:
+      - 142674

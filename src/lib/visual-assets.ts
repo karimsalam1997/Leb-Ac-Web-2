@@ -75,10 +75,18 @@ export const generatedArticleImages = homeAssets.edition.map((asset) => asset.sr
 const articleImageSets: Record<string, ArticleImageAsset[]> = {
   "the-city-that-could-not-repair-itself": [
     {
+      src: `${sourcedImageBase}/downtown-bab-idris-restored-4k-v1.webp`,
+      alt: "A reconstructed view of Bab Idris in central Beirut before the civil war",
+      caption:
+        "Bab Idris before the civil war, reconstructed from the project archive. The street belonged to daily Beirut before reconstruction turned the centre into a controlled image of itself.",
+      position: "center 50%",
+      aspectRatio: "3840 / 2160",
+    },
+    {
       src: `${sourcedImageBase}/city-roman-baths-ruins.jpg`,
       alt: "The Roman Baths in Downtown Beirut, visible below the rebuilt city",
       caption:
-        "The Roman Baths make the essay's argument physical: under the polished postwar center is an older Beirut that was not invented by developers, politicians, or any one sect. The interesting thing is how calm the stones look while the modern city keeps trying to sprint past them.",
+        "The Roman Baths sit below the rebuilt centre of Beirut. Their stonework predates the postwar plan and the property regime laid over it.",
       position: "center 55%",
       aspectRatio: "3872 / 2592",
     },
@@ -86,7 +94,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/city-archaeology-khandaq.jpg`,
       alt: "An archaeological site in Khandaq al-Ghamiq in Beirut",
       caption:
-        "This is the city under the city before it becomes a slogan. Archaeology slows everything down: every wall asks what Beirut was before the latest master plan decided what Beirut should become.",
+        "Archaeological remains at Khandaq al-Ghamiq. In central Beirut, every new foundation enters a city that is already there.",
       position: "center 54%",
       aspectRatio: "960 / 720",
     },
@@ -94,7 +102,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/city-port-blast-aftermath.jpg`,
       alt: "Damage at the Port of Beirut after the August 2020 explosion",
       caption:
-        "The blast image belongs here because repair is not only about stone. A living city knows who is hurt, who owns what, who can fix it, and who is left waiting. Downtown's problem is that too much of that social wiring was removed.",
+        "The Port of Beirut after 4 August 2020. Repair depends on ownership, public authority, and who is left waiting long after the glass is cleared.",
       position: "center 48%",
       aspectRatio: "1280 / 960",
     },
@@ -104,7 +112,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/cartel-independence-day-2019.jpg`,
       alt: "Crowds filling Beirut streets during the 2019 Independence Day protests",
       caption:
-        "This crowd is the cartel's nightmare: citizens briefly speaking as citizens, not as clients of sects or patrons. That is why the 2019 uprising mattered; it named the whole machine instead of one villain.",
+        "Beirut on Independence Day in 2019. The uprising addressed the ruling system as a whole, across the lines its parties had spent decades policing.",
       position: "center 45%",
       aspectRatio: "6000 / 4000",
     },
@@ -112,7 +120,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/cartel-grand-serail.jpg`,
       alt: "The Grand Serail, Lebanon's government palace in Beirut",
       caption:
-        "The Grand Serail gives the state a body: flags, stone, ceremony, authority. The essay is interested in the gap between that official costume and the private deals that decide what the costume can actually do.",
+        "The Grand Serail in Beirut gives formal authority a visible address. Much of Lebanon's governing work is settled elsewhere, through private bargains between public men.",
       position: "center 50%",
       aspectRatio: "1920 / 1080",
     },
@@ -120,7 +128,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/sovereignty-parliament.jpg`,
       alt: "The Lebanese Parliament building in Downtown Beirut",
       caption:
-        "Parliament is where the republic is supposed to become public law. In Lebanon it often becomes the place where private bargains are translated into official language.",
+        "Lebanon's Parliament in Nejmeh Square. Private bargains acquire the language of public law inside this chamber.",
       position: "center 50%",
       aspectRatio: "1280 / 960",
     },
@@ -130,7 +138,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mehtail-shatila-infrastructure.jpg`,
       alt: "A dense tangle of infrastructure wires in Shatila",
       caption:
-        "This tangle says more than a clean institutional diagram could. When the official system cannot carry daily life, people build another system over it, cable by cable, favor by favor, workaround by workaround.",
+        "Wires in Shatila record a second infrastructure laid over the first. Each cable is a workaround for a service the official system did not provide.",
       position: "center 48%",
       aspectRatio: "1280 / 960",
     },
@@ -138,7 +146,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mehtail-diaspora-map.png`,
       alt: "A world map showing the Lebanese diaspora",
       caption:
-        "The diaspora map is the hopeful half of the essay. The same Lebanese talent that gets wasted navigating broken systems at home often becomes astonishingly productive once it plugs into institutions that actually work.",
+        "A map of the Lebanese diaspora. The routes also record what happens when skilled people leave institutions that consume their time and enter ones that can use it.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "960 / 498",
@@ -150,7 +158,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${fractalSovereigntyBase}/generator-republic-street.jpg`,
       alt: "A Beirut street locked in traffic under dense electrical wires",
       caption:
-        "The essay begins with a generator because the generator teaches the whole system: a public failure becomes a private kingdom, then that kingdom learns to defend the failure that made it necessary.",
+        "A Beirut street under electrical wires. A public failure created a private electricity business, and that business learned how to live with the failure.",
       position: "center 52%",
       aspectRatio: "3840 / 2161",
     },
@@ -158,7 +166,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${fractalSovereigntyBase}/generator-republic-household.jpg`,
       alt: "A Lebanese family gathered around an older relative in a dim apartment room",
       caption:
-        "The household is the strongest institution left. That is part of Lebanon's brilliance, and part of its trap: families can mobilize with astonishing loyalty while the public world outside them keeps shrinking.",
+        "Inside a Lebanese home, the family absorbs work that public institutions have abandoned. Its strength protects people while the shared world outside keeps shrinking.",
       position: "center 48%",
       aspectRatio: "3840 / 2560",
     },
@@ -166,7 +174,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${fractalSovereigntyBase}/generator-republic-2019-protest.jpg`,
       alt: "Crowds filling Beirut streets with Lebanese flags during the 2019 uprising",
       caption:
-        "October 2019 mattered because it briefly interrupted the pattern. Citizens appeared as citizens, not as clients of separate little sovereignties, which is exactly why the machine worked so hard to pull them back apart.",
+        "Beirut during the October 2019 uprising. For a few weeks, citizens addressed one another outside the client networks that usually divide public life.",
       position: "center 45%",
       aspectRatio: "6000 / 4000",
     },
@@ -176,7 +184,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/census-loc-religious-map.jpg`,
       alt: "A Library of Congress map showing the distribution of Lebanon's main religious groups",
       caption:
-        "A map like this looks technical, but in Lebanon it is political dynamite. The cool, unsettling thing is that the country has endless partial knowledge about itself, while the one public count that could reorganize power remains forbidden.",
+        "A Library of Congress map of Lebanon's religious communities. The state has lived with estimates and partial counts since the last official census in 1932.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "3317 / 4326",
@@ -186,7 +194,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/census-french-mandate-map.png`,
       alt: "A map of the French Mandate for Syria and Lebanon",
       caption:
-        "The Mandate map is not just background. It shows how modern Lebanon began as a political design, not a natural fact, and why the first census became part of the architecture of power.",
+        "The French Mandate map shows the borders inside which Lebanon's first census became a formula for political power.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "1920 / 1587",
@@ -196,7 +204,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/census-demographics.jpg`,
       alt: "A map showing religious group distribution in Lebanon",
       caption:
-        "This is why numbers become dangerous. Once communities appear as proportions, geography, and weight, every office and every guarantee starts to look negotiable.",
+        "An estimate of Lebanon's religious distribution. Counting communities would reopen the allocation of offices fixed around an older balance.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "960 / 1239",
@@ -208,7 +216,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/sovereignty-un-security-council.jpg`,
       alt: "The United Nations Security Council chamber in New York",
       caption:
-        "The empty Security Council chamber is almost too perfect: sovereignty as room, microphone, chair, ritual. Lebanon often has the seat and the signature before it has the authority to make the signature real.",
+        "The United Nations Security Council chamber in New York. Lebanon can hold the seat and sign the resolution while lacking the power to enforce it at home.",
       position: "center 50%",
       aspectRatio: "3780 / 3024",
     },
@@ -216,7 +224,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/sovereignty-unifil-blue-barrels.jpg`,
       alt: "UNIFIL blue barrels marking the Blue Line in southern Lebanon",
       caption:
-        "The blue barrels are the theatre prop made concrete. They mark a line everyone can photograph, while the real question remains whether any state has enough power to make the line politically meaningful.",
+        "UNIFIL barrels mark the Blue Line in southern Lebanon. The boundary is visible; the authority behind it remains divided.",
       position: "center 48%",
       aspectRatio: "1280 / 727",
     },
@@ -224,7 +232,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/sovereignty-parliament.jpg`,
       alt: "The Lebanese Parliament building in Downtown Beirut",
       caption:
-        "This building is supposed to turn argument into law. The essay's point is that Lebanon has many declarations of sovereignty and too few institutions able to force declarations downward into daily life.",
+        "The Lebanese Parliament in Downtown Beirut. Declarations of sovereignty are plentiful here; institutions able to carry them into daily life are not.",
       position: "center 50%",
       aspectRatio: "1280 / 960",
     },
@@ -234,7 +242,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/rubble-marwahin.jpg`,
       alt: "Ruins in Marwahin in southern Lebanon",
       caption:
-        "This is what 'buffer zone' means after the military language is stripped away: a village turned into evidence. Israel can call it depth, Hezbollah can call it proof, but for the people from there it was home.",
+        "Marwahin after Israeli attacks in 2006. The language of a buffer zone ends here, in a village where people lived.",
       position: "center 52%",
       aspectRatio: "1280 / 960",
     },
@@ -242,7 +250,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/rubble-bintjbeil.jpg`,
       alt: "Destruction in Bint Jbeil after the 2006 war",
       caption:
-        "Bint Jbeil matters because the experiment already ran. Destruction can break buildings, but it can also harden the story an armed movement tells about why it is necessary.",
+        "Bint Jbeil after Israeli bombardment in 2006. The destruction also strengthened Hezbollah's argument that southern Lebanon required an armed force outside the state.",
       position: "center 52%",
       aspectRatio: "800 / 533",
     },
@@ -250,7 +258,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/rubble-blue-line.jpg`,
       alt: "A map of the Blue Line between Lebanon and Israel",
       caption:
-        "The map is useful because it shows the seductive simplicity of lines. The essay is about everything the map cannot show: humiliation, inheritance, return, fear, and memory.",
+        "The Blue Line on a map. It can record coordinates, while inherited fear and the memory of displacement remain outside the legend.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "1299 / 898",
@@ -262,7 +270,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/seventeen-municipalities.png`,
       alt: "A map of Lebanon's municipalities",
       caption:
-        "This map makes tiny Lebanon look administratively enormous. The strange thing is not the number of municipalities alone; it is how each little unit can become a checkpoint for identity, property, services, and local power.",
+        "A map of Lebanon's municipalities. These small jurisdictions decide access to services, local property questions, and who is recognised as belonging where.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "1364 / 1751",
@@ -272,7 +280,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/seventeen-admin-divisions.png`,
       alt: "A map of Lebanon's administrative divisions",
       caption:
-        "The official divisions look orderly from above, but the essay is about the maps underneath them: sectarian courts, village registration, party zones, family networks, and municipal vetoes.",
+        "Lebanon's official administrative divisions. Sectarian courts, village registration, and party territory cut another set of borders underneath them.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center",
       aspectRatio: "1920 / 2210",
@@ -282,7 +290,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/seventeen-2015-protest.jpg`,
       alt: "Protesters in Martyrs Square during the 2015 garbage crisis demonstrations",
       caption:
-        "The garbage crisis made fragmentation smell. Waste should be boring statecraft; in Lebanon it became a lesson in how every shared problem gets pushed across someone else's boundary.",
+        "Martyrs Square during the 2015 garbage crisis. A basic municipal service became a public lesson in how responsibility is passed from one authority to another.",
       position: "center 42%",
       aspectRatio: "2978 / 4370",
     },
@@ -292,7 +300,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-nahr-ibrahim.jpg`,
       alt: "The Nahr Ibrahim river in Lebanon",
       caption:
-        "The Nahr Ibrahim is the right opening image because it lets science and myth stand together. The river can run red because of soil, and still carry the old Adonis story about wounded life returning through the landscape.",
+        "The Nahr Ibrahim can run red with winter sediment. For centuries, the river has also carried the story of Adonis, wounded and returning with the season.",
       position: "center 48%",
       aspectRatio: "960 / 1280",
     },
@@ -300,7 +308,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-ahiram-detail.jpg`,
       alt: "Mourning figures carved on the Sarcophagus of Ahiram",
       caption:
-        "The mourning women on Ahiram's sarcophagus are extraordinary because grief is already stylized into a public language. Long before modern sects, the land had gestures for death, honor, and memory.",
+        "Mourning figures carved on the Sarcophagus of Ahiram at Byblos. Grief had a public gesture here long before Lebanon's present communities had their names.",
       position: "center 50%",
       aspectRatio: "2166 / 1008",
     },
@@ -308,7 +316,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-astarte-throne.jpg`,
       alt: "A Phoenician goddess identified with Astarte seated on a throne",
       caption:
-        "Astarte belongs here not as a nationalist trophy, but as a reminder that the sacred feminine in this landscape is older than today's religious borders. The figure is small, but the continuity she points to is huge.",
+        "A Phoenician goddess identified with Astarte. The figure predates today's religious borders and the national stories later built around her.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center 50%",
       aspectRatio: "1573 / 2178",
@@ -318,7 +326,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-our-lady-harissa.jpg`,
       alt: "The statue of Our Lady of Lebanon in Harissa",
       caption:
-        "Our Lady of Lebanon is a modern Marian monument, but it also shows how older Levantine habits of high places, protective mothers, pilgrimage, and landscape keep finding new religious forms.",
+        "Our Lady of Lebanon above Harissa. The modern Marian monument joins pilgrimage, the protective mother, and the Levantine habit of placing sacred figures on high ground.",
       position: "center 48%",
       aspectRatio: "5184 / 3456",
     },
@@ -326,7 +334,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-khawla-shrine.jpg`,
       alt: "The shrine of Sayyida Khawla in Baalbek",
       caption:
-        "Sayyida Khawla's shrine in Baalbek keeps the same grammar in another translation: sacred memory, feminine presence, visitation, mourning, and a place where history is felt through devotion.",
+        "The shrine of Sayyida Khawla in Baalbek. Visitors meet sacred memory through mourning and the presence of a named woman.",
       position: "center 48%",
       aspectRatio: "740 / 416",
     },
@@ -336,7 +344,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-our-lady-harissa.jpg`,
       alt: "The statue of Our Lady of Lebanon in Harissa",
       caption:
-        "Harissa is the right public face for the essay because it shows how the sacred feminine becomes geography in Lebanon: a woman on a mountain, watching the coast, turning protection into landscape.",
+        "Our Lady of Lebanon looks over the coast from Harissa. The placement turns protection into something pilgrims can see from the road and the bay.",
       position: "center 48%",
       aspectRatio: "5184 / 3456",
     },
@@ -344,7 +352,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-astarte-throne.jpg`,
       alt: "A Phoenician goddess identified with Astarte seated on a throne",
       caption:
-        "Astarte is not being smuggled into later religions as a secret identity. The point is subtler: the land keeps asking for a figure who protects, mourns, intercedes, and refuses to let grief disappear.",
+        "A Phoenician goddess identified with Astarte. Later religions did not secretly preserve her identity, though familiar roles of protection and mourning returned in new forms.",
       imageClassName: "object-contain bg-[var(--paper)]",
       position: "center 50%",
       aspectRatio: "1573 / 2178",
@@ -354,7 +362,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-ahiram-detail.jpg`,
       alt: "Mourning figures carved on the Sarcophagus of Ahiram",
       caption:
-        "The mourning figures on Ahiram's sarcophagus make the argument older than doctrine. Before Lebanon's modern communities had their current names, grief already had a public grammar.",
+        "Mourning figures on the Sarcophagus of Ahiram at Byblos. Their gestures belong to a public language of grief older than modern Lebanese doctrine.",
       position: "center 50%",
       aspectRatio: "2166 / 1008",
     },
@@ -362,7 +370,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-nahr-ibrahim.jpg`,
       alt: "The Nahr Ibrahim river in Lebanon",
       caption:
-        "The Adonis river lets myth and matter speak at once. Red sediment can explain the color, while the old story explains why people learned to read the land as wounded and returning.",
+        "Red sediment explains the colour of the Nahr Ibrahim. The Adonis story explains the meanings people placed on the river's seasonal return.",
       position: "center 48%",
       aspectRatio: "960 / 1280",
     },
@@ -370,7 +378,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/mourning-khawla-shrine.jpg`,
       alt: "The shrine of Sayyida Khawla in Baalbek",
       caption:
-        "Sayyida Khawla's shrine belongs to another religious language, but the spatial grammar is familiar: visitation, feminine sacred presence, memory, mourning, and the refusal to leave suffering unattended.",
+        "The shrine of Sayyida Khawla in Baalbek. Visitation places a feminine sacred presence beside the memory of suffering.",
       position: "center 48%",
       aspectRatio: "740 / 416",
     },
@@ -380,7 +388,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/downtown-souk-ayass-1970.jpg`,
       alt: "Souk Ayass in Beirut in 1970",
       caption:
-        "Souk Ayass shows what the essay means by a city, not just architecture: counters, repetition, habits, people knowing where to go. A souk is a memory machine because it remembers through use.",
+        "Souk Ayass in 1970. Its counters and repeated encounters gave memory an ordinary address in central Beirut.",
       position: "center 50%",
       aspectRatio: "1023 / 669",
     },
@@ -388,7 +396,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/downtown-modern-souks.jpg`,
       alt: "The rebuilt Beirut Souks in Downtown Beirut",
       caption:
-        "The modern Beirut Souks are clean and legible, but that is the question. When a souk becomes too controlled, it can preserve the name while changing the verb: the old souk gathered; the new one filters.",
+        "The rebuilt Beirut Souks preserve the name under tighter control of access and use. The earlier souk gathered people; the new one filters them.",
       position: "center 50%",
       aspectRatio: "1024 / 546",
     },
@@ -396,7 +404,7 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
       src: `${sourcedImageBase}/city-martyrs-square.jpg`,
       alt: "Martyrs Square in Downtown Beirut after postwar reconstruction",
       caption:
-        "Martyrs' Square is the symbolic room of the capital, but symbolism is not enough. The essay asks whether a center can be visually restored and still fail to become a place citizens feel they own.",
+        "Martyrs' Square after postwar reconstruction. The centre was restored as an image before it returned as a place Beirut residents could use as their own.",
       position: "center 50%",
       aspectRatio: "1920 / 1280",
     },
@@ -404,57 +412,57 @@ const articleImageSets: Record<string, ArticleImageAsset[]> = {
   "the-park-that-remembers": [
     {
       src: `${beirutParkBase}/main-sightline.jpg`,
-      alt: "The Beirut Park sundial sightline through the redesigned landscape",
-      caption: "The Gnomon Plaza sightline, aligning the sundial, gazebo, and Pigeon Tower.",
+      alt: "The Beirut Park sundial sightline through the speculative planting plan",
+      caption: "Speculative view. The Gnomon Plaza aligns the sundial with the gazebo and Pigeon Tower.",
       position: "center 48%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/gate-pavilion-sunset.jpg`,
       alt: "The Beirut Park gateway and pavilion at sunset",
-      caption: "The main gate and pavilion turn arrival into a real civic threshold.",
+      caption: "Speculative view. The main gate and pavilion give the park a clear public entrance.",
       position: "center 52%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/pathways.jpg`,
       alt: "Crushed limestone pathways winding through the Beirut Park planting",
-      caption: "Crushed limestone paths slow the body down and return rain to the ground.",
+      caption: "Speculative view. Crushed limestone paths keep the surface permeable and make room for slower walking.",
       position: "center 52%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/gazebo-lake.jpg`,
       alt: "The Ottoman gazebo beside the lake in the Beirut Park redesign",
-      caption: "The Ottoman Gazebo frames water, gathering, and the public right to linger.",
+      caption: "Speculative view. The gazebo makes a shaded room beside the water where no purchase is required.",
       position: "center 48%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/pigeon-tower-release.jpg`,
       alt: "The Pigeon Tower releasing birds at sunset",
-      caption: "The Pigeon Tower makes a living Beirut rooftop tradition monumental.",
+      caption: "Speculative view. The Pigeon Tower gives a familiar Beirut rooftop practice a public address.",
       position: "center 44%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/colonnaded-vines.jpg`,
       alt: "Roman columns reused as a vine-covered pergola",
-      caption: "Dormant columns become shade, letting heritage work again.",
+      caption: "Speculative view. Stone columns carry vines and shade along the main walk.",
       position: "center 50%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/adonis-grove.jpg`,
       alt: "The Adonis Grove in bloom",
-      caption: "The Adonis Grove turns mourning into a seasonal, shared landscape.",
+      caption: "Speculative view. Red spring flowers give the Adonis Grove a visible season of mourning.",
       position: "center 48%",
       aspectRatio: "1.5",
     },
     {
       src: `${beirutParkBase}/backgammon-pigeons.jpg`,
       alt: "Stone backgammon tables and pigeons in the Beirut Park redesign",
-      caption: "Permanent tawleh tables make play part of the park's civic architecture.",
+      caption: "Speculative view. Permanent tawleh tables give play a place in the park's daily use.",
       position: "center 52%",
       aspectRatio: "1.5",
     },

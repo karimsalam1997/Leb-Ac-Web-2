@@ -1,0 +1,68 @@
+{
+  "type": "FeatureCollection",
+  "name": "Lebanon battlefield reference layers",
+  "metadata": {
+    "description": "Dated editorial reconstruction for the Lebanese Academic Signal Desk. The geometry is approximate and must not be used for navigation or personal safety.",
+    "updated_at": "2026-07-28"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [35.19287, 33.16792], [35.22693, 33.15125], [35.26726, 33.16554],
+          [35.32983, 33.15414], [35.35884, 33.15475], [35.39012, 33.16615],
+          [35.42226, 33.15916], [35.4678, 33.19358], [35.46469, 33.22202],
+          [35.46402, 33.2499], [35.42866, 33.29539], [35.46222, 33.32278],
+          [35.5, 33.315], [35.52604, 33.3315], [35.54535, 33.30196],
+          [35.59111, 33.36028], [35.62694, 33.35711], [35.64241, 33.32066],
+          [35.69259, 33.32766], [35.70786, 33.3958], [35.77758, 33.43458],
+          [35.787, 33.336], [35.735, 33.283], [35.676, 33.239],
+          [35.616, 33.238], [35.566, 33.244], [35.52, 33.211],
+          [35.477, 33.126], [35.435, 33.096], [35.383, 33.072],
+          [35.335, 33.075], [35.286, 33.091], [35.239, 33.09],
+          [35.19, 33.076], [35.15, 33.087], [35.106, 33.09],
+          [35.19287, 33.16792]
+        ]]
+      },
+      "properties": {
+        "id": "israeli-designated-red-zone",
+        "kind": "red-zone",
+        "label": "Israeli-designated no-return and forward-operations zone",
+        "short_label": "Israeli-designated zone",
+        "description": "Approximate area south of the line published by the Israeli military. This is Lebanese territory and the layer does not describe a legal border.",
+        "as_of": "2026-04-23",
+        "precision": "approximate",
+        "source_label": "Le Monde, April 23, 2026",
+        "source_url": "https://www.lemonde.fr/en/international/article/2026/04/23/in-lebanon-israel-establishes-an-uninhabited-buffer-zone-behind-a-yellow-line_6752747_4.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [35.19287, 33.16792], [35.22693, 33.15125], [35.26726, 33.16554],
+          [35.32983, 33.15414], [35.35884, 33.15475], [35.39012, 33.16615],
+          [35.42226, 33.15916], [35.4678, 33.19358], [35.46469, 33.22202],
+          [35.46402, 33.2499], [35.42866, 33.29539], [35.46222, 33.32278],
+          [35.5, 33.315], [35.52604, 33.3315], [35.54535, 33.30196],
+          [35.59111, 33.36028], [35.62694, 33.35711], [35.64241, 33.32066],
+          [35.69259, 33.32766], [35.70786, 33.3958], [35.77758, 33.43458]
+        ]
+      },
+      "properties": {
+        "id": "yellow-line-2026-04-23",
+        "kind": "yellow-line",
+        "label": "Israeli-published “yellow line”",
+        "short_label": "Yellow line",
+        "description": "Approximate reconstruction through named villages. It is a military line published by Israel, not Lebanon's legal border.",
+        "as_of": "2026-04-23",
+        "precision": "approximate",
+        "source_label": "Le Monde, April 23, 2026",
+        "source_url": "https://www.lemonde.fr/en/international/article/2026/04/23/in-lebanon-israel-establishes-an-uninhabited-buffer-zone-behind-a-yellow-line_6752747_4.html"
+      }
+    }
+  ]
+}

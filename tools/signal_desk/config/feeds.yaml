@@ -1,262 +1,76 @@
-# =============================================================================
-# SOURCES: the diet. Bias notes are part of the product: the brief should show
-# the reader where a claim came from, not launder every source into one voice.
-# =============================================================================
+# A small, legible daily source shelf. These feeds are collection leads, not a
+# hierarchy of truth. Google News is used only where the publisher has no stable
+# public feed; every item still retains its named publisher and original link.
 
 feeds:
-  - name: "L'Orient Today"
-    kind: "html_index"
-    url: "https://today.lorientlejour.com/"
+  - name: "Reuters Middle East"
+    url: "https://news.google.com/rss/search?q=site%3Areuters.com%2Fworld%2Fmiddle-east%20%28Lebanon%20OR%20Beirut%20OR%20Hezbollah%29&hl=en&gl=LB&ceid=LB%3Aen"
     lang: "en"
-    bias: "Lebanese, francophone-establishment, anti-Hezbollah lean, reliable on detail"
+    bias: "International wire; strong for attributed official reporting, cautious and institution-led"
     tier: 1
-    terms: ["Lebanon", "Hezbollah", "Israel", "Nabatieh", "south", "Beirut", "ceasefire", "Iran", "war", "border"]
-    limit: 18
 
-  - name: "Naharnet"
-    url: "https://news.google.com/rss/search?q=site%3Anaharnet.com%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
+  - name: "L'Orient Today"
+    url: "https://news.google.com/rss/search?q=site%3Atoday.lorientlejour.com%20%28Lebanon%20OR%20Beirut%20OR%20south%29&hl=en&gl=LB&ceid=LB%3Aen"
     lang: "en"
-    bias: "Lebanese aggregator, broadly March-14 adjacent, routed through Google News because its RSS endpoint is unavailable"
+    bias: "Lebanese English-language newsroom; strong local detail, broadly critical of Hezbollah"
+    tier: 1
+
+  - name: "National News Agency Lebanon"
+    url: "https://news.google.com/rss/search?q=site%3Anna-leb.gov.lb%20%28Lebanon%20OR%20cabinet%20OR%20army%20OR%20south%29&hl=en&gl=LB&ceid=LB%3Aen"
+    lang: "en"
+    bias: "Official Lebanese state record; useful for ministries and statements, not independent confirmation"
+    tier: 1
+
+  - name: "LBCI Lebanon"
+    url: "https://news.google.com/rss/search?q=site%3Albcgroup.tv%20%28Lebanon%20OR%20Beirut%20OR%20Hezbollah%29&hl=en&gl=LB&ceid=LB%3Aen"
+    lang: "en"
+    bias: "Lebanese broadcaster; useful for fast local political and security reporting"
     tier: 2
 
-  - name: "Al Jazeera (Middle East)"
+  - name: "Lebanese Army"
+    url: "https://news.google.com/rss/search?q=site%3Alebarmy.gov.lb%20%28%D8%A7%D9%84%D8%AC%D9%8A%D8%B4%20OR%20%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8%20OR%20%D8%A7%D9%84%D8%AD%D8%AF%D9%88%D8%AF%29&hl=ar&gl=LB&ceid=LB%3Aar"
+    lang: "ar"
+    bias: "Official Lebanese Army record; primary institutional claims, not independent confirmation"
+    tier: 1
+
+  - name: "UNIFIL"
+    url: "https://news.google.com/rss/search?q=site%3Aunifil.unmissions.org%20%28Lebanon%20OR%20Blue%20Line%20OR%20peacekeepers%29&hl=en&gl=LB&ceid=LB%3Aen"
+    lang: "en"
+    bias: "Official UN peacekeeping mission record for the Blue Line and Resolution 1701"
+    tier: 1
+
+  - name: "Al Jazeera"
     url: "https://www.aljazeera.com/xml/rss/all.xml"
     lang: "en"
-    bias: "Qatari state-funded, sympathetic to Islamist/resistance framing"
+    bias: "Qatari state-funded regional network; useful for regional reporting and Arab political framing"
     tier: 1
 
-  - name: "Middle East Eye"
-    url: "https://news.google.com/rss/search?q=site%3Amiddleeasteye.net%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Qatar-aligned, critical of Gulf monarchies and Israel, routed through Google News because the RSS endpoint is inconsistent"
-    tier: 2
+  - name: "Al Mayadeen"
+    url: "https://news.google.com/rss/search?q=site%3Aalmayadeen.net%20%28%D9%84%D8%A8%D9%86%D8%A7%D9%86%20OR%20%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8%20OR%20%D8%AD%D8%B2%D8%A8%20%D8%A7%D9%84%D9%84%D9%87%29&hl=ar&gl=LB&ceid=LB%3Aar"
+    lang: "ar"
+    bias: "Beirut-based, resistance-aligned outlet; primary narrative stream, not independent confirmation"
+    tier: 1
 
   - name: "The Times of Israel"
     url: "https://www.timesofisrael.com/feed/"
     lang: "en"
-    bias: "Israeli, security-establishment perspective, strong on IDF/intel"
+    bias: "Israeli mainstream outlet; useful for official and security-facing Israeli claims"
     tier: 1
 
-  - name: "The Jerusalem Post"
-    url: "https://www.jpost.com/Rss/RssFeedsHeadlines.aspx"
+  - name: "Haaretz"
+    url: "https://news.google.com/rss/search?q=site%3Ahaaretz.com%20%28Lebanon%20OR%20Hezbollah%20OR%20Beirut%29&hl=en&gl=LB&ceid=LB%3Aen"
     lang: "en"
-    bias: "Israeli English-language mainstream, security and diplomatic establishment friendly"
+    bias: "Israeli liberal paper; useful for reporting that can challenge Israeli official claims"
     tier: 1
 
-  - name: "Ynetnews via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aynetnews.com%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
+  - name: "+972 Magazine"
+    url: "https://news.google.com/rss/search?q=site%3A972mag.com%20%28Lebanon%20OR%20Israel%20OR%20Palestine%29&hl=en&gl=LB&ceid=LB%3Aen"
     lang: "en"
-    bias: "Israeli mass-market Yedioth/Ynet lens, often close to mainstream public-security framing"
-    tier: 2
-
-  - name: "Israel Hayom via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aisraelhayom.com%20Lebanon%20Hezbollah%20OR%20Iran&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Israeli right-leaning, Netanyahu-friendly public line; useful for pro-government framing"
-    tier: 2
-
-  - name: "i24NEWS via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Ai24news.tv%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Israeli international TV lens, often polished for foreign audiences"
-    tier: 2
-
-  - name: "Israel National News"
-    url: "https://www.israelnationalnews.com/Rss.aspx"
-    lang: "en"
-    bias: "Israeli nationalist-right source, useful for maximalist political language"
-    tier: 2
-
-  - name: "N12 / Channel 12 via Google News"
-    url: "https://news.google.com/rss/search?q=site%3An12.co.il%20%D7%9C%D7%91%D7%A0%D7%95%D7%9F%20%D7%97%D7%99%D7%96%D7%91%D7%90%D7%9C%D7%9C%D7%94%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C&hl=he&gl=IL&ceid=IL%3Ahe"
-    lang: "he"
-    bias: "Israeli Channel 12 Hebrew mainstream, useful for internal Israeli security framing"
+    bias: "Israeli-Palestinian anti-occupation magazine; useful for dissenting reporting and rights analysis"
     tier: 1
 
-  - name: "Kan News via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Akan.org.il%20%D7%9C%D7%91%D7%A0%D7%95%D7%9F%20%D7%97%D7%99%D7%96%D7%91%D7%90%D7%9C%D7%9C%D7%94%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C&hl=he&gl=IL&ceid=IL%3Ahe"
-    lang: "he"
-    bias: "Israeli public broadcaster, useful for semi-official Hebrew-language framing"
-    tier: 1
-
-  - name: "Al-Monitor"
-    url: "https://www.al-monitor.com/rss"
+  - name: "ReliefWeb Lebanon"
+    url: "https://news.google.com/rss/search?q=site%3Areliefweb.int%20Lebanon&hl=en&gl=LB&ceid=LB%3Aen"
     lang: "en"
-    bias: "DC-based, analyst-heavy, broadly centrist regional coverage"
-    tier: 1
-
-  - name: "Al Jazeera Arabic"
-    url: "https://news.google.com/rss/search?q=site%3Aaljazeera.net%20%D9%84%D8%A8%D9%86%D8%A7%D9%86%20%D8%AD%D8%B2%D8%A8%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84&hl=ar&gl=LB&ceid=LB%3Aar"
-    lang: "ar"
-    bias: "Qatari, resistance-sympathetic, Arabic register differs from English, routed through Google News because the old RSS endpoint is unavailable"
-    tier: 1
-
-  - name: "Asharq Al-Awsat"
-    url: "https://aawsat.com/feed"
-    lang: "ar"
-    bias: "Saudi-owned, pan-Arab establishment, anti-Iran lean"
-    tier: 2
-
-  - name: "Reuters Middle East via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Areuters.com%2Fworld%2Fmiddle-east%20Lebanon%20Hezbollah%20OR%20Beirut&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Global wire service, source of record on official and diplomatic claims, routed through Google News because Reuters no longer exposes a stable public RSS feed"
-    tier: 1
-
-  - name: "Haaretz via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Ahaaretz.com%20Lebanon%20Hezbollah%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Israeli liberal-left paper, useful for critical Israeli security reporting, often paywalled, routed through Google News"
-    tier: 1
-
-  - name: "+972 Magazine via Google News"
-    url: "https://news.google.com/rss/search?q=site%3A972mag.com%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Israeli anti-occupation magazine, useful as a dissenting Israeli frame rather than establishment consensus"
-    tier: 1
-
-  - name: "International Crisis Group via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Acrisisgroup.org%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Conflict-analysis NGO, institutionally cautious, useful for diplomatic and conflict-cycle framing"
-    tier: 1
-
-  - name: "Carnegie Middle East via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Acarnegieendowment.org%20Lebanon%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Think-tank analysis, Beirut/DC policy lens, useful for structural political reading"
-    tier: 1
-
-  - name: "MEED Lebanon"
-    url: "https://www.meed.com/countries/levant/lebanon/rss/feed"
-    lang: "en"
-    bias: "Business and projects lens, strong for infrastructure, finance, and investment signals"
-    tier: 2
-
-  - name: "MERIP"
-    url: "https://merip.org/feed/"
-    lang: "en"
-    bias: "Academic-left regional analysis, useful for political economy and historical structure"
-    tier: 1
-
-  - name: "National News Agency Lebanon via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Anna-leb.gov.lb%20Lebanon%20OR%20Hezbollah%20OR%20Israel%20OR%20cabinet&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Lebanese official state agency; primary record for ministries, cabinet, and official Lebanese statements, routed through Google News until a stable direct RSS endpoint is verified"
-    tier: 1
-
-  - name: "UNIFIL News"
-    kind: "html_index"
-    url: "https://unifil.unmissions.org/news"
-    lang: "en"
-    bias: "Official UN peacekeeping mission in south Lebanon; primary institutional account for Blue Line, LAF coordination, peacekeeper safety, and Resolution 1701"
-    tier: 1
-    link_patterns: ["unifil.unmissions.org/"]
-    terms: ["LAF", "Blue Line", "peacekeeper", "peacekeepers", "IDF", "Israel", "Resolution 1701", "Naqoura", "Adeisse", "Kawkaba", "Kafer Chouba", "roadblocks", "explosive"]
-    limit: 14
-
-  - name: "Lebanese Army Official Arabic"
-    kind: "html_index"
-    url: "https://www.lebarmy.gov.lb/"
-    lang: "ar"
-    bias: "Official Lebanese Army Arabic source; primary state-security account, useful for LAF deployments, incidents, unexploded ordnance, arrests, and army-UNIFIL coordination"
-    tier: 1
-    link_patterns: ["/ar/content/"]
-    terms: ["الجنوب", "إسرائيل", "الإسرائيلي", "العدوان", "اليونيفيل", "الناقورة", "ذخائر", "قنبلة", "أسلحة", "إطلاق نار", "مساعدات", "دورية", "صيدا", "البقاع", "الحدود"]
-    limit: 12
-
-  - name: "Lebanon24 Arabic"
-    url: "https://www.lebanon24.com/Rss/News/1/%D9%84%D8%A8%D9%86%D8%A7%D9%86"
-    lang: "ar"
-    bias: "Lebanese Arabic news site, useful for fast local political and security reporting; needs source-lane checks for original attribution"
-    tier: 2
-
-  - name: "LBCI Lebanon via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Albcgroup.tv%20Lebanon%20OR%20Hezbollah%20OR%20Israel%20OR%20cabinet&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Lebanese broadcaster, useful for local political and security updates; routed through Google News because direct RSS redirects under the current collector"
-    tier: 2
-
-  - name: "Al Mayadeen Arabic via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aalmayadeen.net%20%D9%84%D8%A8%D9%86%D8%A7%D9%86%20OR%20%D8%AD%D8%B2%D8%A8%20%D8%A7%D9%84%D9%84%D9%87%20OR%20%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84&hl=ar&gl=LB&ceid=LB%3Aar"
-    lang: "ar"
-    bias: "Beirut-based pan-Arab resistance-aligned outlet; valuable for the resistance media frame, not independent confirmation"
-    tier: 1
-
-  - name: "Al-Manar English via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aenglish.almayadeen.net%20OR%20site%3Aenglish.almanar.com.lb%20Lebanon%20Hezbollah%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Resistance-aligned English-language claim stream; use as a primary narrative source, not corroboration"
-    tier: 1
-
-  - name: "WAFA Arabic via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Awafa.ps%20%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%20OR%20%D8%BA%D8%B2%D8%A9%20OR%20%D8%A7%D9%84%D8%A7%D8%AD%D8%AA%D9%84%D8%A7%D9%84&hl=ar&gl=PS&ceid=PS%3Aar"
-    lang: "ar"
-    bias: "Official Palestinian news agency; strong for Palestinian institutional and field record, but still an official source"
-    tier: 1
-
-  - name: "Palestine Chronicle via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Apalestinechronicle.com%20Lebanon%20OR%20Gaza%20OR%20Hezbollah%20OR%20Israel&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Independent pro-Palestinian English outlet; useful for Palestinian frame and civil-society emphasis"
-    tier: 2
-
-  - name: "Ma'an News via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Amaannews.net%20%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%20OR%20%D8%BA%D8%B2%D8%A9%20OR%20%D9%84%D8%A8%D9%86%D8%A7%D9%86&hl=ar&gl=PS&ceid=PS%3Aar"
-    lang: "ar"
-    bias: "Palestinian Arabic outlet; useful for local Palestinian reports and occupation language"
-    tier: 2
-
-  - name: "Saudi Press Agency via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aspa.gov.sa%20Lebanon%20OR%20Iran%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Official Saudi state agency; read as Riyadh's public diplomatic and regional line"
-    tier: 1
-
-  - name: "Qatar News Agency via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aqna.org.qa%20Lebanon%20OR%20Iran%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Official Qatari state agency; useful for Doha's diplomatic line and mediation posture"
-    tier: 1
-
-  - name: "Emirates News Agency via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Awam.ae%20Lebanon%20OR%20Iran%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Official UAE state agency; useful for Abu Dhabi's public security, diplomacy, and regional stability line"
-    tier: 1
-
-  - name: "Oman News Agency via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Aomannews.gov.om%20Lebanon%20OR%20Iran%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Official Omani state agency; useful for Muscat's diplomatic and mediation posture"
-    tier: 1
-
-  - name: "Makan Arabic via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Akan.org.il%20%D9%85%D9%83%D8%A7%D9%86%20%D9%84%D8%A8%D9%86%D8%A7%D9%86%20OR%20%D8%AD%D8%B2%D8%A8%20%D8%A7%D9%84%D9%84%D9%87&hl=ar&gl=IL&ceid=IL%3Aar"
-    lang: "ar"
-    bias: "Israeli public broadcaster's Arabic-facing output; useful for how Israel speaks toward Arabic readers"
-    tier: 1
-
-  - name: "i24NEWS Arabic via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Ai24news.tv%2Far%20%D9%84%D8%A8%D9%86%D8%A7%D9%86%20OR%20%D8%AD%D8%B2%D8%A8%20%D8%A7%D9%84%D9%84%D9%87%20OR%20%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84&hl=ar&gl=IL&ceid=IL%3Aar"
-    lang: "ar"
-    bias: "Israeli international channel in Arabic; useful for Israeli messaging shaped for Arabic-speaking audiences"
-    tier: 2
-
-  - name: "Press TV via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Apresstv.ir%20Lebanon%20OR%20Hezbollah%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Iranian state-owned English outlet; primary Iranian narrative and resistance-axis framing, not independent confirmation"
-    tier: 1
-
-  - name: "Tehran Times via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Atehrantimes.com%20Lebanon%20OR%20Hezbollah%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Iranian English-language paper with official-system proximity; useful for Tehran's political line"
-    tier: 1
-
-  - name: "IRNA English via Google News"
-    url: "https://news.google.com/rss/search?q=site%3Airna.ir%2Fen%20Lebanon%20OR%20Hezbollah%20OR%20Israel%20OR%20Gaza&hl=en-US&gl=US&ceid=US%3Aen"
-    lang: "en"
-    bias: "Official Iranian news agency in English; primary record for Iranian state claims and diplomatic messaging"
+    bias: "UN-curated humanitarian reporting from named partner organisations"
     tier: 1

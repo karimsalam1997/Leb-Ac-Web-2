@@ -6,137 +6,47 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          35.43,
-          33.275
+          35.5797,
+          33.3118
         ]
       },
       "properties": {
-        "cluster_id": "1638ba93abc2",
-        "headline": "Three Killed in Israeli Drone Strike on Vehicle in South Lebanon, Local Reports Say - Haaretz",
+        "cluster_id": "623dd8973981",
+        "headline": "IDF: -In one operation at the Tayyiba ridge, troops uncovered a tunnel network, tracked Hezbollah fighters attempting to escape, and killed 10 mil…",
         "signal_tags": [
           "casualty",
-          "political-maneuver",
           "strike-claim"
-        ],
-        "confidence": "high",
-        "frameworks": [
-          "rentier_clientelist"
-        ],
-        "district": "South Lebanon",
-        "analysis_short": "South Lebanon is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectaria",
-        "published_at": "2026-06-25T18:55:00+00:00",
-        "match_confidence": 0.52,
-        "severity": "critical",
-        "location_precision": "district",
-        "confirmation_status": "corroborated",
-        "claim_side": "Israeli dissent or complication",
-        "recommended_next_check": "Check South Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.",
-        "source_lanes": [
-          "israeli-dissent",
-          "israeli-establishment",
-          "lebanese-local"
-        ],
-        "civilian_impact_flags": [
-          "casualties"
-        ],
-        "what_is_missing": "Missing: a precise place, wire or regional corroboration.",
-        "verification_status": "needs-location",
-        "verification_label": "Needs sharper place",
-        "verification_missing": [
-          "sharper place",
-          "wire or regional corroboration"
-        ],
-        "map_marker_kind": "representative-area",
-        "map_precision_label": "Representative area",
-        "map_radius_meters": 36000,
-        "map_warning": "This is a representative center for a broader place mention. Do not read it as a street-level pin."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          35.43,
-          33.275
-        ]
-      },
-      "properties": {
-        "cluster_id": "237ff2e85402",
-        "headline": "FOCUS Withdrawal from south Lebanon and Hezbollah disarmament: Israeli demands complicate negotiations The...",
-        "signal_tags": [
-          "political-maneuver",
-          "strike-claim"
-        ],
-        "confidence": "medium",
-        "frameworks": [],
-        "district": "South Lebanon",
-        "analysis_short": "South Lebanon is where the military story and the civilian story are crossing today. The item set is still source-bound, with L'Orient Today, National News Agency Lebanon via Google News carrying the available record, so",
-        "published_at": "2026-06-26T02:25:36.162464+00:00",
-        "match_confidence": 0.52,
-        "severity": "high",
-        "location_precision": "district",
-        "confirmation_status": "partly-corroborated",
-        "claim_side": "Mixed reporting",
-        "recommended_next_check": "Check South Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.",
-        "source_lanes": [
-          "lebanese-local"
-        ],
-        "civilian_impact_flags": [],
-        "what_is_missing": "Missing: a precise place, wire or regional corroboration.",
-        "verification_status": "needs-location",
-        "verification_label": "Needs sharper place",
-        "verification_missing": [
-          "sharper place",
-          "wire or regional corroboration"
-        ],
-        "map_marker_kind": "representative-area",
-        "map_precision_label": "Representative area",
-        "map_radius_meters": 36000,
-        "map_warning": "This is a representative center for a broader place mention. Do not read it as a street-level pin."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          35.5018,
-          33.8938
-        ]
-      },
-      "properties": {
-        "cluster_id": "5e28c327cc6a",
-        "headline": "Israeli offensive leaves Beirut in limbo",
-        "signal_tags": [
-          "political-maneuver"
         ],
         "confidence": "low",
         "frameworks": [],
-        "district": "Beirut",
-        "analysis_short": "Beirut is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectarian broke",
-        "published_at": "2026-06-26T02:25:44.738972+00:00",
+        "district": "Marjayoun",
+        "analysis_short": "Lebanon is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectarian brok",
+        "published_at": "2026-07-27T10:09:00+00:00",
         "match_confidence": 0.88,
-        "severity": "moderate",
+        "severity": "critical",
         "location_precision": "exact",
         "confirmation_status": "single-source",
-        "claim_side": "Regional and wire reporting",
-        "recommended_next_check": "Look for the same place and time in a Lebanese local source, an Israeli source, and a wire or regional source.",
+        "claim_side": "Israeli security narrative",
+        "recommended_next_check": "Check Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.",
         "source_lanes": [
-          "wires-regional"
+          "israeli-establishment"
         ],
-        "civilian_impact_flags": [],
-        "what_is_missing": "Missing: a second source, Lebanese local confirmation.",
+        "civilian_impact_flags": [
+          "casualties",
+          "roads"
+        ],
+        "what_is_missing": "Missing: a second source, a precise place, Lebanese local confirmation, wire or regional corroboration.",
         "verification_status": "needs-source",
         "verification_label": "Needs another source",
         "verification_missing": [
           "second source",
-          "Lebanese local record"
+          "Lebanese local record",
+          "wire or regional corroboration"
         ],
         "map_marker_kind": "pin",
         "map_precision_label": "Named place pin",
         "map_radius_meters": 2500,
-        "map_warning": "The place name was matched, but the claim still needs the source checks listed in the dossier."
+        "map_warning": "The place name was matched, but the claim still needs the source checks listed in the record."
       }
     },
     {
@@ -149,83 +59,89 @@
         ]
       },
       "properties": {
-        "cluster_id": "e5f14d88bb2f",
-        "headline": "20:55 ISRAELI INVASION Mapped out: Israeli army formalizes expansion of its 'operations zone' in south Leb...",
+        "cluster_id": "2a79917929f3",
+        "headline": "UN human rights chief Volker Türk blunt demand after wrapping up his latest visit in Lebanon: Israel must end its occupation of southern Lebanon a…",
         "signal_tags": [
-          "political-maneuver"
-        ],
-        "confidence": "medium",
-        "frameworks": [],
-        "district": "South Lebanon",
-        "analysis_short": "South Lebanon is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectaria",
-        "published_at": "2026-06-26T02:25:36.162738+00:00",
-        "match_confidence": 0.52,
-        "severity": "moderate",
-        "location_precision": "district",
-        "confirmation_status": "partly-corroborated",
-        "claim_side": "Cross-source field record",
-        "recommended_next_check": "Compare the Israeli establishment line with Haaretz, +972, Lebanese local reporting, and wires.",
-        "source_lanes": [
-          "israeli-establishment",
-          "lebanese-local"
-        ],
-        "civilian_impact_flags": [],
-        "what_is_missing": "Missing: a precise place, wire or regional corroboration.",
-        "verification_status": "needs-location",
-        "verification_label": "Needs sharper place",
-        "verification_missing": [
-          "sharper place",
-          "wire or regional corroboration"
-        ],
-        "map_marker_kind": "representative-area",
-        "map_precision_label": "Representative area",
-        "map_radius_meters": 36000,
-        "map_warning": "This is a representative center for a broader place mention. Do not read it as a street-level pin."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          35.6132,
-          33.3558
-        ]
-      },
-      "properties": {
-        "cluster_id": "a38f404e922b",
-        "headline": "Analysis From the Alps to the Litani: Iran Secures a Foothold on Israel's Northern Border - Haaretz",
-        "signal_tags": [
-          "political-maneuver"
+          "casualty",
+          "displacement",
+          "economic",
+          "political-maneuver",
+          "strike-claim"
         ],
         "confidence": "low",
         "frameworks": [],
         "district": "South Lebanon",
-        "analysis_short": "Location unclear is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through secta",
-        "published_at": "2026-06-22T15:41:00+00:00",
+        "analysis_short": "Lebanon is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectarian brok",
+        "published_at": "2026-07-27T22:45:00+00:00",
         "match_confidence": 0.52,
-        "severity": "moderate",
+        "severity": "high",
         "location_precision": "district",
         "confirmation_status": "single-source",
-        "claim_side": "Israeli dissent or complication",
-        "recommended_next_check": "Look for the same place and time in a Lebanese local source, an Israeli source, and a wire or regional source.",
+        "claim_side": "Regional and wire reporting",
+        "recommended_next_check": "Check Lebanon against Lebanese local reporting, municipal or rescue updates, and one opposing-source record before acting on it.",
         "source_lanes": [
-          "israeli-dissent"
+          "wires-regional"
         ],
-        "civilian_impact_flags": [],
-        "what_is_missing": "Missing: a second source, a precise place, Lebanese local confirmation, wire or regional corroboration.",
+        "civilian_impact_flags": [
+          "displacement",
+          "casualties"
+        ],
+        "what_is_missing": "Missing: a second source, a precise place, Lebanese local confirmation.",
         "verification_status": "needs-source-and-location",
         "verification_label": "Needs source and place",
         "verification_missing": [
           "second source",
           "sharper place",
-          "Lebanese local record",
+          "Lebanese local record"
+        ],
+        "map_marker_kind": "representative-area",
+        "map_precision_label": "Representative area",
+        "map_radius_meters": 36000,
+        "map_warning": "This is a representative center for a broader place mention, not a street-level pin."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.43,
+          33.275
+        ]
+      },
+      "properties": {
+        "cluster_id": "6336363a4ead",
+        "headline": "Aoun meeting with UN rights chief: Israeli demolitions in southern Lebanon could impact framework agreement",
+        "signal_tags": [
+          "political-maneuver"
+        ],
+        "confidence": "low",
+        "frameworks": [],
+        "district": "South Lebanon",
+        "analysis_short": "Lebanon is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectarian brok",
+        "published_at": "2026-07-27T11:38:01+00:00",
+        "match_confidence": 0.52,
+        "severity": "moderate",
+        "location_precision": "district",
+        "confirmation_status": "single-source",
+        "claim_side": "Mixed reporting",
+        "recommended_next_check": "Look for the same place and time in a Lebanese local source, an Israeli source, and a wire or regional source.",
+        "source_lanes": [
+          "lebanese-local"
+        ],
+        "civilian_impact_flags": [],
+        "what_is_missing": "Missing: a second source, a precise place, wire or regional corroboration.",
+        "verification_status": "needs-source-and-location",
+        "verification_label": "Needs source and place",
+        "verification_missing": [
+          "second source",
+          "sharper place",
           "wire or regional corroboration"
         ],
         "map_marker_kind": "representative-area",
         "map_precision_label": "Representative area",
-        "map_radius_meters": 24000,
-        "map_warning": "This is a representative center for a broader place mention. Do not read it as a street-level pin."
+        "map_radius_meters": 36000,
+        "map_warning": "This is a representative center for a broader place mention, not a street-level pin."
       }
     }
   ]

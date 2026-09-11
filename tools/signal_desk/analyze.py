@@ -22,17 +22,12 @@ def load_frameworks(config: dict) -> list[Framework]:
 
 def choose_framework_ids(text: str, frameworks: list[Framework]) -> list[str]:
     lowered = text.lower()
-    selected: list[str] = []
-    if any(term in lowered for term in ["sect", "parliament", "minister", "cabinet", "election"]):
-        selected.append("franchise_confessionalism")
-    if any(term in lowered for term in ["bank", "electricity", "generator", "reform", "collapse", "currency"]):
-        selected.append("profitable_dysfunction")
-    if any(term in lowered for term in ["heritage", "solidere", "downtown", "archive", "memory", "reconstruction"]):
-        selected.append("memorycide")
-    if any(term in lowered for term in ["budget", "aid", "appointment", "patronage", "rent"]):
-        selected.append("rentier_clientelist")
-    valid = {framework.id for framework in frameworks}
-    return [framework_id for framework_id in selected if framework_id in valid][:2]
+    matches = [
+        framework.id
+        for framework in frameworks
+        if any(term.lower() in lowered for term in framework.match_terms)
+    ]
+    return matches[:2]
 
 
 def confidence_for(items: list[ScoredItem]) -> str:
@@ -55,16 +50,11 @@ def source_lane_ids(items: list[ScoredItem]) -> list[str]:
 def confirmation_status_for(items: list[ScoredItem]) -> str:
     if is_fallback_sample_cluster(items):
         return "unconfirmed"
-    lanes = set(source_lane_ids(items))
     source_count = len({item.source_id for item in items})
     if source_count <= 1:
         return "single-source"
-    if lanes & CORROBORATING_LANES and source_count >= 3:
-        return "corroborated"
-    if lanes & CORROBORATING_LANES:
-        return "partly-corroborated"
-    if lanes <= PRIMARY_CLAIM_LANES:
-        return "unconfirmed"
+    # Automation can establish that several outlets are reporting related
+    # material. It cannot promote its own grouping into a verified finding.
     return "partly-corroborated"
 
 
@@ -76,6 +66,8 @@ def severity_for(tags: list[str], text: str, confirmation_status: str) -> str:
         return "critical"
     if "casualty" in tags or "displacement" in tags:
         return "high"
+    if "humanitarian" in tags:
+        return "moderate"
     if "strike-claim" in tags and confirmation_status in {"corroborated", "partly-corroborated"}:
         return "high"
     if "strike-claim" in tags:
@@ -156,7 +148,10 @@ def who_complicates_for(items: list[ScoredItem], lanes: list[str], confirmation_
     if "resistance-apparatus" in lane_set and "israeli-establishment" not in lane_set:
         notes.append("No matching Israeli record appears in this cluster.")
     if "israeli-establishment" in lane_set and "lebanese-local" not in lane_set:
-        notes.append("No Lebanese local confirmation appears in this cluster.")
+        notes.append(
+            "This is an Israeli official or security-facing claim. Its account of targets, "
+            "casualties, and mission success is self-reported until an independent record tests it."
+        )
     if "israeli-dissent" in lane_set:
         notes.append("Israeli dissent reporting complicates the official line.")
     if not notes:
@@ -206,6 +201,34 @@ def cluster_key(item: ScoredItem) -> str:
     return f"{source_band}:{place}:political-maneuver"
 
 
+HEADLINE_STOPWORDS = {
+    "about", "after", "against", "amid", "and", "are", "from", "into", "is", "its",
+    "lebanon", "lebanese", "israel", "israeli", "hezbollah", "near", "new", "over",
+    "said", "says", "the", "their", "this", "to", "with",
+    "على", "عن", "في", "من", "إلى", "بعد", "لبنان", "لبناني", "إسرائيل", "الإسرائيلي",
+    "حزب", "الله",
+}
+
+
+def headline_tokens(item: ScoredItem) -> set[str]:
+    words = re.findall(r"[\w\u0600-\u06ff]{3,}", item.title.lower())
+    return {word for word in words if word not in HEADLINE_STOPWORDS and not word.isdigit()}
+
+
+def related_headlines(left: ScoredItem, right: ScoredItem) -> bool:
+    if cluster_key(left).rsplit(":", 1)[-1] != cluster_key(right).rsplit(":", 1)[-1]:
+        return False
+    if abs((left.published_at - right.published_at).total_seconds()) > 48 * 60 * 60:
+        return False
+    left_tokens = headline_tokens(left)
+    right_tokens = headline_tokens(right)
+    shared = left_tokens & right_tokens
+    if len(shared) < 2:
+        return False
+    smaller = min(len(left_tokens), len(right_tokens))
+    return smaller > 0 and len(shared) / smaller >= 0.4
+
+
 def signal_from_key(key: str) -> str:
     return key.rsplit(":", 1)[-1]
 
@@ -230,14 +253,34 @@ def is_fallback_sample_cluster(items: list[ScoredItem]) -> bool:
     return bool(items) and all(bool(item.raw.get("fallback")) for item in items)
 
 
+def clean_headline(title: str) -> str:
+    parts = title.rsplit(" - ", 1)
+    if len(parts) == 2 and len(parts[1]) <= 42:
+        title = parts[0]
+    title = re.sub(r"\s+", " ", title).strip()
+    return title if len(title) <= 150 else title[:146].rstrip() + "…"
+
+
 def analyze(items: list[ScoredItem], frameworks: list[Framework]) -> list[GeoTaggedCluster]:
-    buckets: dict[str, list[ScoredItem]] = defaultdict(list)
     event_items = [item for item in items if item.source_type != "analysis"]
-    for item in event_items:
-        buckets[cluster_key(item)].append(item)
+    grouped_items: list[list[ScoredItem]] = []
+    for item in sorted(event_items, key=lambda candidate: candidate.published_at, reverse=True):
+        matching_group = next(
+            (
+                group
+                for group in grouped_items
+                if any(related_headlines(item, existing) for existing in group)
+            ),
+            None,
+        )
+        if matching_group is None:
+            grouped_items.append([item])
+        else:
+            matching_group.append(item)
 
     clusters: list[GeoTaggedCluster] = []
-    for key, bucket in buckets.items():
+    for group_index, bucket in enumerate(grouped_items):
+        key = f"{group_index}:{cluster_key(bucket[0])}"
         ranked = sorted(bucket, key=lambda item: item.relevance, reverse=True)[:4]
         lead = ranked[0]
         fallback_sample = is_fallback_sample_cluster(ranked)
@@ -253,7 +296,7 @@ def analyze(items: list[ScoredItem], frameworks: list[Framework]) -> list[GeoTag
         precision = location_precision_for(location_phrase)
         severity = "low" if fallback_sample else severity_for(all_tags, text, status)
         civilian_flags = civilian_flags_for(text, all_tags)
-        headline = lead.title if len(lead.title) < 110 else lead.title[:106].rstrip() + "..."
+        headline = clean_headline(lead.title)
         if fallback_sample and not headline.startswith("Fallback sample:"):
             headline = "Fallback sample: " + headline
         analysis = build_fallback_analysis(location_phrase) if fallback_sample else build_analysis(location_phrase, signal, ranked, framework_ids)
@@ -281,7 +324,17 @@ def analyze(items: list[ScoredItem], frameworks: list[Framework]) -> list[GeoTag
                 claim_side=claim_side_for(ranked, lanes),
                 confirmation_status=status,
                 recommended_next_check=next_check_for(signal, status, location_phrase, lanes),
-                what_happened=build_fallback_what_happened() if fallback_sample else build_what_happened(location_phrase, signal, headline, status),
+                what_happened=(
+                    build_fallback_what_happened()
+                    if fallback_sample
+                    else build_what_happened(
+                        location_phrase,
+                        signal,
+                        headline,
+                        lead.source_id,
+                        lead.text_en,
+                    )
+                ),
                 where=location_phrase,
                 who_says_so=who_says_so_for(ranked),
                 who_disputes_or_complicates=who_complicates_for(ranked, lanes, status),
@@ -318,8 +371,13 @@ def build_analysis(location: str, signal: str, items: list[ScoredItem], framewor
         return f"{location} is not being described as a sudden failure so much as a familiar machine under stress. The useful reading is structural: when public capacity weakens, private fees and political brokerage usually become the hidden tax."
     if signal == "displacement":
         return f"{location} is registering pressure on ordinary movement, shelter, and household calculation. The strongest opposing argument is that evacuation language can be ordinary wartime caution, but in Lebanon it also changes who can stay, who can work, and who quietly loses the map."
-    if "memorycide" in framework_ids:
-        return f"{location} enters the brief as a memory question, not only a news item. The surface claim may be administrative or urban, but the deeper move is about what gets preserved, what gets renamed, and who benefits when the public record thins out."
+    if framework_ids:
+        framework_label = framework_ids[0].replace("_", " ")
+        return (
+            f"{location} clears the {framework_label} test in the standing layer. "
+            "The report should spend its words on the actor, place, date, and material result, "
+            "while keeping the source check in the evidence footer."
+        )
     return f"{location} is the pressure point in this cluster. The strongest cautious reading is that these are separate reports, but the pattern matters because Lebanon's weak state makes every local event travel through sectarian brokerage, foreign pressure, and private survival systems."
 
 
@@ -327,16 +385,64 @@ def build_fallback_analysis(location: str) -> str:
     return f"{location} appears only because local fallback sample text was emitted after live sources failed. This is a pipeline diagnostic, not a field signal."
 
 
-def build_what_happened(location: str, signal: str, headline: str, status: str) -> str:
+def evidence_excerpt(text: str, fallback: str, limit: int = 360) -> str:
+    compact = re.sub(r"\s+", " ", text or "").strip()
+    divider_segments = [
+        segment.strip(" -")
+        for segment in re.split(r"─{3,}|-{5,}", compact)
+        if segment.strip(" -")
+    ]
+    segments = [
+        candidate.strip()
+        for segment in divider_segments
+        for candidate in re.split(r"(?<=[.!?])\s+(?=[A-Z])", segment)
+        if candidate.strip()
+    ]
+    english_segments = [
+        segment
+        for segment in segments
+        if len(re.findall(r"[A-Za-z]", segment)) >= 24
+        and "whatsapp.com" not in segment.lower()
+    ]
+    selected = english_segments[0] if english_segments else (segments[0] if segments else fallback)
+    sentences = re.split(r"(?<=[.!?])\s+", selected)
+    chosen: list[str] = []
+    for candidate in sentences[:3]:
+        proposed = " ".join([*chosen, candidate]).strip()
+        if chosen and len(proposed) > limit:
+            break
+        chosen.append(candidate)
+    excerpt = " ".join(chosen).strip() or selected
+    if len(excerpt) <= limit:
+        return excerpt
+    shortened = excerpt[:limit].rsplit(" ", 1)[0].rstrip(" ,;:-")
+    return f"{shortened}…"
+
+
+def build_what_happened(
+    location: str,
+    signal: str,
+    headline: str,
+    source: str,
+    source_text: str,
+) -> str:
+    place = "Lebanon" if location in {"Location unclear", "Place not established"} else location
+    excerpt = evidence_excerpt(source_text, headline)
     if signal == "strike-claim":
-        return f"A military claim or report is tied to {location}. The desk treats it as {status.replace('-', ' ')} until the same place and time appear across separate source lanes."
+        return f"{source} reported a military development tied to {place}: {excerpt}"
     if signal == "displacement":
-        return f"Reporting around {location} points to movement pressure, shelter pressure, or warnings that affect civilian choices."
+        return f"{source} reported a change in movement, shelter, or return around {place}: {excerpt}"
+    if signal == "humanitarian":
+        return f"{source} reported a humanitarian or public-service development connected to {place}: {excerpt}"
     if signal == "casualty":
-        return f"Casualty language appears in the reporting around {location}. Numbers and identities need separate confirmation."
+        return f"{source} reported casualties around {place}: {excerpt}"
     if signal == "rhetoric-shift":
-        return f"A statement or warning is moving the public line around {location}, even if the field facts remain incomplete."
-    return f"The cluster centers on {headline}"
+        return f"{source} carried a statement or warning tied to {place}: {excerpt}"
+    if signal == "economic":
+        return f"{source} reported an economic development tied to {place}: {excerpt}"
+    if signal == "heritage":
+        return f"{source} reported a culture or memory development tied to {place}: {excerpt}"
+    return f"{source} reported this development around {place}: {excerpt}"
 
 
 def build_fallback_what_happened() -> str:
@@ -344,13 +450,16 @@ def build_fallback_what_happened() -> str:
 
 
 def build_why_it_matters(location: str, signal: str, severity: str, civilian_flags: list[str]) -> str:
+    place = "Lebanon" if location in {"Location unclear", "Place not established"} else location
     if severity in {"critical", "high"}:
-        return f"{location} matters because it can change movement, safety checks, and whether a claim should be treated as live danger rather than background noise."
+        return f"{place} matters here because the report may affect civilian safety, movement, or casualty accounting."
     if civilian_flags:
-        return f"{location} matters because the story touches civilian systems: {', '.join(civilian_flags[:3])}."
+        return f"{place} matters because the story touches civilian systems: {', '.join(civilian_flags[:3])}."
+    if signal == "humanitarian":
+        return f"The development matters because it concerns aid, health, or emergency capacity in {place}."
     if signal == "rhetoric-shift":
         return "The statement matters because rhetoric often prepares the ground for later military, diplomatic, or media moves."
-    return f"{location} matters if it stops being an isolated item and begins repeating across towns, roads, or source lanes."
+    return f"The development matters if it stops being an isolated item and begins repeating across separate source records in {place}."
 
 
 def build_fallback_why_it_matters() -> str:

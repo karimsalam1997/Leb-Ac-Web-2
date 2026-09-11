@@ -32,7 +32,7 @@ FALLBACK_GAZETTEER = [
     {"name": "Kfar Kila", "name_ar": "كفركلا", "aliases": ["kfar kila", "kfar kela", "kfar kila"], "lat": 33.2797, "lng": 35.5558, "district": "Marjayoun", "caza": "Marjayoun", "governorate": "Nabatieh"},
     {"name": "Houla", "name_ar": "حولا", "aliases": ["hula"], "lat": 33.2210, "lng": 35.5169, "district": "Marjayoun", "caza": "Marjayoun", "governorate": "Nabatieh"},
     {"name": "Tayr Harfa", "name_ar": "طير حرفا", "aliases": ["tayr harfa", "teir harfa", "tair harfa"], "lat": 33.1552, "lng": 35.2344, "district": "Tyre", "caza": "Tyre", "governorate": "South Lebanon"},
-    {"name": "Taybeh", "name_ar": "الطيبة", "aliases": ["taybeh", "taibeh"], "lat": 33.3118, "lng": 35.5797, "district": "Marjayoun", "caza": "Marjayoun", "governorate": "Nabatieh"},
+    {"name": "Taybeh", "name_ar": "الطيبة", "aliases": ["taybeh", "taibeh", "tayyiba", "tayyibah"], "lat": 33.3118, "lng": 35.5797, "district": "Marjayoun", "caza": "Marjayoun", "governorate": "Nabatieh"},
     {"name": "Hadatha", "name_ar": "حداثا", "aliases": ["hadatha", "hadatha bint jbeil"], "lat": 33.1542, "lng": 35.4147, "district": "Bint Jbeil", "caza": "Bint Jbeil", "governorate": "Nabatieh"},
     {"name": "Chamaa", "name_ar": "شمع", "aliases": ["chamaa", "shamaa", "chama"], "lat": 33.1451, "lng": 35.2550, "district": "Tyre", "caza": "Tyre", "governorate": "South Lebanon"},
     {"name": "Debel", "name_ar": "دبل", "aliases": ["debel", "debil"], "lat": 33.1084, "lng": 35.4219, "district": "Bint Jbeil", "caza": "Bint Jbeil", "governorate": "Nabatieh"},
@@ -96,35 +96,41 @@ def match_locations(text: str) -> list[Location]:
     return matches
 
 
-def apply_map_display(cluster: GeoTaggedCluster) -> None:
+def map_display_values(cluster: GeoTaggedCluster) -> dict[str, object]:
     location = cluster.primary_location
     if not location or cluster.location_precision == "unknown":
-        cluster.map_marker_kind = "unmapped"
-        cluster.map_precision_label = "Unmapped"
-        cluster.map_radius_meters = 0
-        cluster.map_warning = "No precise place is available yet, so this cluster should not be read as a mapped event."
-        return
+        return {
+            "map_marker_kind": "unmapped",
+            "map_precision_label": "Unmapped",
+            "map_radius_meters": 0,
+            "map_warning": "No precise place is available yet, so this item should not be read as a mapped event.",
+        }
 
     if cluster.location_precision == "exact":
-        cluster.map_marker_kind = "pin"
-        cluster.map_precision_label = "Named place pin"
-        cluster.map_radius_meters = 2500
-        cluster.map_warning = "The place name was matched, but the claim still needs the source checks listed in the dossier."
-        return
+        return {
+            "map_marker_kind": "pin",
+            "map_precision_label": "Named place pin",
+            "map_radius_meters": 2500,
+            "map_warning": "The place name was matched, but the claim still needs the source checks listed in the record.",
+        }
 
-    cluster.map_marker_kind = "representative-area"
-    cluster.map_precision_label = "Representative area"
-    cluster.map_radius_meters = BROAD_AREA_RADII.get(location.name, 18000)
-    cluster.map_warning = (
-        "This is a representative center for a broader place mention. "
-        "Do not read it as a street-level pin."
-    )
+    return {
+        "map_marker_kind": "representative-area",
+        "map_precision_label": "Representative area",
+        "map_radius_meters": BROAD_AREA_RADII.get(location.name, 18000),
+        "map_warning": "This is a representative center for a broader place mention, not a street-level pin.",
+    }
 
 
 def geo_tag(clusters: list[GeoTaggedCluster]) -> list[GeoTaggedCluster]:
     tagged: list[GeoTaggedCluster] = []
     for cluster in clusters:
-        source_titles = " ".join(cluster.who_says_so)
+        source_titles = " ".join(
+            source_record.split(": ", 1)[1]
+            if ": " in source_record
+            else source_record
+            for source_record in cluster.who_says_so
+        )
         text = " ".join([cluster.headline, source_titles])
         locations = match_locations(text)
         if not locations:
@@ -140,28 +146,41 @@ def geo_tag(clusters: list[GeoTaggedCluster]) -> list[GeoTaggedCluster]:
                     match_confidence=0.2,
                 )
             ]
-            cluster.location_precision = "unknown"
-            cluster.where = "Location unclear"
-            cluster.recommended_next_check = (
-                "Look for a named place and time in Lebanese local reporting, an opposing source, "
-                "and a wire or regional source before treating this as actionable."
+            missing = cluster.what_is_missing
+            if "precise place" not in missing:
+                missing = "Missing: a precise place, " + missing.removeprefix("Missing: ")
+            updated = cluster.model_copy(
+                update={
+                    "location_precision": "unknown",
+                    "where": "Place not established",
+                    "recommended_next_check": (
+                        "Look for a named place and time in Lebanese local reporting, an opposing source, "
+                        "and a wire or regional source before treating this as actionable."
+                    ),
+                    "what_is_missing": missing,
+                    "locations": locations,
+                    "primary_location": locations[0],
+                }
             )
-            cluster.what_happened = "A claim or report is circulating, but the place is not clear enough to pin."
-            cluster.why_it_matters = "The item matters as a signal, not as a mapped event, until a source names the place clearly."
-            if "precise place" not in cluster.what_is_missing:
-                cluster.what_is_missing = "Missing: a precise place, " + cluster.what_is_missing.removeprefix("Missing: ")
         else:
             broad_places = {"Lebanon", "South Lebanon", "Mount Lebanon", "Litani River"}
             if locations[0].name in broad_places or locations[0].match_confidence < 0.5:
-                cluster.location_precision = "district"
-                locations[0].match_confidence = min(locations[0].match_confidence, 0.52)
+                precision = "district"
+                locations = [
+                    locations[0].model_copy(update={"match_confidence": min(locations[0].match_confidence, 0.52)}),
+                    *locations[1:],
+                ]
             else:
-                cluster.location_precision = "exact"
-            cluster.where = locations[0].name
-        cluster.locations = locations
-        cluster.primary_location = locations[0]
-        apply_map_display(cluster)
-        tagged.append(cluster)
+                precision = "exact"
+            updated = cluster.model_copy(
+                update={
+                    "location_precision": precision,
+                    "where": locations[0].name,
+                    "locations": locations,
+                    "primary_location": locations[0],
+                }
+            )
+        tagged.append(updated.model_copy(update=map_display_values(updated)))
     return tagged
 
 

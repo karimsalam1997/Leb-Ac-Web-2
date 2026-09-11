@@ -60,7 +60,10 @@ export default function SubmitPage() {
               </p>
             </div>
 
-            <div className="submit-guidelines-block mt-8 border-t border-[color:var(--line)] pt-7">
+            <div
+              id="editorial-guidelines"
+              className="submit-guidelines-block mt-8 border-t border-[color:var(--line)] pt-7"
+            >
               <div className="editorial-kicker mb-6">Before You Write</div>
               <div className="space-y-5">
                 {guidelines.map((item) => (

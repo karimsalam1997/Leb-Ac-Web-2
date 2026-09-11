@@ -3,17 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "dev": "next dev --turbopack",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint src next.config.ts studio-lebanese-academic/sanity.config.ts studio-lebanese-academic/sanity.cli.ts studio-lebanese-academic/schemaTypes"
+    "lint": "eslint src next.config.ts studio-lebanese-academic/sanity.config.ts studio-lebanese-academic/sanity.cli.ts studio-lebanese-academic/schemaTypes",
+    "signals:check": "python3 -m unittest discover -s tools/signal_desk/tests -v",
+    "signals:update": "python3 -m tools.signal_desk.run --since 36h"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
     "@tailwindcss/typography": "^0.5.19",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.14.0",
-    "next": "^16.2.6",
+    "next": "^16.2.9",
     "next-sanity": "^13.0.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -29,7 +31,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.2.6",
+    "eslint-config-next": "^16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

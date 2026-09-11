@@ -24,7 +24,7 @@ export default async function EssayOgImage({
   const byline = essay?.byline ?? "Karim Salam";
   const date = essay?.date ?? "May 2026";
 
-  // Cinnabar on cream — the masthead palette, rendered for social cards.
+  // Cinnabar on cream, the masthead palette rendered for social cards.
   return new ImageResponse(
     (
       <div

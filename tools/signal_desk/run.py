@@ -10,14 +10,15 @@ import time
 from typing import Callable, TypeVar
 
 from tools.signal_desk.analyze import analyze, load_frameworks
-from tools.signal_desk.collectors import local_analysis, rss, telegram, youtube
-from tools.signal_desk.config import PUBLIC_DATA_DIR, STORE_DIR, load_feeds, load_framework_config, parse_since, resolve_project_path
+from tools.signal_desk.collectors import local_analysis, rss, telegram, x_api, youtube
+from tools.signal_desk.config import PUBLIC_DATA_DIR, STORE_DIR, load_feeds, load_framework_config, load_optional_config, parse_since, resolve_project_path
 from tools.signal_desk.filter import filter_items
-from tools.signal_desk.geo import district_aggregates, events_geojson, geo_tag, write_fallback_districts
+from tools.signal_desk.geo import district_aggregates, events_geojson, geo_tag
 from tools.signal_desk.models import ApiMeta, MapCoverage, SignalDeskApi, SourceCondition, SourceHealth, SourceInventory
 from tools.signal_desk.normalize import normalize
+from tools.signal_desk.review import apply_review_overrides
 from tools.signal_desk.source_lanes import build_ground_needs, build_source_lanes
-from tools.signal_desk.synthesize import synthesize_brief
+from tools.signal_desk.synthesize import synthesize_brief, synthesize_daily_report
 from tools.signal_desk.verification import attach_verification_dossiers
 
 
@@ -60,17 +61,48 @@ def source_health_summary(source_health: list[SourceHealth]) -> dict[str, object
     }
 
 
-def build_source_inventory(feeds: list[dict[str, object]]) -> SourceInventory:
-    languages = Counter(str(feed.get("lang", "unknown")) for feed in feeds)
-    collection_modes = Counter(str(feed.get("kind", "rss")) for feed in feeds)
-    tiers = Counter(f"tier-{feed.get('tier', 'unknown')}" for feed in feeds)
+def build_source_inventory(
+    feeds: list[dict[str, object]],
+    *,
+    x_accounts: list[dict[str, object]] | None = None,
+    telegram_channels: list[dict[str, object]] | None = None,
+    youtube_channels: list[dict[str, object]] | None = None,
+) -> SourceInventory:
+    x_sources = [account for account in (x_accounts or []) if account.get("enabled", True)]
+    telegram_sources = [
+        channel
+        for channel in (telegram_channels or [])
+        if channel.get("enabled", True)
+        and str(channel.get("handle", "")).strip()
+        and str(channel.get("handle", "")).strip() != "@PLACEHOLDER"
+    ]
+    youtube_sources = [channel for channel in (youtube_channels or []) if channel.get("enabled", True)]
+    records = [
+        *feeds,
+        *[{**account, "kind": "x", "name": f"X · @{str(account.get('handle', '')).lstrip('@')}"} for account in x_sources],
+        *[
+            {
+                **channel,
+                "kind": "telegram",
+                "name": f"Telegram · {channel.get('name') or '@' + str(channel.get('handle', '')).lstrip('@')}",
+            }
+            for channel in telegram_sources
+        ],
+        *[
+            {**channel, "kind": "youtube", "name": f"YouTube · {channel.get('id', 'channel')}"}
+            for channel in youtube_sources
+        ],
+    ]
+    languages = Counter(str(record.get("lang", "unknown")) for record in records)
+    collection_modes = Counter(str(record.get("kind", "rss")) for record in records)
+    tiers = Counter(f"tier-{record.get('tier', 'unknown')}" for record in records)
 
     return SourceInventory(
-        total_configured=len(feeds),
+        total_configured=len(records),
         by_language=dict(sorted(languages.items())),
         by_collection_mode=dict(sorted(collection_modes.items())),
         by_tier=dict(sorted(tiers.items())),
-        configured_sources=[str(feed.get("name", "Unnamed source")) for feed in feeds],
+        configured_sources=[str(record.get("name", "Unnamed source")) for record in records],
     )
 
 
@@ -98,7 +130,12 @@ def build_map_coverage(clusters: list[object]) -> MapCoverage:
 
 def is_live_source_item(item: object) -> bool:
     raw = getattr(item, "raw", {})
-    return not raw.get("fallback") and not raw.get("rss_snapshot")
+    return (
+        getattr(item, "source_type", "") != "analysis"
+        and not raw.get("fallback")
+        and not raw.get("rss_snapshot")
+        and not raw.get("x_snapshot")
+    )
 
 
 def build_source_condition(
@@ -221,7 +258,19 @@ def main() -> None:
     run_dir = STORE_DIR / generated_at.strftime("%Y-%m-%d")
     stage_timings: dict[str, float] = {}
     configured_feeds = timed(stage_timings, "load-source-inventory", load_feeds)
-    source_inventory = build_source_inventory(configured_feeds)
+    x_config = timed(stage_timings, "load-x-inventory", lambda: load_optional_config("x.yaml"))
+    telegram_config = timed(
+        stage_timings,
+        "load-telegram-inventory",
+        lambda: load_optional_config("telegram.yaml"),
+    )
+    youtube_config = timed(stage_timings, "load-youtube-inventory", lambda: load_optional_config("youtube.yaml"))
+    source_inventory = build_source_inventory(
+        configured_feeds,
+        x_accounts=list(x_config.get("accounts", [])),
+        telegram_channels=list(telegram_config.get("channels", [])),
+        youtube_channels=list(youtube_config.get("channels", [])),
+    )
 
     raw_items, source_health = timed(
         stage_timings,
@@ -230,6 +279,7 @@ def main() -> None:
     )
     if not args.only_rss:
         for name, collector in (
+            ("collect:x", x_api),
             ("collect:telegram", telegram),
             ("collect:youtube", youtube),
             ("collect:local-analysis", local_analysis),
@@ -242,11 +292,24 @@ def main() -> None:
     scored = timed(stage_timings, "filter", lambda: filter_items(canonical))
     framework_config = timed(stage_timings, "load-frameworks-config", load_framework_config)
     frameworks = timed(stage_timings, "load-frameworks", lambda: load_frameworks(framework_config))
-    clusters = timed(stage_timings, "analyze-geo-verify", lambda: attach_verification_dossiers(geo_tag(analyze(scored, frameworks))))
+    review_config = timed(stage_timings, "load-review-ledger", lambda: load_optional_config("reviewed.yaml"))
+    clusters = timed(
+        stage_timings,
+        "analyze-geo-review-verify",
+        lambda: attach_verification_dossiers(
+            apply_review_overrides(geo_tag(analyze(scored, frameworks)), review_config)
+        ),
+    )
     map_coverage = build_map_coverage(clusters)
     source_count = len({item.source_id for item in raw_items})
     live_source_count = len({item.source_id for item in raw_items if is_live_source_item(item)})
-    snapshot_source_count = len({item.source_id for item in raw_items if item.raw.get("rss_snapshot")})
+    snapshot_source_count = len(
+        {
+            item.source_id
+            for item in raw_items
+            if item.raw.get("rss_snapshot") or item.raw.get("x_snapshot")
+        }
+    )
     source_condition = build_source_condition(
         source_health=source_health,
         raw_item_count=len(raw_items),
@@ -254,10 +317,34 @@ def main() -> None:
         snapshot_source_count=snapshot_source_count,
     )
     brief = timed(stage_timings, "synthesize-brief", lambda: synthesize_brief(clusters, generated_at, source_condition))
+    daily_report = timed(
+        stage_timings,
+        "synthesize-daily-report",
+        lambda: synthesize_daily_report(
+            clusters,
+            generated_at,
+            source_condition,
+            frameworks,
+        ),
+    )
     aggregates = timed(stage_timings, "district-aggregates", lambda: district_aggregates(clusters))
     tags = timed(stage_timings, "signal-tags", lambda: sorted({tag for cluster in clusters for tag in cluster.signal_tags}))
     source_lanes = timed(stage_timings, "source-lanes", lambda: build_source_lanes(scored))
     ground_needs = timed(stage_timings, "ground-needs", lambda: build_ground_needs(clusters))
+    public_item_counts = Counter(item.source_id for item in scored)
+    public_source_health = [
+        status.model_copy(
+            update={
+                "item_count": public_item_counts.get(status.source, 0),
+                "note": status.note or (
+                    "Source responded, but no item matched the Lebanon desk's editorial scope."
+                    if status.ok and public_item_counts.get(status.source, 0) == 0
+                    else ""
+                ),
+            }
+        )
+        for status in source_health
+    ]
 
     api = SignalDeskApi(
         meta=ApiMeta(
@@ -266,14 +353,14 @@ def main() -> None:
             source_count=len({item.source_id for item in raw_items}),
             cluster_count=len(clusters),
             located_cluster_count=len([cluster for cluster in clusters if cluster.primary_location and cluster.location_precision != "unknown"]),
-            mode="rss-first-review",
+            mode="daily-multisource",
             source_condition=source_condition,
             source_inventory=source_inventory,
             map_coverage=map_coverage,
             notes=[
-                "Telegram live scraping remains review-first; local scraper JSONL can feed source leads without touching credentials.",
-                "Longer analysis files are loaded as context and kept separate from live reporting claims.",
-                "Low-confidence pins are deliberately rendered differently in the frontend.",
+                "X posts enter through the official API and remain visibly attributed to the account that published them.",
+                "YouTube captions are attached when a public transcript is available; otherwise the video remains a metadata lead.",
+                "Event pins update with the daily run. Dated territorial layers change only when a sourced map supports the edit.",
             ],
         ),
         brief_markdown=brief,
@@ -281,9 +368,10 @@ def main() -> None:
         district_aggregates=aggregates,
         signal_tags=tags,
         frameworks=frameworks,
-        source_health=source_health,
+        source_health=public_source_health,
         source_lanes=source_lanes,
         ground_needs=ground_needs,
+        daily_report=daily_report,
     )
 
     guard = publication_guard(
@@ -298,7 +386,15 @@ def main() -> None:
     store_output_written = not args.dry_run
     public_copy_requested = store_output_written and not args.no_public_copy
     public_copy_written = public_copy_requested and bool(guard["public_copy_allowed"])
-    public_output_files = ["brief.md", "clusters.json", "events.geojson", "api.json", "lebanon-districts.geojson"]
+    public_output_files = [
+        "brief.md",
+        "clusters.json",
+        "events.geojson",
+        "api.json",
+        "lebanon-districts.geojson",
+        "lebanon-boundary.geojson",
+        "battlefield.geojson",
+    ]
     store_output_files = [*public_output_files, "run-health.json"]
     health = {
         "generated_at": generated_at.isoformat(),
@@ -337,7 +433,13 @@ def main() -> None:
         write_json(run_dir / "clusters.json", [cluster.model_dump(mode="json") for cluster in clusters])
         write_json(run_dir / "events.geojson", events_geojson(clusters))
         write_json(run_dir / "api.json", api.model_dump(mode="json"))
-        write_fallback_districts(run_dir / "lebanon-districts.geojson")
+        for reference_name in ("lebanon-districts.geojson", "lebanon-boundary.geojson", "battlefield.geojson"):
+            source_path = PUBLIC_DATA_DIR / reference_name
+            if not source_path.exists():
+                raise FileNotFoundError(
+                    f"Missing {source_path}. Run python3 -m tools.signal_desk.prepare_map_data before the daily pipeline."
+                )
+            shutil.copyfile(source_path, run_dir / reference_name)
         write_json(run_dir / "run-health.json", health)
 
     if public_copy_written:
