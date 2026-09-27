@@ -33,6 +33,13 @@ The website copy reads `public/signals-desk/data/`; the older collector writes a
 - Scoped lint of the route and integration component.
 - Browser checks for map, filters, selection, pagination, article expansion, archive links and responsive widths.
 
-Public deployment is a separate step. A working local preview is not a published replacement.
+## Published release, 27 September 2026
 
-Verified 27 September 2026: full production build passed, 10 integration/analysis tests passed, scoped lint passed, and browser interaction checks passed at 1440, 768, 390 and 320 pixels with no horizontal overflow or browser errors. The checks covered all filters, no-results/reset, pagination, report selection, yellow-line toggle, source status, full-article expansion and archive return. Existing iCloud placeholders initially blocked the build; requesting their download restored access without changing those files.
+- Commit `2a949d06f41f2c20ba19a67af3ba9528abbf5fed` on branch `codex/ui-redesign-2026`.
+- Production deployment `dpl_EW1excPrNviRNJA5KWY552jB7VCi`, ready at `https://leb-ac-web-2.vercel.app/signal-desk`.
+- Vercel's production deployment lists `https://lebaneseacademic.org` and `https://www.lebaneseacademic.org` as aliases. During post-release checks, the `.vercel.app` address returned HTTP 200 and the full site interaction check passed. The custom domain failed the TLS connection and `www` did not resolve, so do not tell readers those custom addresses are working until DNS and HTTPS are repaired.
+- The Vercel build used the pushed GitHub commit. Production browsing verified the 458-report feed, 61 mapped reports at 37 locations, loaded theme, search and reset, date filtering, and 390-pixel mobile width without browser errors.
+
+The site displays the saved September edition. No automatic live collection is connected; future data changes need a verified collection/import and a new package/deployment.
+
+Full local production build, 10 integration/analysis tests, scoped lint, and desktop and mobile browser checks passed. Full-project lint was interrupted by unrelated iCloud placeholders in the archived Sanity schema; Vercel's own full production build and TypeScript check passed.
