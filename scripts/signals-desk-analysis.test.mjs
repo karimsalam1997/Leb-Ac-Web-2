@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateEdition, editionPath, archiveItems, finalSentence} from '../public/signals-desk/daily-analysis.mjs';
+const edition={date:'2026-09-09',title:'Lebanon today',paragraphs:['One real paragraph. Another sentence.'],keyPoints:['One','Two','Three'],wordCount:8};
+test('edition accepts coherent dated prose and rejects empty or invalid data',()=>{assert.equal(validateEdition(edition).title,edition.title);assert.throws(()=>validateEdition({...edition,paragraphs:[]}));assert.throws(()=>validateEdition({...edition,date:'2026-99-99'}));assert.throws(()=>validateEdition({...edition,paragraphs:['word '.repeat(401)]}))});
+test('archive query cannot escape edition directory',()=>{assert.equal(editionPath('2026-09-08'),'analysis/2026-09-08.json');assert.equal(editionPath('../../secrets'),'daily-analysis.json')});
+test('archive dates sort newest first and filter bad entries',()=>{assert.deepEqual(archiveItems({editions:[{date:'2026-09-07',title:'First'},{date:'bad'},{date:'2026-09-09',title:'Later'}]}).map(x=>x.date),['2026-09-09','2026-09-07'])});
+test('quote comes from actual concluding sentence',()=>{assert.equal(finalSentence(['First sentence. Last sentence.']),'Last sentence.')});
+test('400-word ceiling includes headline and key points',()=>{const e={...edition,title:'Headline',paragraphs:['word '.repeat(396).trim()],keyPoints:['One','Two','Three']};assert.throws(()=>validateEdition({...e,paragraphs:['word '.repeat(397).trim()]}));assert.equal(validateEdition(e).wordCount,400)});
+test('word count matches importer for middle dot and internal punctuation',()=>{assert.equal(validateEdition({...edition,title:'Lebanon · Today',paragraphs:["Town-level reports aren't facts."],keyPoints:['One','Two','Three']}).wordCount,9)});
+test('edition requires at least three argument points',()=>{assert.throws(()=>validateEdition({...edition,keyPoints:['One','Two']}))});

@@ -1,0 +1,21 @@
+{
+  "retrievedFrom": "https://lebanese-academic-signals-desk.vercel.app/",
+  "retrievedOn": "2026-09-27",
+  "files": {
+    "reference.css": "2a16c02f69fb342324430f61a88a28e2114f8e9bcbaeb0e1668a344cdce9bf24",
+    "index.html": "e9741e336d24ec40f5b169f14ed19c6008099b382b54195c9fd3a10964cbf851",
+    "desk.css": "7187c7cbefe6f50772eb23e97bc99e3068c4a87092b3e114f4f1b478cf937b2f",
+    "desk-model.mjs": "bf35a545a621c8136ee93b93254a37cf43892f33431d0fd604159bef6ea7f87d",
+    "editorial.css": "9ba8690be0e45e349b002850a36adfee963e33f230c2cd8e79aeda104afa4ac0",
+    "desk.mjs": "212f35feac733cdb2850134b52d803d8c47e7c162b442b842087fb5e1c33cda8",
+    "daily-analysis.mjs": "38d37c8380b28d3f583483d6328ed92de2592fadbcdea7fd641e85bf7a81cfb2",
+    "data/signal-desk/analysis-archive.json": "1102c8a721f2dff3e279ed76a98a82de588d80dc22740f4b242e327673c4a49a",
+    "data/signal-desk/yellow-line-liveuamap.geojson": "ddef6a75233412b65a13409937a1b7a7cf6ce64acb4a59bf25e419b75e07d1a7",
+    "data/signal-desk/lebanon-boundary.geojson": "f9e3887365eed91692f599b30452637d6f966b9c4a45817e4a2885af1f8fa43b",
+    "data/signal-desk/source-status.json": "7be9bf77abea499465c56fdb8f1366b02925f14376c7a5bd57b74c4c915f9aa1",
+    "data/signal-desk/live-social.json": "95e30ff56ee62923f34500f4b36992ed4a26050938e9034e2292ade788994265",
+    "data/signal-desk/daily-analysis.json": "0aa60f6efbef390a31d73fda4a77b06906b68b4975c76be770cf0693a718fc3c",
+    "data/signal-desk/analysis/2026-09-09.json": "0aa60f6efbef390a31d73fda4a77b06906b68b4975c76be770cf0693a718fc3c",
+    "archive/2026-09-07/index.html": "d1484b93abb341400f212aab007b9ceee3dbc4f75e3a4b4b91ff58bb67277c96"
+  }
+}
